@@ -1,0 +1,22 @@
+a.action {
+    margin-right: 5px;
+}
+
+mark{
+    background-color: #007bff;
+    color: #ffffff;
+}
+
+.btn i {
+    margin-right: 3px;
+}
+
+.nav-treeview {
+    border-left: 2px solid #c2c7d0;
+    margin-left: 28px !important;
+    padding-left: 2px !important;
+}
+
+.custom-file-input {
+    z-index: 100;
+}

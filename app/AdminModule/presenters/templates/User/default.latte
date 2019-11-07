@@ -1,0 +1,97 @@
+{block content}
+
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Užívatelia</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a n:href="Dashboard:">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Užívatelia</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title float-left">Užívatelia</h3>
+                        <a class="btn btn-primary float-right" n:href="User:add"><i class="fas fa-plus-circle"></i> Vytvoriť užívateľa</a>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="pgp" class="table table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th>Meno</th>
+                                <th>Užívateľské meno</th>
+                                <th>Rola</th>
+                                <th>E-mail</th>
+                                <th>Zablokovaný</th>
+                                <th>Vytvorený</th>
+                                <th>Akcie</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr n:foreach="$users as $u">
+                                <td>{$u->name}</td>
+                                <td>{$u->username}</td>
+                                <td><span class="badge {($u->role == 'admin' ? 'bg-danger' : 'bg-primary')}">{$u->role|firstUpper}</span></td>
+                                <td>{$u->email}</td>
+                                <td>
+                                    <span class="badge {($u->blocked ? 'bg-danger' : 'bg-gray')}">{($u->blocked ? 'Áno' : 'Nie')}</span>
+
+                                    <a n:if="!$u->blocked" n:href="User:block $u->id" class="badge bg-danger"><i class="fas fa-check-circle"></i> Zablokovať</a>
+                                    <a n:if="$u->blocked" n:href="User:block $u->id" class="badge bg-gray"><i class="fas fa-times-circle"></i> Odblokovať</a>
+                                </td>
+                                <td>{$u->created_at|date:'F j, Y'}</td>
+                                <td>
+                                    <a n:href="User:edit $u->id" class="text-primary action"><i class="fas fa-edit"></i> Upraviť</a>
+                                    <a n:href="User:delete $u->id" class="text-danger"><i class="fas fa-times"></i> Vymazať</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <th>Meno</th>
+                                <th>Užívateľské meno</th>
+                                <th>Rola</th>
+                                <th>E-mail</th>
+                                <th>Zablokovaný</th>
+                                <th>Vytvorený</th>
+                                <th>Akcie</th>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</section>
+
+<script>
+    $(document).ready( function () {
+        var table = $('#pgp').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "autoWidth": true,
+            "pageLength": 20,
+            "lengthMenu": [20, 40, 60, 80, 100],
+            "mark": true,
+        });
+    });
+</script>

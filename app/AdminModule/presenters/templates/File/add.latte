@@ -1,0 +1,63 @@
+{block content}
+
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Pridať súbor</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a n:href="Dashboard:">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a n:href="Dataset:">Datasety</a></li>
+                    <li class="breadcrumb-item"><a n:href="File:show $dataset->id">Súbory</a></li>
+                    <li class="breadcrumb-item active">Pridať súbor</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-6">
+                <!-- general form elements -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Pridať súbor</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    {form addForm}
+                        <div class="card-body">
+                            <ul class="errors" n:if="$form->hasErrors()">
+                                <li n:foreach="$form->errors as $error">{$error}</li>
+                            </ul>
+                            <div class="form-group">
+                                <label for="name">Názov</label>
+                                <input type="text" class="form-control" n:name="name" id="name" placeholder="Zadajte názov">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputFile">Nahrať súbor</label>
+                                <div class="input-group">
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="file" n:name="file">
+                                        <label class="custom-file-label" for="file">Vyberte súbor</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary">Pridať</button>
+                        </div>
+                    {/form}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

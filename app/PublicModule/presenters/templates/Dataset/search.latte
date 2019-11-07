@@ -1,0 +1,95 @@
+{block content}
+
+
+<section class="slider" id="home">
+    <div class="container-fluid">
+        <div class="row">
+            <div id="carouselHacked" class="carousel slide carousel-fade" data-ride="carousel">
+                <div class="header-backup"></div>
+
+            </div>
+        </div>
+    </div><br>
+</section><!-- end of slider section -->
+
+
+<section class="about text-center" id="about">
+    <div class="container">
+        <div class="row">
+            <div class="menu-left col-xs-4">
+                <nav id="sidebar">
+                    <div class="sidebar-header">
+                        <h3>OPEN DATA</h3>
+                    </div>
+
+                    <ul class="list-unstyled components">
+                        <li n:foreach="$categories as $c">
+                            <a n:href="Dataset:category $c->slug">{$c->name}</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+            <div class="menu-right col-xs-8 ">
+                <h2 style="font-size: 30px;">Vyhľadávanie</h2>
+                <div class="view-content">
+
+                    {if !isset($datasets) || count($datasets) == 0}
+                        <div>
+                            <article  xmlns="https://www.w3.org/1999/html">
+                                <div class="col-md-12 col-lg-12 col-xs-12" style="border-top: 1px solid rgb(218, 218, 218);padding-bottom:10px;">
+                                    <ul class="dataset-list"></ul>
+                                    Žiadne výsledky.
+                                </div>
+                            </article>
+                        </div>
+                    {else}
+                        <div id="datasets">
+                            <article  xmlns="https://www.w3.org/1999/html" n:foreach="$datasets as $d">
+                                <div class="col-md-12 col-lg-12 col-xs-12" style="border-top: 1px solid rgb(218, 218, 218);padding-bottom:10px;">
+                                    <h3 class="node-title">
+                                        <span class="fa fa-cubes" style="padding-right: 5px;"></span>
+                                        <a n:href="Dataset:show $d->slug" title="Dataset 2019 - {$d->id}">{$d->name}</a>
+                                    </h3>
+                                    <div style="padding-left: 32px;"><span class="fa fa-user-o" style="padding-right: 5px;"> </span>{$d->aname}</div>
+                                    <div style="padding-left: 32px;"><span class="fa fa-bars" style="padding-right: 5px;"> </span>{$d->cname}</div>
+                                    <ul class="dataset-list"></ul>
+                                    <div style="padding-left: 32px;">
+                                        <p>{$d->description}</p>
+                                    </div>
+
+                                    <div style="padding-left: 32px; margin-top: 10px">
+                                        <span class="count-resource">{$d->downloaded}x </span>
+                                        {if !empty($d->files)}
+                                            {var $files = explode(',', $d->files) }
+                                            {var $used = [];}
+                                            {foreach $files as $f}
+                                                {if !in_array($f, $used)}
+                                                    {var $used[] = $f}
+                                                    <span class="json-label">{$f}</span>
+                                                {/if}
+                                            {/foreach}
+                                        {/if}
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+
+                        <div class="pagination">
+                            {if $max_search > 1}
+                                <div class="pagin">
+                                    <a class="page" id="show-next-search">Zobraziť ďalšie výsledky</a>
+                                </div>
+                            {/if}
+                        </div>
+                    {/if}
+                </div>
+            </div>
+        </div>
+
+<script>
+    var actual_page = 1;
+    var max_search = {$max_search};
+    var search = {$search};
+    var next_url = {link Dataset:nextsearch};
+</script>

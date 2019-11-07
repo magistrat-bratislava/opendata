@@ -1,0 +1,163 @@
+{block content}
+
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Dashboard</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item active">Dashboard</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+
+<div class="content">
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-lg-3 col-6">
+                <div class="small-box bg-info">
+                    <div class="inner">
+                        <h3>{$stats_dataset}</h3>
+
+                        <p>Datasety</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-bars"></i>
+                    </div>
+                    <a n:href="Dataset:" class="small-box-footer">Datasety <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-6">
+                <div class="small-box bg-success">
+                    <div class="inner">
+                        <h3>{$stats_files}</h3>
+
+                        <p>Súbory</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-file"></i>
+                    </div>
+                    <a n:href="Dataset:" class="small-box-footer">Datasety <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-6">
+                <div class="small-box bg-danger">
+                    <div class="inner">
+                        <h3>{$stats_authors}</h3>
+
+                        <p>Authori</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-pen-fancy"></i>
+                    </div>
+                    <a n:href="Authors:" class="small-box-footer">Autori <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-6">
+                <div class="small-box bg-warning">
+                    <div class="inner">
+                        <h3>{$stats_tags}</h3>
+
+                        <p>Značky</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-tag"></i>
+                    </div>
+                    <a n:href="Tags:" class="small-box-footer">Značky <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-8">
+
+                <div class="card">
+                    <div class="card-header border-transparent">
+                        <h3 class="card-title">Najnovšie datasety</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table m-0">
+                                <thead>
+                                <tr>
+                                    <th>Názov</th>
+                                    <th>Vytvorený</th>
+                                    <th>Skrytý</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr n:foreach="$latest_datasets as $d">
+                                    <td><a n:href="Dataset:edit $d->id">{$d->name}</a></td>
+                                    <td>{$d->created_at|date:'F j, Y'}</td>
+                                    <td>
+                                        <span class="badge {($d['hidden'] ? 'bg-danger' : 'bg-primary')}">{($d['hidden'] ? 'Áno' : 'Nie')}</span>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.table-responsive -->
+                    </div>
+                    <!-- /.card-body -->
+                    <div class="card-footer clearfix">
+                        <a n:href="Dataset:add" class="btn btn-sm btn-primary float-left">Vytvoriť nový dataset</a>
+                        <a n:href="Dataset:" class="btn btn-sm btn-secondary float-right">Všetky datasety</a>
+                    </div>
+                    <!-- /.card-footer -->
+                </div>
+
+                <div class="card">
+                    <div class="card-header border-transparent">
+                        <h3 class="card-title">Najnovšie súbory</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table m-0">
+                                <thead>
+                                <tr>
+                                    <th>Dataset</th>
+                                    <th>Vytvoril</th>
+                                    <th>Typ súbory</th>
+                                    <th>Skrytý</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr n:foreach="$latest_files as $d">
+                                    <td><a n:href="Dataset:edit $d->dataset">{$d->name}</a></td>
+                                    <td>{$d->uname}</td>
+                                    <td><span class="badge bg-warning">{$d['file_type']}</span></td>
+                                    <td>
+                                        <span class="badge {($d['hidden'] ? 'bg-danger' : 'bg-primary')}">{($d['hidden'] ? 'Áno' : 'Nie')}</span>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.table-responsive -->
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+
+                <div class="info-box" n:foreach="$categories_datasets as $d">
+                    <span class="info-box-icon bg-primary elevation-1"><i class="fa fa-list"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text"><a n:href=":Public:Dataset:Category $d['slug']">{$d['name']}</a></span>
+                        <span class="info-box-number">{$d['count']} <small>datasetov</small></span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

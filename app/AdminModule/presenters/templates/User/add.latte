@@ -1,0 +1,65 @@
+{block content}
+
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Vytvoriť užívateľa</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a n:href="Dashboard:">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a n:href="User:">Užívatelia</a></li>
+                    <li class="breadcrumb-item active">Vytvoriť užívateľa</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-6">
+                <!-- general form elements -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Vytvoriť užívateľa</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    {form addForm}
+                        <div class="card-body">
+                            <ul class="errors" n:if="$form->hasErrors()">
+                                <li n:foreach="$form->errors as $error">{$error}</li>
+                            </ul>
+                            <div class="form-group">
+                                <label for="name">Meno</label>
+                                <input type="text" class="form-control" n:name="name" id="name" placeholder="Zadajte meno">
+                            </div>
+                            <div class="form-group">
+                                <label for="username">Užívateľské meno</label>
+                                <input type="text" class="form-control" n:name="username" id="username" placeholder="Zadajte užívateľské meno">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">E-mail</label>
+                                <input type="email" class="form-control" n:name="email" id="email" placeholder="Zadajte e-mail">
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Heslo</label>
+                                <input type="password" class="form-control" n:name="password" id="password" placeholder="Zadajte heslo">
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary">Vytvoriť</button>
+                        </div>
+                    {/form}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>OpenData Bratislava</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <style>
+        table {
+            border-left: 1px solid #ddd;
+            border-top: 1px solid #ddd;
+        }
+        td {
+            border-right: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
+            padding: 4px;
+        }
+
+        tr:nth-child(2n + 1) {
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+
+<body>
+    <table cellspacing="0">
+    {foreach $content as $row}
+        <tr>
+        {foreach $row as $col}
+            <td>{$col}</td>
+        {/foreach}
+        </tr>
+    {/foreach}
+    </table>
+</body>
+</html>
