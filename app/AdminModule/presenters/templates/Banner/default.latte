@@ -1,0 +1,215 @@
+{block content}
+
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Dashboard</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item active">Dashboard</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+
+<div class="content">
+    <div class="container-fluid">
+
+
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="far fa-chart-bar"></i>
+                            Kliknutia za posledných 7 dní
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="7days"></canvas>
+                    </div>
+                    <!-- /.card-body-->
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="far fa-chart-bar"></i>
+                            Kliknutia za posledných 15 dní
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="15days"></canvas>
+                    </div>
+                    <!-- /.card-body-->
+                </div>
+            </div>
+        </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+
+        <div class="card">
+        <div class="card-header border-transparent">
+        <h3 class="card-title">Posledných 30 dní</h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body p-0">
+        <div class="table-responsive">
+        <table class="table m-0">
+        <thead>
+        <tr>
+        <th>Deň</th>
+        <th>Počet kliknutí</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr n:foreach="$banner as $d">
+        <td>{$d->day|date:'d.m.Y'}</td>
+        <td>{$d->count}</td>
+        </tr>
+        </tbody>
+        </table>
+        </div>
+        <!-- /.table-responsive -->
+        </div>
+        <!-- /.card-body -->
+    <!-- /.card-footer -->
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+
+<script>
+
+    function gradient(ctx) {
+        var gradient = ctx.createLinearGradient(500, 0, 100, 0);
+        gradient.addColorStop(0, "rgba(0,123,255, 0.45)");
+        gradient.addColorStop(1, "rgba(0,123,255, 0.7)");
+        return gradient;
+    }
+
+    const numberFormat = (x, del = '.') => {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, del);
+    }
+
+    var charts = [];
+
+    var tooltip = {
+        custom: function(tooltip) {
+            if (!tooltip)
+                return;
+            tooltip.displayColors = false;
+        },
+        callbacks: {
+            title: function(tooltipItem, data) {
+                return (data['datasets'][tooltipItem[0]['datasetIndex']]['data'][tooltipItem[0]['index']] == 0 ? '0' : numberFormat(data['datasets'][tooltipItem[0]['datasetIndex']]['data'][tooltipItem[0]['index']]));
+            },
+            label: function(tooltipItem, data) {
+                return '';
+            },
+        },
+        backgroundColor: '#007bff',
+    };
+
+    var elements = { point: { radius: 0, hitRadius: 10, hoverRadius: 10 } };
+
+    var scales = {
+        xAxes: [{
+            gridLines: {
+                color: "rgba(0, 0, 0, 0)",
+            },
+        }],
+        yAxes: [{
+            ticks: {
+                callback: function(value, index, values) {
+                    return numberFormat(value);
+                },
+                stepSize: 1
+            }
+        }]
+    };
+
+    {var $timestamp = time() - 7 * 24 * 3600}
+
+    var labels1 = [
+        {for $i = 0; $i < 7; $i++}
+            {php $timestamp += 24 * 3600}
+            {$timestamp|date:'d.m.Y'},
+        {/for}
+    ];
+
+    var data1 = [
+        {foreach $days7 as $d}
+            {$d},
+        {/foreach}
+    ];
+
+    var ctx1 = document.getElementById('7days').getContext('2d');
+    var gradient1 = gradient(ctx1);
+
+    charts[1] = new Chart(ctx1, {
+        type: 'bar',
+        data: {
+            labels: labels1,
+            datasets: [{
+                backgroundColor: gradient1,
+                data: data1,
+            }]
+        },
+
+        options: {
+            tooltips: tooltip,
+            elements: elements,
+            scales: scales,
+            legend: { display: false },
+        }
+    });
+
+
+
+    {var $timestamp = time() - 15 * 24 * 3600}
+
+    var labels2 = [
+        {for $i = 0; $i < 15; $i++}
+        {php $timestamp += 24 * 3600}
+        {$timestamp|date:'d.m.Y'},
+        {/for}
+    ];
+
+    var data2 = [
+        {foreach $days15 as $d}
+        {$d},
+        {/foreach}
+    ];
+
+    var ctx2 = document.getElementById('15days').getContext('2d');
+    var gradient2 = gradient(ctx2);
+
+    charts[2] = new Chart(ctx2, {
+        type: 'bar',
+        data: {
+            labels: labels2,
+            datasets: [{
+                backgroundColor: gradient2,
+                data: data2,
+            }]
+        },
+
+        options: {
+            tooltips: tooltip,
+            elements: elements,
+            scales: scales,
+            legend: { display: false },
+        }
+    });
+
+</script>

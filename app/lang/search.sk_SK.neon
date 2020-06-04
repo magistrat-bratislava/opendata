@@ -1,0 +1,7 @@
+name: Vyhľadávanie
+search: Hľadať
+advanced: Rozšírené vyhľadávanie
+parameters: Zadajte parametre vyhľadávania
+text: Hľadaný výraz
+uniq_id: Unikátny identifikátor
+max_chars: Maximálny počet znakov vo vyhľadávaní je %count%.

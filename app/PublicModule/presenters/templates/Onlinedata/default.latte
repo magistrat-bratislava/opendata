@@ -1,0 +1,439 @@
+{block content}
+
+<style>             
+.box.banana_map {
+  color: #fff;
+  background: #eff4f7;
+  padding: 0;
+  box-shadow: none;
+}
+.box.banana_map .title {
+  padding-top: 40px;
+  padding-left: 25px;
+  font-size: 16px;
+}
+.box.banana_map .subtitle {
+  font-weight: 700;
+  padding-top: 10px;
+  padding-left: 25px;
+  font-size: 22px;
+}
+
+.box {
+  max-height: 444px;
+}
+
+.box .banana {
+  min-height: 404px;
+  background-image: url('img/banana.png');
+  background-size: cover;
+}
+.box .map {
+  min-height: 404px;
+  background-image: url('img/map.png');
+  background-size: cover;
+}
+.box .cog-icon {
+  cursor: pointer;
+  position: absolute;
+  right: 55px;
+  top: 25px;
+  z-index: 10;
+}
+.box {
+  box-shadow: 0px 1px 22px -12px #607D8B;
+  background-color: #fff;
+  padding: 25px 35px 25px 30px;
+  margin-bottom: 10px;
+}
+</style>
+
+<section class="about text-center" id="about">
+    <div class="container">
+        <div class="row">
+            <div class="menu-left col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                <nav id="sidebar">
+                    <div class="sidebar-header">
+                        <h3>OPEN DATA<br>{_onlinedata.title}</h3>
+                    </div>
+
+                    <ul class="list-unstyled components">
+                        <li n:foreach="$categories as $c"{if isset($activeCategory) && $activeCategory == $c->id} class="active-menu-item"{/if}>
+                            <a n:href="Onlinedata:category $c->slug">{$c->$name_col}</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+			<div class="menu-right col-lg-8 col-md-8 col-sm-8 col-xs-12">
+				<h2 style="font-size: 30px;">{_onlinedata.onlinedata_title}</h2>
+				<p style="margin-bottom: 30px">{_onlinedata.onlinedata_desc}</p>
+
+			  <div class="content-area">
+				<div class="container-fluid" style="padding-left:0px; padding-right:0px;">
+				   
+				  <div class="main">
+
+
+					<div class="row mt-5 mb-4">
+					<div class="col-md-12 col-xs-12">
+						<div class="box">
+						  <div id="wifimap" style="height:340px;"></div>
+						</div>
+					</div>
+					</div>
+
+
+					<div class="row sparkboxes mt-4 mb-4">
+
+					  <div class="col-md-4 col-sm-12 col-xs-12">
+						<div class="box box1">
+						  <div id="spark1"></div>
+						</div>
+					  </div>
+
+					  <div class="col-md-4 col-sm-12 col-xs-12">
+						<div class="box box2">
+						  <div id="spark2"></div>
+						</div>
+					  </div>
+
+					  <div class="col-md-4 col-sm-12 col-xs-12">
+						<div class="box box3">
+						  <div id="spark3"></div>
+						</div>
+					  </div>
+
+					</div>
+
+
+					<div class="row mt-5 mb-4">
+
+					  <div class="col-md-12 col-sm-12 col-xs-12">
+						<div class="box">
+						  <div id="area"></div>
+						</div>
+					  </div>
+					</div>
+
+
+					<div class="row mt-4 mb-4">
+
+					<div class="col-md-12 col-xs-12">
+						<div class="box">
+						  <div id="max_average"></div>
+						</div>
+					  </div>
+
+					{**}
+					  {*<div class="col-md-6 col-sm-6 col-xs-12">*}
+						{*<div class="box">*}
+						  {*<div id="bar"></div>*}
+						{*</div>*}
+					  {*</div>*}
+
+					</div>
+
+					<div class="row mt-5 mb-4">
+
+					  <div class="col-md-12 col-sm-12 col-xs-12">
+						<div class="box">
+						  <div id="donut"></div>
+						</div>
+					  </div>
+					</div>
+
+					
+					<div class="row mt-5 mb-4">
+					
+					  <div class="col-md-6 col-sm-6 col-xs-12">
+						<div class="box">
+						  <div id="donut1"></div>
+						</div>
+					  </div>
+					  
+					  <div class="col-md-6 col-sm-6 col-xs-12">
+						<div class="box">
+						  <div id="donut2"></div>
+						</div>
+					  </div>
+					  
+					</div>
+					
+					<div class="row mt-5 mb-4">
+					
+					  <div class="col-md-6 col-sm-6 col-xs-12">
+						<div class="box">
+						  <div id="donut3"></div>
+						</div>
+					  </div>
+					  
+					  <div class="col-md-6 col-sm-6 col-xs-12">
+						<div class="box">
+						  <div id="donut4"></div>
+						</div>
+					  </div>
+					  
+					</div>
+					
+					
+					
+					
+					
+				  </div>
+				</div>
+			  </div>
+			</div>
+
+        </div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/downloadjs/1.4.8/download.min.js"></script>
+
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"  integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="  crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"  integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="  crossorigin=""></script>
+
+
+		
+<script>
+var wifiIconUrl = {$basePath} + '/img/marker-icon.png';
+var wifiIconUrl2x = {$basePath} + '/img/marker-icon-2x.png';
+
+var optionDonut1 = { chart: { type: 'bar', width: '100%', height: 400, toolbar: { show: false } },
+	dataLabels: { enabled: false, },
+	plotOptions: {  bar: { columnWidth: '45%', } },
+	stroke: { colors: undefined },
+	yaxis: { min: 0 },
+	title: { text: {_onlinedata.devices_title}, offsetX: 30, style: { fontSize: '18px', cssClass: 'apexcharts-yaxis-title' } },
+	series: [{ name: {_onlinedata.devices_title}, data: {$last_devices['val']}, }],
+	xaxis: { categories: {$last_devices['names']}, },
+	subtitle: { text: {_onlinedata.last_subtitle}, offsetX: 30, style: {  fontSize: '12px', cssClass: 'apexcharts-yaxis-title' } },
+	labels: {$last_devices['names']}
+};
+
+var donut1 = new ApexCharts( document.querySelector("#donut1"), optionDonut1 );
+donut1.render();
+
+var optionDonut2 = { chart: { type: 'bar', width: '100%', height: 400, toolbar: { show: false } },
+	dataLabels: { enabled: false, },
+	plotOptions: {  bar: { columnWidth: '45%', } },
+	stroke: { colors: undefined },
+	yaxis: { min: 0 },
+	title: { text: {_onlinedata.os_title}, offsetX: 30, style: { fontSize: '18px', cssClass: 'apexcharts-yaxis-title' } },
+	series: [{ name: {_onlinedata.os_title}, data: {$last_os['val']}, }],
+	xaxis: { categories: {$last_os['names']}, },
+	subtitle: { text: {_onlinedata.last_subtitle}, offsetX: 30, style: {  fontSize: '12px', cssClass: 'apexcharts-yaxis-title' } },
+	labels: {$last_os['names']}
+};
+var donut2 = new ApexCharts( document.querySelector("#donut2"), optionDonut2 );
+donut2.render();
+
+var optionDonut3 = { chart: { type: 'bar', width: '100%', height: 400, toolbar: { show: false } },
+	dataLabels: { enabled: false, },
+	plotOptions: {  bar: { columnWidth: '45%', } },
+	stroke: { colors: undefined },
+	yaxis: { min: 0 },
+	title: { text: {_onlinedata.browser_title}, offsetX: 30, style: { fontSize: '18px', cssClass: 'apexcharts-yaxis-title' } },
+	series: [{ name: {_onlinedata.browser_title}, data: {$last_browser['val']}, }],
+	xaxis: { categories: {$last_browser['names']}, labels: { rotate: -45,  rotateAlways: true} },
+	subtitle: { text: {_onlinedata.last_subtitle}, offsetX: 30, style: {  fontSize: '12px', cssClass: 'apexcharts-yaxis-title' } },
+	labels: {$last_browser['names']}
+};
+var donut3 = new ApexCharts( document.querySelector("#donut3"), optionDonut3 );
+donut3.render();
+
+var optionDonut4 = { chart: { type: 'bar', width: '100%', height: 400, toolbar: { show: false } },
+	dataLabels: { enabled: false, },
+	plotOptions: {  bar: { columnWidth: '45%', } },
+	stroke: { colors: undefined },
+	yaxis: { min: 0 },
+	title: { text: {_onlinedata.lang_title}, offsetX: 30, style: { fontSize: '18px', cssClass: 'apexcharts-yaxis-title' } },
+	series: [{ name: {_onlinedata.lang_title}, data: {$last_lang['val']}, }],
+	xaxis: { categories: {$last_lang['names']}, },
+	subtitle: { text: {_onlinedata.last_subtitle}, offsetX: 30, style: {  fontSize: '12px', cssClass: 'apexcharts-yaxis-title' } },
+	labels: {$last_lang['names']}
+};
+var donut4 = new ApexCharts( document.querySelector("#donut4"), optionDonut4 );
+donut4.render();
+
+var optionDonut = { chart: { type: 'bar', width: '100%', height: 400, toolbar: { show: false } },
+	dataLabels: { enabled: false, },
+	plotOptions: {  bar: { columnWidth: '45%', } },
+	stroke: { colors: undefined },
+	yaxis: { min: 0 },
+	title: { text: {_onlinedata.user_location_title}, offsetX: 30, style: { fontSize: '18px', cssClass: 'apexcharts-yaxis-title' } },
+	series: [{ name: {_onlinedata.user_location_title}, data: {$last_user_location['val']}, }],
+	xaxis: { categories: {$last_user_location['names']}, labels: { formatter: function (val) {
+           return val.slice(0,4);
+	    }
+	    }
+    },
+	tooltip: {
+		x: {
+			show: true,
+			formatter: function (val) {
+				return val;
+			}
+		}
+	},
+	subtitle: { text: {_onlinedata.last_subtitle}, offsetX: 30, style: {  fontSize: '12px', cssClass: 'apexcharts-yaxis-title' } },
+	labels: { data: {$last_user_location['names']} },
+};
+var donut = new ApexCharts( document.querySelector("#donut"), optionDonut );
+donut.render();
+
+
+
+var sparklineData1 = {$last_new_users['val']};
+var spark1 = { chart: { id: 'sparkline1', group: 'sparklines', type: 'area', height: 160, sparkline: { enabled: true }, },
+	stroke: { curve: 'straight' }, fill: { opacity: 1, }, series: [{ name: {_onlinedata.new_users_title}, data: sparklineData1 }],
+	yaxis: { min: 0 },
+	xaxis: { type: 'datetime', categories: {$last_new_users['names']},labels: {
+			formatter: function (value, timestamp) {
+				date = new Date(timestamp);
+				return date.getDate() + '.' + (date.getMonth() +1) + '.' + date.getFullYear();
+			},
+		} },
+	colors: ['#73b8e8'], //colors: ['#DCE6EC'],
+	title: { text: {_onlinedata.new_users_title}, offsetX: {$locale == 'sk' ? 30 : 45}, style: { fontSize: '18px', cssClass: 'apexcharts-yaxis-title' } },
+	subtitle: { text: {_onlinedata.count_subtitle}, offsetX: 35, style: {  fontSize: '12px', cssClass: 'apexcharts-yaxis-title' } },
+	labels: {$last_new_users['names']}
+}
+new ApexCharts(document.querySelector("#spark1"), spark1).render();
+
+var sparklineData2 = {$last_return_users['val']};
+var spark2 = { chart: { id: 'sparkline2', group: 'sparklines', type: 'area', height: 160, sparkline: { enabled: true }, },
+	stroke: { curve: 'straight' }, fill: { opacity: 1, }, series: [{ name: {_onlinedata.return_users_title}, data: sparklineData2 }],
+	yaxis: { min: 0 },
+	xaxis: { type: 'datetime', categories: {$last_return_users['names']},labels: {
+			formatter: function (value, timestamp) {
+				date = new Date(timestamp);
+				return date.getDate() + '.' + (date.getMonth() +1) + '.' + date.getFullYear();
+			},
+		} },
+	colors: ['#008FFB'], //colors: ['#008FFB'],
+	title: { text: {_onlinedata.return_users_title}, offsetX: {$locale == 'sk' ? -5 : 15}, style: { fontSize: '18px', cssClass: 'apexcharts-yaxis-title' } },
+	subtitle: { text: {_onlinedata.count_subtitle}, offsetX: 30, style: {  fontSize: '12px', cssClass: 'apexcharts-yaxis-title' } }
+}
+new ApexCharts(document.querySelector("#spark2"), spark2).render();
+
+var sparklineData3 = {$last_uniq_users['val']};
+var spark3 = { chart: { id: 'sparkline2', group: 'sparklines', type: 'area', height: 160, sparkline: { enabled: true }, },
+	stroke: { curve: 'straight' }, fill: { opacity: 1, }, series: [{ name: {_onlinedata.uniq_users_title}, data: sparklineData3 }],
+	yaxis: { min: 0 },
+	xaxis: { type: 'datetime', categories: {$last_uniq_users['names']},labels: {
+			formatter: function (value, timestamp) {
+				date = new Date(timestamp);
+				return date.getDate() + '.' + (date.getMonth() +1) + '.' + date.getFullYear();
+			},
+		} },
+	colors: ['#024a7c'], //colors: ['#008FFB'],
+	title: { text: {_onlinedata.uniq_users_title}, offsetX: {$locale == 'sk' ? 10 : 27}, style: { fontSize: '18px', cssClass: 'apexcharts-yaxis-title' } },
+	subtitle: { text: {_onlinedata.count_subtitle}, offsetX: 30, style: {  fontSize: '12px', cssClass: 'apexcharts-yaxis-title' } },
+	dataLabels: { enabled: false }, stroke: { curve: 'smooth' },
+	labels: {$last_uniq_users['names']}
+}
+new ApexCharts(document.querySelector("#spark3"), spark3).render();
+
+
+
+var optionsArea = { series: [
+		{ name: {_onlinedata.less_than}, data: {$last_dwell['val1']}},
+		{ name: {_onlinedata.from_to, [from => 5, to => 10]}, data: {$last_dwell['val2']}},
+		{ name: {_onlinedata.from_to, [from => 10, to => 30]}, data: {$last_dwell['val3']}},
+		{ name: {_onlinedata.from_to, [from => 30, to => 60]}, data: {$last_dwell['val4']}},
+		{ name: {_onlinedata.more_than}, data: {$last_dwell['val5']}}
+	],
+	chart: { width: '100%', height: 400, type: 'area', zoom: { enabled: false}, toolbar: { show: false} },
+	dataLabels: { enabled: false }, stroke: { curve: 'smooth' },
+	xaxis: { type: 'datetime', categories: {$last_dwell['names']},labels: {
+			formatter: function (value, timestamp) {
+				date = new Date(timestamp);
+				return date.getDate() + '.' + (date.getMonth() +1) + '.' + date.getFullYear();
+			},
+		}},
+	tooltip: { x: { format: 'dd/MM/yy' }, },
+	title: { text: {_onlinedata.dwell_title}, offsetX: 30, style: { fontSize: '18px', cssClass: 'apexcharts-yaxis-title' } },
+	subtitle: { text: {_onlinedata.last_subtitle}, offsetX: 30, style: {  fontSize: '12px', cssClass: 'apexcharts-yaxis-title' } }
+};
+var area = new ApexCharts(document.querySelector("#area"), optionsArea);
+area.render();
+
+
+
+var optionsMaxAverage = { series: [
+		{ name: {_onlinedata.max_x}, data: {$last_max_average['val2']}},
+		{ name: {_onlinedata.average_x}, data: {$last_max_average['val1']}},
+	],
+	chart: { width: '100%', height: 400, type: 'area', zoom: { enabled: false}, toolbar: { show: false} },
+	dataLabels: { enabled: false }, stroke: { curve: 'smooth' },
+	xaxis: { type: 'datetime', categories: {$last_max_average['names']},labels: {
+			formatter: function (value, timestamp) {
+				date = new Date(timestamp);
+				return date.getDate() + '.' + (date.getMonth() +1) + '.' + date.getFullYear();
+			},
+		}},
+	tooltip: { x: { format: 'dd/MM/yy' }, },
+	title: { text: {_onlinedata.max_title}, offsetX: 30, style: { fontSize: '18px', cssClass: 'apexcharts-yaxis-title' } },
+	subtitle: { text: {_onlinedata.last_subtitle}, offsetX: 30, style: {  fontSize: '12px', cssClass: 'apexcharts-yaxis-title' } }
+};
+var max_average = new ApexCharts(document.querySelector("#max_average"), optionsMaxAverage);
+max_average.render();
+
+</script>
+
+
+
+<script n:syntax="off">
+var map = L.map('wifimap').setView([48.1445, 17.1077], 15);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
+
+var wifiList = new Array();
+wifiList[0] = new Array('RIGL (oblasť Rigeleho a Rázusovho Nábrežia)<br>', 48.1398, 17.1067,'<br>mac:f03e90176440<br>mac:f03e90166f10<br>mac:f03e90166e40');
+wifiList[1] = new Array('RBNN (oblasť Rybného Námestia)<br>', 48.1404, 17.1049,'<br>mac:f03e901767f0<br>mac:f03e90176370<br>mac:f03e901764d0');
+wifiList[2] = new Array('OSPR (oblasť Osobného prístavu a pred SNM)<br>', 48.14, 17.1123,'<br>mac:f03e90166f40<br>mac:f03e90166ee0<br>mac:f03e90166e80');
+wifiList[3] = new Array('NLST (oblasť Námestia Ľudovíta Štúra)<br>', 48.1397, 17.11,'<br>mac:f03e901767a0<br>mac:f03e90166eb0<br>mac:f03e90176840');
+wifiList[4] = new Array('PAMV (oblasť Pamätníka Víťazstva a pred SND)<br>', 48.1416, 17.1096,'<br>mac:f03e90166db0<br>mac:f03e90166e30<br>mac:f03e90166e20');
+wifiList[5] = new Array('HVZN (oblasť Hviezdoslavovho Námestia v okolí ambasády USA)<br>', 48.1411, 17.1073,'<br>mac:f03e90176730<br>mac:f03e90176880');
+wifiList[6] = new Array('SAFK (oblasť Šafárikovho Námestia pri UK)<br>', 48.1408, 17.1165,'<br>mac:f03e90166f90<br>mac:f03e90166dc0<br>mac:f03e90166ea0');
+wifiList[7] = new Array('FJNN (oblasť Fajnorovho Nábrežia pred SPŠS)<br>', 48.14, 17.1147,'<br>mac:f03e901765d0<br>mac:f03e90176560');
+wifiList[8] = new Array('HLVN (oblasť Hlavného Námestia, Františkánskeho Námestia a Starej Radnice)<br>', 48.1437, 17.1087,'<br>mac:f03e90176380<br>mac:d4684d3d6660<br>mac:f03e90176890<br>mac:1cb9c429d010');
+wifiList[9] = new Array('ZIDO (oblasť Židovskej ulice pri dobrom pastierovi)<br>', 48.142, 17.1042,'<br>mac:f03e90176510<br>mac:d4684d3d7230');
+wifiList[10] = new Array('ZMCK (oblasť rohu Židovskej a Kapucínskej ulice)<br>', 48.1445, 17.1034,'<br>mac:1cb9c429b170<br>mac:1cb9c429d1a0<br>mac:1cb9c429cda0');
+wifiList[11] = new Array('NSLO (oblasť parku Námestia Slobody)<br>', 48.152, 17.1122,'<br>mac:0cf4d52cfba0<br>mac:0cf4d529ab00<br>mac:0cf4d52ceae0');
+wifiList[12] = new Array('KLOB (oblasť Klobučníckej a Námestia SNP pred Starou Tržnicou)<br>', 48.145, 17.1116,'<br>mac:0cf4d52ce9e0<br>mac:0cf4d52cfc50<br>mac:0cf4d52cfbc0');
+wifiList[13] = new Array('HURN (oblasť Hurbanovho námestia)<br>', 48.146, 17.1073,'<br>mac:0cf4d52bce10<br>mac:0cf4d52bd8e0<br>mac:0cf4d52bce50');
+wifiList[14] = new Array('VNTU (oblasť križovania ulíc Ventúrska-Michalská-Sedlárska)<br>', 48.1438, 17.1066,'<br>mac:0cf4d52cfa30<br>mac:d838fc1526d0<br>mac:0cf4d52cfbd0');
+wifiList[15] = new Array('NSNP (oblasť Námestia SNP)<br>', 48.1456, 17.1101,'<br>mac:0cf4d52bb290<br>mac:0cf4d52bd7a0<br>mac:0cf4d52ce6a0');
+wifiList[16] = new Array('KOLN (oblasť spodnej časti Kollárovho námestia)<br>', 48.1491, 17.1136,'<br>mac:0cf4d52cf6c0<br>mac:0cf4d52cf6e0<br>mac:0cf4d52cfc40');
+wifiList[17] = new Array('OBCH ( oblasť Obchodná ulica stred)<br>', 48.1479, 17.1114,'<br>mac:0cf4d52cea30<br>mac:0cf4d52cea20');
+wifiList[18] = new Array('KNPM (oblasť Jedlíkovej ulice)<br>', 48.1466, 17.1107,'<br>mac:f03e9015fc10<br>mac:f03e902223e0');
+wifiList[19] = new Array('POST (oblasť križovania ulíc Poštová - Obchodná)<br>', 48.1469, 17.1092,'<br>mac:d838fc152b40<br>mac:0cf4d52cf9d0<br>mac:0cf4d52cfc00');
+
+var LeafIcon = L.Icon.extend({
+	options:{ iconSize:[25,41],iconAnchor:[12,41],popupAnchor:[1,-34],tooltipAnchor:[16,-28],shadowSize:[41,41] }
+});
+var wifiIcon = new LeafIcon({
+    iconUrl: wifiIconUrl,
+	iconRetinaUrl: wifiIconUrl2x,
+    shadowUrl: ''
+});
+
+wifiList.forEach(element =>
+{
+  L.marker([element[1], element[2]], { icon: wifiIcon }).addTo(map).bindPopup(element[0]+element[3]);
+});
+
+
+
+</script>
+
+<script>
+var category = {$activeCategory};
+</script>

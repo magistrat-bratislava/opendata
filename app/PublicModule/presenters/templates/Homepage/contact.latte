@@ -1,21 +1,5 @@
 {block content}
 
-<section class="slider" id="home">
-    <div class="container-fluid">
-        <div class="row">
-            <div id="carouselHacked" class="carousel slide carousel-fade" data-ride="carousel">
-                <div class="header-backup"></div>
-                <!-- Wrapper for slides -->
-                <div class="carousel-inner" role="listbox">
-                    <div class="item active">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div><br>
-</section><!-- end of slider section -->
-
-
 <!-- map section -->
 <div class="api-map" id="contact">
     <div class="container-fluid">
@@ -31,18 +15,18 @@
         <div class="row">
             <div class="contact-caption clearfix">
                 <div class="contact-heading text-center">
-                    <h2>Kontaktujte nás</h2>
+                    <h2>{_contact.us}</h2>
                 </div>
                 <div class="col-md-5 contact-info text-left">
-                    <h3>Kontaktné informácie</h3>
+                    <h3>{_contact.info}</h3>
                     <div class="info-detail">
-                        <ul><li><i class="fa fa-calendar"></i><span>Pondelok - Piatok:</span> 9:30 do 17:00 hod.</li></ul>
-                        <ul><li><i class="fa fa-map-marker"></i><span>Adresa:</span> Primaciálne námestie 429/1, Bratislava, SR</li></ul>
+                        <ul><li><i class="fa fa-calendar"></i><span>{_contact.po_pia}:</span> {_contact.from_to}</li></ul>
+                        <ul><li><i class="fa fa-map-marker"></i><span>{_ui.address}:</span> Primaciálne námestie 429/1, Bratislava, SR</li></ul>
                         <ul><li><i class="fa fa-envelope"></i><span>Email:</span> <a href="mailto:info@bratislava.sk">info@bratislava.sk</a></li></ul>
                     </div>
                 </div>
                 <div class="col-md-6 col-md-offset-1 contact-form">
-                    <h3>napíšte nám správu</h3>
+                    <h3>{_contact.send_us_msg}</h3>
 
                     <form n:name="contactForm" class="form">
                         {foreach $flashes as $flash}
@@ -52,11 +36,11 @@
                             <h4 style="color: black; text-align: left" n:foreach="$form->errors as $error">{$error}</h4>
                         {/if}
 
-                        <input n:name="name" class="name" id="name" type="text" placeholder="Meno">
+                        <input n:name="name" class="name" id="name" type="text" placeholder="{_contact.name}">
                         <input n:name="email" class="email" id="email" type="email" placeholder="Email">
-                        <input n:name="phone" class="phone" id="phone" type="text" placeholder="Telefónne číslo:">
-                        <textarea n:name="message" class="message" name="message" id="message" cols="30" rows="10" placeholder="Správa"></textarea>
-                        <input class="submit-btn" type="submit" value="Odoslať">
+                        <input n:name="phone" class="phone" id="phone" type="text" placeholder="{_contact.tel}:">
+                        <textarea n:name="message" class="message" name="message" id="message" cols="30" rows="10" placeholder="{_contact.message}"></textarea>
+                        <input class="submit-btn" type="submit" value="{_contact.send}">
                     </form>
                 </div>
             </div>

@@ -43,60 +43,135 @@ class FileControl
         $file = $this->db->table('dataset_files')->get($id);
 
         if (!$file)
-            throw new \Exception('File doesn\'t exists');
+            throw new \Exception('Súbor neexistuje');
 
         return $file;
     }
 
-    public function create($name, $file, $users, $dataset)
+    public function exists($id)
+    {
+        $file = $this->db->table('dataset_files')->get($id);
+
+        if (!$file)
+            return false;
+
+        return true;
+    }
+
+    public function getSlug($dataset, $id)
+    {
+        $file = $this->db->table('dataset_files')->where('dataset', $dataset)->where('ord', $id)->fetch();
+
+        if (!$file)
+            throw new \Exception('Súbor neexistuje');
+
+        return $file;
+    }
+
+    public function setFileOrder($dataset)
+    {
+        $files = $this->db->table('dataset_files')->where('dataset', $dataset)->order('created_at')->fetchAll();
+
+        if (!$files)
+            return;
+
+        $i = 1;
+
+        foreach ($files as $f) {
+            $f->update([
+                'ord' => $i
+            ]);
+
+            $i++;
+        }
+    }
+
+    public function create($name_sk, $name_en, $file, $users, $dataset, $powerbi, $map)
     {
         if (!$file->isOk())
-            throw new \Exception('Some problem occured with uploading file.');
+            throw new \Exception('Pri nahrávaní súboru nastal problém.');
 
         $end = explode('.', $file->getSanitizedName());
         $end = array_pop($end);
 
+        if (empty($powerbi))
+            $powerbi = NULL;
+
+        if (empty($map))
+            $map = NULL;
+
         $row = $this->db->table('dataset_files')->insert([
-            'name' => $name,
+            'name_sk' => $name_sk,
+            'name_en' => $name_en,
             'users' => $users,
             'dataset' => $dataset,
             'file_type' => $end,
+            'powerbi' => $powerbi,
+            'map' => $map,
         ]);
+
+        $this->setFileOrder($dataset);
 
         try {
             $file->move(__DIR__ . '/../../uploads/dataset_file_' . $row->id . '.txt');
         }
         catch (\Exception $e) {
             $row->delete();
-            throw new \Exception('Some problem occured with uploading file.');
+            throw new \Exception('Pri nahrávaní súboru nastal problém.');
         }
+
+        $dataset = $this->dataset->get($dataset);
+        $dataset->update([
+            'changed_at' => new \DateTime()
+        ]);
     }
 
-    public function edit($id, $name)
+    public function edit($id, $name_sk, $name_en, $powerbi, $map)
     {
         $file = $this->get($id);
 
+        if (empty($powerbi))
+            $powerbi = NULL;
+
+        if (empty($map))
+            $map = NULL;
+
         $file->update([
-            'name' => $name,
+            'name_sk' => $name_sk,
+            'name_en' => $name_en,
+            'powerbi' => $powerbi,
+            'map' => $map,
+        ]);
+
+        $dataset = $this->dataset->get($file->dataset);
+        $dataset->update([
+            'changed_at' => new \DateTime()
         ]);
     }
 
     public function delete($id)
     {
         $file = $this->get($id);
+        $dataset = $file->dataset;
+
         FileSystem::delete(__DIR__ . '/../../uploads/dataset_file_' . $file->id . '.txt');
         $file->delete();
+
+        $this->setFileOrder($dataset);
     }
 
-    public function download($id)
+    public function download($id, $ord)
     {
         $file = $this->get($id);
         $dataset = $this->dataset->get($file->dataset);
 
+        if (!file_exists(__DIR__ . '/../../uploads/dataset_file_' . $file->id . '.txt'))
+            throw new \Exception('Súbor neexistuje.');
+
         $content = file_get_contents(__DIR__ . '/../../uploads/dataset_file_' . $file->id . '.txt');
 
         $this->req->setHeader('Content-Type', 'application/octet-stream');
-        $this->req->setHeader('Content-Disposition', 'attachment; filename=dataset.'.$dataset->uniq_id.'.'.$file->file_type);
+        $this->req->setHeader('Content-Disposition', 'attachment; filename=dataset.'.$dataset->uniq_id.'.'.$ord.'.'.$file->file_type);
         $this->req->setHeader('Content-Length', strlen($content));
         echo $content;
         exit;
@@ -108,6 +183,9 @@ class FileControl
 
         if (!in_array($file->file_type, $this->accepted_file_types))
             throw new \Exception('Tento typ súboru nemá podporovaný náhľad.');
+
+        if (!file_exists(__DIR__ . '/../../uploads/dataset_file_' . $file->id . '.txt'))
+            throw new \Exception('Súbor neexistuje.');
 
         $content = htmlspecialchars($this->file_get_contents_utf8(__DIR__ . '/../../uploads/dataset_file_' . $file->id . '.txt'), ENT_QUOTES | ENT_SUBSTITUTE);
 

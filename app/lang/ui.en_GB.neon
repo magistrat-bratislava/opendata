@@ -1,0 +1,38 @@
+address: Address
+contact: Contact
+category: Category
+year: Year
+district: City District
+author: Author
+visualisation: Visualisation
+map_ba: Maps BA
+
+prev: Previous
+next: Next
+no_results: No results
+next_results: Show next results
+
+data_policy: Data Policy
+terms_of_use: Terms of Use
+privacy_policy: Privacy Policy
+
+newest_datasets: Newest datasets
+newest_powerbi: Newest PowerBI
+newest_maps: Newest MapsBA
+
+order_date: Order by Date
+order_name: Oder by Name
+order_popularity: Order by Popularity
+
+dataset: dataset
+datasety: datasets
+datasetov: datasets
+
+uz: Already
+files: files
+
+location: 'Location|Locations'
+
+csrf: 'Time limit has exceeded, please resubmit your form'
+
+show_more: Show more

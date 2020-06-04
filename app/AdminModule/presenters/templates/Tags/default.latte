@@ -31,22 +31,27 @@
                         <table id="pgp" class="table table-bordered table-striped">
                             <thead>
                             <tr>
-                                <th>Názov</th>
+                                <th>Názov SK</th>
+                                <th>Názov EN</th>
                                 <th>Akcie</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr n:foreach="$tags as $u">
-                                <td>{$u['name']}</td>
+                                <td>{$u['name_sk']}</td>
+                                <td>{$u['name_en']}</td>
                                 <td>
-                                    <a n:href="Tags:edit $u['id']" class="text-primary action"><i class="fas fa-edit"></i> Upraviť</a>
-                                    <a n:href="Tags:delete $u['id']" class="text-danger"><i class="fas fa-times"></i> Vymazať</a>
+                                    {if $user->isAllowed('global')}
+                                        <a n:href="Tags:edit $u['id']" class="text-primary action"><i class="fas fa-edit"></i> Upraviť</a>
+                                        <a n:href="Tags:delete $u['id']" class="text-danger"><i class="fas fa-times"></i> Vymazať</a>
+                                    {/if}
                                 </td>
                             </tr>
                             </tbody>
                             <tfoot>
                             <tr>
-                                <th>Názov</th>
+                                <th>Názov SK</th>
+                                <th>Názov EN</th>
                                 <th>Akcie</th>
                             </tr>
                             </tfoot>

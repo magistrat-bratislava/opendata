@@ -8,7 +8,7 @@ use App\Model\DatasetControl;
 use App\Model\TagsControl;
 use App\Model\UserControl;
 use Nette;
-use App\Components\Forms\BootstrapForm;
+use App\Components\Forms\ProtectedForm;
 use Nette\Application\UI\Form;
 use Nette\Security\Passwords;
 
@@ -30,7 +30,7 @@ final class DashboardPresenter extends BasePresenter
         }
     }
 
-    public function __construct(CategoryControl $categoryControl, DatasetControl $datasetControl, AuthorsControl $authorsControl, TagsControl $tagsControl, UserControl $user, BootstrapForm $BootstrapForm)
+    public function __construct(CategoryControl $categoryControl, DatasetControl $datasetControl, AuthorsControl $authorsControl, TagsControl $tagsControl, UserControl $user, ProtectedForm $BootstrapForm)
     {
         $this->category = $categoryControl;
         $this->dataset = $datasetControl;
@@ -42,14 +42,25 @@ final class DashboardPresenter extends BasePresenter
 
     public function renderDefault()
     {
-        $this->template->stats_files = $this->dataset->getFileCount();
-        $this->template->stats_dataset = $this->dataset->getCount();
+
+        if ($this->getUser()->isAllowed('global')) {
+            $this->template->stats_files = $this->dataset->getFileCount();
+            $this->template->stats_dataset = $this->dataset->getCount();
+
+            $this->template->latest_datasets = $this->dataset->getLatest();
+            $this->template->latest_files = $this->dataset->getLatestFiles();
+        } else {
+            $this->template->stats_files = $this->dataset->getFileCount(0, $this->getUser()->id);
+            $this->template->stats_dataset = $this->dataset->getCount(false, $this->getUser()->id);
+
+            $this->template->latest_datasets = $this->dataset->getLatest($this->getUser()->id);
+            $this->template->latest_files = $this->dataset->getLatestFiles($this->getUser()->id);
+        }
+
         $this->template->stats_authors = $this->author->getCount();
         $this->template->stats_tags = $this->tag->getCount();
 
-        $this->template->latest_datasets = $this->dataset->getLatest();
         $this->template->categories_datasets = $this->category->getDatasetCount();
-        $this->template->latest_files = $this->dataset->getLatestFiles();
     }
 
     public function actionSignout()
@@ -73,7 +84,7 @@ final class DashboardPresenter extends BasePresenter
 
     protected function createComponentProfileForm()
     {
-        $form = $this->BootstrapForm->create();
+        $form = $this->form->create();
 
         $form->addText('name');
         $form->addText('username');

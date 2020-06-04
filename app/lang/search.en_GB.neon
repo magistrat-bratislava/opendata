@@ -1,0 +1,7 @@
+name: Search
+search: Search
+advanced: Advanced search
+parameters: Search Parameters
+text: Search Term
+uniq_id: Unique Identifier
+max_chars: Maximum number of characters in a search is %count%.

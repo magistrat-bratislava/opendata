@@ -36,16 +36,24 @@
                                 <li n:foreach="$form->errors as $error">{$error}</li>
                             </ul>
                             <div class="form-group">
-                                <label for="name">Názov</label>
-                                <input type="text" class="form-control" n:name="name" id="name" placeholder="Zadajte názov">
+                                <label for="name_sk">Názov SK</label>
+                                <input type="text" class="form-control" n:name="name_sk" id="name_sk" placeholder="Zadajte názov">
+                            </div>
+                            <div class="form-group">
+                                <label for="name_en">Názov EN</label>
+                                <input type="text" class="form-control" n:name="name_en" id="name_en" placeholder="Zadajte názov">
                             </div>
                             <div class="form-group">
                                 <label for="slug">URL názov</label>
                                 <input type="text" class="form-control" n:name="slug" id="slug" placeholder="Zadajte URL názov">
                             </div>
                             <div class="form-group upload-text">
-                                <label for="description">Popis</label>
-                                <textarea class="form-control" rows="6" n:name="description" id="description" placeholder="Zadajte popis"></textarea>
+                                <label for="description_sk">Popis SK</label>
+                                <textarea class="form-control" rows="6" n:name="description_sk" id="description_sk" placeholder="Zadajte popis"></textarea>
+                            </div>
+                            <div class="form-group upload-text">
+                                <label for="description_en">Popis EN</label>
+                                <textarea class="form-control" rows="6" n:name="description_en" id="description_en" placeholder="Zadajte popis"></textarea>
                             </div>
                             <div class="form-group">
                                 <label for="authors">Autor</label>
@@ -64,6 +72,28 @@
                                 <select class="form-control select2" n:name="tags" multiple="multiple" data-placeholder="Vyberte značku">
                                 </select>
                             </div>
+                            <div class="form-group">
+                                <label for="year">Rok</label>
+                                <input type="text" class="form-control" n:name="year" id="year" placeholder="Rok">
+                            </div>
+                            <div class="form-group">
+                                <label for="district">Mestská časť</label>
+                                <input type="text" class="form-control" n:name="district" id="district" placeholder="Mestská časť">
+                            </div>
+                            <div class="form-group">
+                                <label for="powerbi">Power BI - Link <span class="text-danger small">* link musí začínať "https://"</span></label>
+                                <input type="text" class="form-control" n:name="powerbi" id="powerbi" placeholder="Zadajte Power BI link">
+                            </div>
+                            <div class="form-group">
+                                <label for="map">Mapa - Link <span class="text-danger small">* link musí začínať "https://"</span></label>
+                                <input type="text" class="form-control" n:name="map" id="map" placeholder="Zadajte link na mapu">
+                            </div>
+                            <div class="form-group">
+                                <label for="onlinedata">Online Dáta</label>
+                                <select class="form-control" n:name="onlinedata" id="onlinedata"></select>
+                            </div>							
+							
+							
                         </div>
                         <!-- /.card-body -->
 

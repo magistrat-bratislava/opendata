@@ -54,11 +54,13 @@ jQuery(document).ready(function () {
 
 
 	$('#show-next').click(function () {
+		var order = $("#order").val();
+
 		$.ajax({
 			url: next_url,
 			method: 'POST',
 			cache: false,
-			data: "cat="+category+"&page="+actual_page,
+			data: "cat="+category+"&page="+actual_page+"&order="+order,
 		}).done(function (data) {
 			if (data) {
 				if (data == 'invalid') {
@@ -82,8 +84,6 @@ jQuery(document).ready(function () {
 
 
 	$('#show-next-search').click(function () {
-		console.log(actual_page);
-		console.log(max_search);
 		$.ajax({
 			url: next_url,
 			method: 'POST',
@@ -110,7 +110,57 @@ jQuery(document).ready(function () {
 		});
 	});
 
-    $('#carouselHacked').carousel();
+    $("#search-ex").bind("keyup", function() {
+		if($(this).val().length>2) {
+			extendedSearch();
+		}
+	});
+
+    $("#uniq_id").bind("keyup", function() {
+		if($(this).val().length>2) {
+			extendedSearch();
+		}
+	});
+
+    $("#category").change(function () {extendedSearch();});
+    $("#year").change(function () {extendedSearch();});
+    $("#district").change(function () {extendedSearch();});
+    $("#authors").change(function () {extendedSearch();});
+    $("#visualization").change(function () {extendedSearch();});
+
+	$('#show-next-search-extend').click(function () {
+		$.ajax({
+			url: next_url,
+			method: 'POST',
+			cache: false,
+			data: $("#frm-searchExtendedForm").serialize() + "&page="+actual_page+"&submit=1",
+		}).done(function (data) {
+			if (data) {
+				if (data == 'invalid') {
+					alert("Server is not responding!");
+				} else {
+					actual_page = actual_page + 1;
+
+					if (actual_page >= max_search)
+						$(".pagination").hide();
+					else
+						$(".pagination").show();
+
+					$("#extendedResults").append(data);
+				}
+			} else {
+				alert("Server is not responding!");
+			}
+
+		}).fail(function (jQueryXhr, textStatus) {
+			alert("Server is not responding!");
+		});
+	});
+
+
+	$("#order").change(function () {
+		$("#frm-orderForm").submit();
+	});
  /*
     //this code is for the gmap
     var map = new GMaps({
@@ -199,6 +249,36 @@ jQuery(document).ready(function () {
 
 });
 
+function extendedSearch()
+{
+	$.ajax({
+		url: extended_url,
+		method: 'POST',
+		cache: false,
+		data: $("#frm-searchExtendedForm").serialize() + "&page=0&submit=1",
+	}).done(function (data) {
+		if (data) {
+			if (data == 'invalid') {
+				alert("Server is not responding!");
+			} else {
+
+				$("#extendedResults").html(data);
+
+				actual_page = actual_page + 1;
+
+				if (actual_page >= max_search)
+					$(".pagination").hide();
+				else
+					$(".pagination").show();
+			}
+		} else {
+			alert("Server is not responding!");
+		}
+
+	}).fail(function (jQueryXhr, textStatus) {
+		alert("Server is not responding!");
+	});
+}
 
 
 /*var mymap = L.map('map').setView([48.14816, 17.10674], 13);

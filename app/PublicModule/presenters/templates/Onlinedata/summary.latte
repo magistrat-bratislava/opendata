@@ -1,0 +1,228 @@
+{block content}
+
+<style>
+    .box.banana_map {
+        color: #fff;
+        background: #eff4f7;
+        padding: 0;
+        box-shadow: none;
+    }
+    .box.banana_map .title {
+        padding-top: 40px;
+        padding-left: 25px;
+        font-size: 16px;
+    }
+    .box.banana_map .subtitle {
+        font-weight: 700;
+        padding-top: 10px;
+        padding-left: 25px;
+        font-size: 22px;
+    }
+
+    .box {
+        max-height: 444px;
+    }
+
+    .box .banana {
+        min-height: 404px;
+        background-image: url('img/banana.png');
+        background-size: cover;
+    }
+    .box .map {
+        min-height: 404px;
+        background-image: url('img/map.png');
+        background-size: cover;
+    }
+    .box .cog-icon {
+        cursor: pointer;
+        position: absolute;
+        right: 55px;
+        top: 25px;
+        z-index: 10;
+    }
+    .box {
+        box-shadow: 0px 1px 22px -12px #607D8B;
+        background-color: #fff;
+        padding: 25px 35px 25px 30px;
+        margin-bottom: 10px;
+    }
+</style>
+
+<section class="about text-center" id="about">
+    <div class="container">
+        <div class="row">
+            <div class="menu-left col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                <nav id="sidebar">
+                    <div class="sidebar-header">
+                        <h3>OPEN DATA<br>Online Data</h3>
+                    </div>
+
+                    <ul class="list-unstyled components">
+                        <li n:foreach="$categories as $c"{if isset($activeCategory) && $activeCategory == $c->id} class="active-menu-item"{/if}>
+                            <a n:href="Onlinedata:category $c->slug">{$c->$name_col}</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+            <div class="menu-right col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                {include 'onlinedata-header.latte'}
+
+                <div class="content-area">
+                    <div class="container-fluid" style="padding-left:0px; padding-right:0px;">
+                        <div class="main">
+
+                            <div class="row sparkboxes mt-4 mb-4">
+                                <div class="col-md-4 col-sm-12 col-xs-12">
+                                    <div class="box box1">
+                                        <div id="spark1"></div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 col-sm-12 col-xs-12">
+                                    <div class="box box2">
+                                        <div id="spark2"></div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 col-sm-12 col-xs-12">
+                                    <div class="box box3">
+                                        <div id="spark3"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt-5 mb-4">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <div class="box">
+                                        <div id="area"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt-5 mb-4">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <div class="box">
+                                        <div id="max_average"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/downloadjs/1.4.8/download.min.js"></script>
+
+
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"  integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="  crossorigin=""/>
+        <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"  integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="  crossorigin=""></script>
+
+
+
+        <script>
+
+            var sparklineData1 = {$new_users['val']};
+            var spark1 = { chart: { id: 'sparkline1', group: 'sparklines', type: 'area', height: 160, sparkline: { enabled: true }, },
+                stroke: { curve: 'straight' }, fill: { opacity: 1, }, series: [{ name: {_onlinedata.new_users_title}, data: sparklineData1 }],
+                yaxis: { min: 0 },
+                xaxis: { type: 'datetime', categories: {$new_users['names']},labels: {
+                        formatter: function (value, timestamp) {
+                            date = new Date(timestamp);
+                            return date.getDate() + '.' + (date.getMonth() +1) + '.' + date.getFullYear();
+                        },
+                    } },
+                colors: ['#73b8e8'], //colors: ['#DCE6EC'],
+                title: { text: {_onlinedata.new_users_title}, offsetX: {$locale == 'sk' ? 30 : 45}, style: { fontSize: '18px', cssClass: 'apexcharts-yaxis-title' } },
+                subtitle: { text: {_onlinedata.count_subtitle}, offsetX: 35, style: {  fontSize: '12px', cssClass: 'apexcharts-yaxis-title' } },
+                labels: {$new_users['names']}
+            }
+            new ApexCharts(document.querySelector("#spark1"), spark1).render();
+
+            var sparklineData2 = {$return_users['val']};
+            var spark2 = { chart: { id: 'sparkline2', group: 'sparklines', type: 'area', height: 160, sparkline: { enabled: true }, },
+                stroke: { curve: 'straight' }, fill: { opacity: 1, }, series: [{ name: {_onlinedata.return_users_title}, data: sparklineData2 }],
+                yaxis: { min: 0 },
+                xaxis: { type: 'datetime', categories: {$return_users['names']},labels: {
+                        formatter: function (value, timestamp) {
+                            date = new Date(timestamp);
+                            return date.getDate() + '.' + (date.getMonth() +1) + '.' + date.getFullYear();
+                        },
+                    } },
+                colors: ['#008FFB'], //colors: ['#008FFB'],
+                title: { text: {_onlinedata.return_users_title}, offsetX: {$locale == 'sk' ? -5 : 15}, style: { fontSize: '18px', cssClass: 'apexcharts-yaxis-title' } },
+                subtitle: { text: {_onlinedata.count_subtitle}, offsetX: 30, style: {  fontSize: '12px', cssClass: 'apexcharts-yaxis-title' } }
+            }
+            new ApexCharts(document.querySelector("#spark2"), spark2).render();
+
+            var sparklineData3 = {$uniq_users['val']};
+            var spark3 = { chart: { id: 'sparkline2', group: 'sparklines', type: 'area', height: 160, sparkline: { enabled: true }, },
+                stroke: { curve: 'straight' }, fill: { opacity: 1, }, series: [{ name: {_onlinedata.uniq_users_title}, data: sparklineData3 }],
+                yaxis: { min: 0 },
+                xaxis: { type: 'datetime', categories: {$uniq_users['names']},labels: {
+                        formatter: function (value, timestamp) {
+                            date = new Date(timestamp);
+                            return date.getDate() + '.' + (date.getMonth() +1) + '.' + date.getFullYear();
+                        },
+                    } },
+                colors: ['#024a7c'], //colors: ['#008FFB'],
+                title: { text: {_onlinedata.uniq_users_title}, offsetX: {$locale == 'sk' ? 10 : 27}, style: { fontSize: '18px', cssClass: 'apexcharts-yaxis-title' } },
+                subtitle: { text: {_onlinedata.count_subtitle}, offsetX: 30, style: {  fontSize: '12px', cssClass: 'apexcharts-yaxis-title' } },
+                dataLabels: { enabled: false }, stroke: { curve: 'smooth' },
+                labels: {$uniq_users['names']}
+            }
+            new ApexCharts(document.querySelector("#spark3"), spark3).render();
+
+
+
+            var optionsArea = { series: [
+                    { name: {_onlinedata.less_than}, data: {$dwell['val1']}},
+                    { name: {_onlinedata.from_to, [from => 5, to => 10]}, data: {$dwell['val2']}},
+                    { name: {_onlinedata.from_to, [from => 10, to => 30]}, data: {$dwell['val3']}},
+                    { name: {_onlinedata.from_to, [from => 30, to => 60]}, data: {$dwell['val4']}},
+                    { name: {_onlinedata.more_than}, data: {$dwell['val5']}}
+                ],
+                chart: { width: '100%', height: 400, type: 'area', zoom: { enabled: false}, toolbar: { show: false} },
+                dataLabels: { enabled: false }, stroke: { curve: 'smooth' },
+                xaxis: { type: 'datetime', categories: {$dwell['names']},labels: {
+                        formatter: function (value, timestamp) {
+                            date = new Date(timestamp);
+                            return date.getDate() + '.' + (date.getMonth() +1) + '.' + date.getFullYear();
+                        },
+                    } },
+                tooltip: { x: { format: 'dd/MM/yy' }, },
+                title: { text: {_onlinedata.dwell_title}, offsetX: 30, style: { fontSize: '18px', cssClass: 'apexcharts-yaxis-title' } },
+                subtitle: { text: '', offsetX: 30, style: {  fontSize: '12px', cssClass: 'apexcharts-yaxis-title' } }
+            };
+            var area = new ApexCharts(document.querySelector("#area"), optionsArea);
+            area.render();
+
+            var optionsMaxAverage = { series: [
+                    { name: {_onlinedata.max_x}, data: {$max_average['val2']}},
+                    { name: {_onlinedata.average_x}, data: {$max_average['val1']}},
+                ],
+                chart: { width: '100%', height: 400, type: 'area', zoom: { enabled: false}, toolbar: { show: false} },
+                dataLabels: { enabled: false }, stroke: { curve: 'smooth' },
+                xaxis: { type: 'datetime', categories: {$max_average['names']},labels: {
+                        formatter: function (value, timestamp) {
+                            date = new Date(timestamp);
+                            return date.getDate() + '.' + (date.getMonth() +1) + '.' + date.getFullYear();
+                        },
+                    }},
+                tooltip: { x: { format: 'dd/MM/yy' }, },
+                title: { text: {_onlinedata.max_title}, offsetX: 30, style: { fontSize: '18px', cssClass: 'apexcharts-yaxis-title' } },
+                subtitle: { text: '', offsetX: 30, style: {  fontSize: '12px', cssClass: 'apexcharts-yaxis-title' } }
+            };
+            var max_average = new ApexCharts(document.querySelector("#max_average"), optionsMaxAverage);
+            max_average.render();
+
+        </script>
+
+        <script>
+            var category = {$activeCategory};
+        </script>

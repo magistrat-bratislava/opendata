@@ -1,0 +1,187 @@
+{block content}
+
+<style>
+    .box.banana_map {
+        color: #fff;
+        background: #eff4f7;
+        padding: 0;
+        box-shadow: none;
+    }
+    .box.banana_map .title {
+        padding-top: 40px;
+        padding-left: 25px;
+        font-size: 16px;
+    }
+    .box.banana_map .subtitle {
+        font-weight: 700;
+        padding-top: 10px;
+        padding-left: 25px;
+        font-size: 22px;
+    }
+
+    .box {
+        max-height: 444px;
+    }
+
+    .box .banana {
+        min-height: 404px;
+        background-image: url('img/banana.png');
+        background-size: cover;
+    }
+    .box .map {
+        min-height: 404px;
+        background-image: url('img/map.png');
+        background-size: cover;
+    }
+    .box .cog-icon {
+        cursor: pointer;
+        position: absolute;
+        right: 55px;
+        top: 25px;
+        z-index: 10;
+    }
+    .box {
+        box-shadow: 0px 1px 22px -12px #607D8B;
+        background-color: #fff;
+        padding: 25px 35px 25px 30px;
+        margin-bottom: 10px;
+    }
+</style>
+
+<section class="about text-center" id="about">
+    <div class="container">
+        <div class="row">
+            <div class="menu-left col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                <nav id="sidebar">
+                    <div class="sidebar-header">
+                        <h3>OPEN DATA<br>Online Data</h3>
+                    </div>
+
+                    <ul class="list-unstyled components">
+                        <li n:foreach="$categories as $c"{if isset($activeCategory) && $activeCategory == $c->id} class="active-menu-item"{/if}>
+                            <a n:href="Onlinedata:category $c->slug">{$c->$name_col}</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+            <div class="menu-right col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                {include 'onlinedata-header.latte'}
+
+                <div class="content-area">
+                    <div class="container-fluid" style="padding-left:0px; padding-right:0px;">
+                        <div class="main">
+                            <div class="row mt-5 mb-4">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <div class="box">
+                                        <div id="donut1"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt-5 mb-4">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <div class="box">
+                                        <div id="donut2"></div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row mt-5 mb-4">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <div class="box">
+                                        <div id="donut3"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt-5 mb-4">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <div class="box">
+                                        <div id="donut4"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/downloadjs/1.4.8/download.min.js"></script>
+
+
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"  integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="  crossorigin=""/>
+        <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"  integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="  crossorigin=""></script>
+
+
+
+        <script>
+            var optionDonut1 = { chart: { type: 'bar', width: '100%', height: 400, toolbar: { show: false } },
+                dataLabels: { enabled: false, },
+                plotOptions: {  bar: { columnWidth: '45%', } },
+                stroke: { colors: undefined },
+                yaxis: { min: 0 },
+                title: { text: {_onlinedata.devices_title}, offsetX: 30, style: { fontSize: '18px', cssClass: 'apexcharts-yaxis-title' } },
+                series: [{ name: {_onlinedata.devices_title}, data: {$devices['val']}, }],
+                xaxis: { categories: {$devices['names']}, },
+                subtitle: { text: {_onlinedata.last_subtitle}, offsetX: 30, style: {  fontSize: '12px', cssClass: 'apexcharts-yaxis-title' } },
+                labels: {$devices['names']}
+            };
+
+            var donut1 = new ApexCharts( document.querySelector("#donut1"), optionDonut1 );
+            donut1.render();
+
+            var optionDonut2 = { chart: { type: 'bar', width: '100%', height: 400, toolbar: { show: false } },
+                dataLabels: { enabled: false, },
+                plotOptions: {  bar: { columnWidth: '45%', } },
+                stroke: { colors: undefined },
+                yaxis: { min: 0 },
+                title: { text: {_onlinedata.os_title}, offsetX: 30, style: { fontSize: '18px', cssClass: 'apexcharts-yaxis-title' } },
+                series: [{ name: {_onlinedata.os_title}, data: {$os['val']}, }],
+                xaxis: { categories: {$os['names']}, },
+                subtitle: { text: {_onlinedata.last_subtitle}, offsetX: 30, style: {  fontSize: '12px', cssClass: 'apexcharts-yaxis-title' } },
+                labels: {$os['names']}
+            };
+            var donut2 = new ApexCharts( document.querySelector("#donut2"), optionDonut2 );
+            donut2.render();
+
+            var optionDonut3 = { chart: { type: 'bar', width: '100%', height: 400, toolbar: { show: false } },
+                dataLabels: { enabled: false, },
+                plotOptions: {  bar: { columnWidth: '45%', } },
+                stroke: { colors: undefined },
+                yaxis: { min: 0 },
+                title: { text: {_onlinedata.browser_title}, offsetX: 30, style: { fontSize: '18px', cssClass: 'apexcharts-yaxis-title' } },
+                series: [{ name: {_onlinedata.browser_title}, data: {$browser['val']}, }],
+                xaxis: { categories: {$browser['names']}, labels: { rotate: -45,  rotateAlways: true} },
+                subtitle: { text: {_onlinedata.last_subtitle}, offsetX: 30, style: {  fontSize: '12px', cssClass: 'apexcharts-yaxis-title' } },
+                labels: {$browser['names']}
+            };
+            var donut3 = new ApexCharts( document.querySelector("#donut3"), optionDonut3 );
+            donut3.render();
+
+            var optionDonut4 = { chart: { type: 'bar', width: '100%', height: 400, toolbar: { show: false } },
+                dataLabels: { enabled: false, },
+                plotOptions: {  bar: { columnWidth: '45%', } },
+                stroke: { colors: undefined },
+                yaxis: { min: 0 },
+                title: { text: {_onlinedata.lang_title}, offsetX: 30, style: { fontSize: '18px', cssClass: 'apexcharts-yaxis-title' } },
+                series: [{ name: {_onlinedata.lang_title}, data: {$lang['val']}, }],
+                xaxis: { categories: {$lang['names']}, },
+                subtitle: { text: {_onlinedata.last_subtitle}, offsetX: 30, style: {  fontSize: '12px', cssClass: 'apexcharts-yaxis-title' } },
+                labels: {$lang['names']}
+            };
+            var donut4 = new ApexCharts( document.querySelector("#donut4"), optionDonut4 );
+            donut4.render();
+
+        </script>
+
+        <script>
+            var category = {$activeCategory};
+        </script>

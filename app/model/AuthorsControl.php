@@ -36,18 +36,20 @@ class AuthorsControl
         return $authors;
     }
 
-    public function create($name)
+    public function create($name_sk, $name_en)
     {
         return $this->db->table('authors')->insert([
-            'name' => $name
+            'name_sk' => $name_sk,
+            'name_en' => $name_en
         ]);
     }
 
-    public function edit($id, $name)
+    public function edit($id, $name_sk, $name_en)
     {
         $authors = $this->get($id);
         $authors->update([
-            'name' => $name,
+            'name_sk' => $name_sk,
+            'name_en' => $name_en
         ]);
     }
 

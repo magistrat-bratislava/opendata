@@ -1,0 +1,23 @@
+
+                    {if !isset($datasets) || count($datasets) == 0}
+                        <div>
+                            <article  xmlns="https://www.w3.org/1999/html">
+                                <div class="col-md-12 col-lg-12 col-xs-12" style="border-top: 1px solid rgb(218, 218, 218);padding-bottom:10px;">
+                                    <ul class="dataset-list"></ul>
+                                    Žiadne výsledky.
+                                </div>
+                            </article>
+                        </div>
+                    {else}
+                        <div id="datasets">
+                            {include 'dataset-article.latte', showCategory => true, powerbi_link => false, map_link => false}
+                        </div>
+
+                    {/if}
+
+        <script>
+            var actual_page = 0;
+            var max_search = {$max_search};
+            var search = {$search};
+            var next_url = {link Dataset:nextsearchextend};
+        </script>

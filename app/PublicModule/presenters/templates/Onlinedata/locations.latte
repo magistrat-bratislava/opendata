@@ -1,0 +1,138 @@
+{block content}
+<style>
+    .box.banana_map {
+        color: #fff;
+        background: #eff4f7;
+        padding: 0;
+        box-shadow: none;
+    }
+    .box.banana_map .title {
+        padding-top: 40px;
+        padding-left: 25px;
+        font-size: 16px;
+    }
+    .box.banana_map .subtitle {
+        font-weight: 700;
+        padding-top: 10px;
+        padding-left: 25px;
+        font-size: 22px;
+    }
+
+    .box {
+        max-height: 444px;
+    }
+
+    .box .banana {
+        min-height: 404px;
+        background-image: url('img/banana.png');
+        background-size: cover;
+    }
+    .box .map {
+        min-height: 404px;
+        background-image: url('img/map.png');
+        background-size: cover;
+    }
+    .box .cog-icon {
+        cursor: pointer;
+        position: absolute;
+        right: 55px;
+        top: 25px;
+        z-index: 10;
+    }
+    .box {
+        box-shadow: 0px 1px 22px -12px #607D8B;
+        background-color: #fff;
+        padding: 25px 35px 25px 30px;
+        margin-bottom: 10px;
+    }
+</style>
+
+<section class="about text-center" id="about">
+    <div class="container">
+        <div class="row">
+            <div class="menu-left col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                <nav id="sidebar">
+                    <div class="sidebar-header">
+                        <h3>OPEN DATA<br>Online Data</h3>
+                    </div>
+
+                    <ul class="list-unstyled components">
+                        <li n:foreach="$categories as $c"{if isset($activeCategory) && $activeCategory == $c->id} class="active-menu-item"{/if}>
+                            <a n:href="Onlinedata:category $c->slug">{$c->$name_col}</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+            <div class="menu-right col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                {include 'onlinedata-header.latte'}
+
+                <div class="content-area">
+                    <div class="container-fluid" style="padding-left:0px; padding-right:0px;">
+                        <div class="main">
+                            <div class="row mt-4 mb-4">
+                                <div class="col-md-12 col-xs-12">
+                                    <div class="box">
+                                        <div id="donut"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="data-and-resources">
+                    <h3>{_ui.location, 2}:</h3>
+                    <div property="dcat:distribution">
+                        <div class="item-list">
+                            <ul class="resource-list">
+                                <li n:foreach="$all_locations as $l">
+                                    <div property="dcat:Distribution">
+                                        <a href="#" target="_blank" class="heading">{$l}</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/downloadjs/1.4.8/download.min.js"></script>
+
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"  integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="  crossorigin=""/>
+        <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"  integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="  crossorigin=""></script>
+
+        <script>
+            var optionDonut = { chart: { type: 'bar', width: '100%', height: 400, toolbar: { show: false } },
+                dataLabels: { enabled: false, },
+                plotOptions: {  bar: { columnWidth: '45%', } },
+                stroke: { colors: undefined },
+                yaxis: { min: 0 },
+                title: { text: {_onlinedata.user_location_title}, offsetX: 30, style: { fontSize: '18px', cssClass: 'apexcharts-yaxis-title' } },
+                series: [{ name: {_onlinedata.user_location_title}, data: {$user_location['val']}, }],
+                xaxis: { categories: {$user_location['names']}, labels: { formatter: function (val) {
+                            return val.slice(0,4);
+                        }
+                    }
+                },
+                tooltip: {
+                    x: {
+                        show: true,
+                        formatter: function (val) {
+                            return val;
+                        }
+                    }
+                },
+                subtitle: { text: {_onlinedata.last_subtitle}, offsetX: 30, style: {  fontSize: '12px', cssClass: 'apexcharts-yaxis-title' } },
+                labels: { data: {$user_location['names']} },
+            };
+            var donut = new ApexCharts( document.querySelector("#donut"), optionDonut );
+            donut.render();
+        </script>
+
+        <script>
+            var category = {$activeCategory};
+        </script>

@@ -51,7 +51,7 @@
                     <div class="inner">
                         <h3>{$stats_authors}</h3>
 
-                        <p>Authori</p>
+                        <p>Autori</p>
                     </div>
                     <div class="icon">
                         <i class="fa fa-pen-fancy"></i>
@@ -85,6 +85,7 @@
                     <div class="card-body p-0">
                         <div class="table-responsive">
                             <table class="table m-0">
+                                {if $latest_datasets}
                                 <thead>
                                 <tr>
                                     <th>Názov</th>
@@ -94,13 +95,18 @@
                                 </thead>
                                 <tbody>
                                 <tr n:foreach="$latest_datasets as $d">
-                                    <td><a n:href="Dataset:edit $d->id">{$d->name}</a></td>
+                                    <td><a n:href="Dataset:edit $d->id">{$d->name_sk}</a></td>
                                     <td>{$d->created_at|date:'F j, Y'}</td>
                                     <td>
                                         <span class="badge {($d['hidden'] ? 'bg-danger' : 'bg-primary')}">{($d['hidden'] ? 'Áno' : 'Nie')}</span>
                                     </td>
                                 </tr>
                                 </tbody>
+                                {else}
+                                    <tr>
+                                        <td>Nebol nájdený žiadny dataset.</td>
+                                    </tr>
+                                {/if}
                             </table>
                         </div>
                         <!-- /.table-responsive -->
@@ -121,6 +127,7 @@
                     <div class="card-body p-0">
                         <div class="table-responsive">
                             <table class="table m-0">
+                                {if $latest_files}
                                 <thead>
                                 <tr>
                                     <th>Dataset</th>
@@ -131,7 +138,7 @@
                                 </thead>
                                 <tbody>
                                 <tr n:foreach="$latest_files as $d">
-                                    <td><a n:href="Dataset:edit $d->dataset">{$d->name}</a></td>
+                                    <td><a n:href="Dataset:edit $d->dataset">{$d->name_sk}</a></td>
                                     <td>{$d->uname}</td>
                                     <td><span class="badge bg-warning">{$d['file_type']}</span></td>
                                     <td>
@@ -139,6 +146,11 @@
                                     </td>
                                 </tr>
                                 </tbody>
+                                {else}
+                                    <tr>
+                                        <td>Nebol nájdený žiadny súbor.</td>
+                                    </tr>
+                                {/if}
                             </table>
                         </div>
                         <!-- /.table-responsive -->

@@ -32,9 +32,6 @@
                             <thead>
                             <tr>
                                 <th>Názov</th>
-                                <th>Autor</th>
-                                <th>Kategória</th>
-                                <th>Vytvoril</th>
                                 <th>Skryté</th>
                                 <th>Vytvorené</th>
                                 <th>Zmenené</th>
@@ -43,10 +40,7 @@
                             </thead>
                             <tbody>
                             <tr n:foreach="$datasets as $u">
-                                <td>{$u['name']}</td>
-                                <td>{$u['aname']}</td>
-                                <td>{$u['cname']}</td>
-                                <td>{$u['uname']}</td>
+                                <td><a n:href="Dataset:edit $u['id']">{$u['name_sk']|truncate:80,'...'}</a></td>
                                 <td>
                                     <span class="badge {($u['hidden'] ? 'bg-danger' : 'bg-primary')}">{($u['hidden'] ? 'Áno' : 'Nie')}</span>
 
@@ -65,9 +59,6 @@
                             <tfoot>
                             <tr>
                                 <th>Názov</th>
-                                <th>Autor</th>
-                                <th>Kategória</th>
-                                <th>Vytvoril</th>
                                 <th>Skryté</th>
                                 <th>Vytvorené</th>
                                 <th>Zmenené</th>

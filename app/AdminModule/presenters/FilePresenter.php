@@ -8,7 +8,7 @@ use App\Model\FileControl;
 use App\Model\TagsControl;
 use App\Model\UserControl;
 use Nette;
-use App\Components\Forms\BootstrapForm;
+use App\Components\Forms\ProtectedForm;
 use Nette\Application\UI\Form;
 use Nette\Security\Passwords;
 
@@ -31,7 +31,7 @@ final class FilePresenter extends BasePresenter
         }
     }
 
-    public function __construct(Nette\Database\Context $db, FileControl $fileControl, DatasetControl $datasetControl, CategoryControl $categoryControl, TagsControl $tagsControl, BootstrapForm $BootstrapForm)
+    public function __construct(Nette\Database\Context $db, FileControl $fileControl, DatasetControl $datasetControl, CategoryControl $categoryControl, TagsControl $tagsControl, ProtectedForm $BootstrapForm)
     {
         $this->db = $db;
         $this->file = $fileControl;
@@ -52,6 +52,11 @@ final class FilePresenter extends BasePresenter
             $this->redirect('Homepage:');
 
         $this->template->dataset = $this->dataset->get($id);
+
+        if (!$this->getUser()->isAllowed('global') && $this->template->dataset->users != $this->getUser()->id) {
+            $this->redirect('Dataset:');
+        }
+
         $this->template->files = $this->file->getByDataset($id);
     }
 
@@ -61,16 +66,23 @@ final class FilePresenter extends BasePresenter
             $this->redirect('Homepage:');
 
         $this->template->dataset = $this->dataset->get($id);
+
+        if (!$this->getUser()->isAllowed('global') && $this->template->dataset->users != $this->getUser()->id) {
+            $this->redirect('Dataset:');
+        }
     }
 
     protected function createComponentAddForm()
     {
-        $form = $this->BootstrapForm->create();
+        $form = $this->form->create();
 
-        $form->addText('name')->setRequired(true);
+        $form->addText('name_sk')->setRequired(true);
+        $form->addText('name_en')->setRequired(true);
         $form->addUpload('file', 'File')
             ->setRequired(true) // optional
-            ->addRule(Form::MAX_FILE_SIZE, 'Maximálna veľkosť súboru je 550 MB.', 550 * 1024 * 1024 /* B */);
+            ->addRule(Form::MAX_FILE_SIZE, 'Maximálna veľkosť súboru je 550 MB.', 32 * 1024 * 1024 /* B */);
+        $form->addText('powerbi');
+        $form->addText('map');
 
         $form->onSuccess[] = [$this, 'AddFormSucceeded'];
 
@@ -80,7 +92,7 @@ final class FilePresenter extends BasePresenter
     public function AddFormSucceeded(Form $form, \stdClass $values)
     {
         try {
-            $this->file->create($values->name, $values->file, $this->getUser()->id, $this->template->dataset->id);
+            $this->file->create($values->name_sk, $values->name_en, $values->file, $this->getUser()->id, $this->template->dataset->id, $values->powerbi, $values->map);
 
             $this->flashMessage('Súbor bol úspešne nahraný.', 'success');
         }
@@ -106,14 +118,21 @@ final class FilePresenter extends BasePresenter
 
         $this->template->dataset = $this->dataset->get($this->record->dataset);
 
+        if (!$this->getUser()->isAllowed('global') && $this->template->dataset->users != $this->getUser()->id) {
+            $this->redirect('Dataset:');
+        }
+
         $this['editForm']->setDefaults($this->record->toArray());
     }
 
     protected function createComponentEditForm()
     {
-        $form = $this->BootstrapForm->create();
+        $form = $this->form->create();
 
-        $form->addText('name')->setRequired(true);
+        $form->addText('name_sk')->setRequired(true);
+        $form->addText('name_en')->setRequired(true);
+        $form->addText('powerbi');
+        $form->addText('map');
         $form->onSuccess[] = [$this, 'EditFormSucceeded'];
 
         return $form;
@@ -122,7 +141,7 @@ final class FilePresenter extends BasePresenter
     public function EditFormSucceeded(Form $form, \stdClass $values)
     {
         try {
-            $this->file->edit($this->record->id, $values->name);
+            $this->file->edit($this->record->id, $values->name_sk, $values->name_en, $values->powerbi, $values->map);
 
             $this->flashMessage('Informácie boli úspešne upravené.', 'success');
         }
@@ -134,6 +153,12 @@ final class FilePresenter extends BasePresenter
     public function actionDelete($id)
     {
         $file = $this->file->get($id);
+
+        $dataset = $this->dataset->get($file->dataset);
+
+        if (!$this->getUser()->isAllowed('global') && $dataset->users != $this->getUser()->id) {
+            $this->redirect('Dataset:');
+        }
 
         try {
             $this->file->delete($id);
@@ -150,8 +175,14 @@ final class FilePresenter extends BasePresenter
     {
         $file = $this->file->get($id);
 
+        $dataset = $this->dataset->get($file->dataset);
+
+        if (!$this->getUser()->isAllowed('global') && $dataset->users != $this->getUser()->id) {
+            $this->redirect('Dataset:');
+        }
+
         try {
-            $this->file->download($id);
+            $this->file->download($id, 0);
         }
         catch (\Exception $e) {
             $this->flashMessage($e->getMessage(), 'error');
@@ -163,6 +194,12 @@ final class FilePresenter extends BasePresenter
     public function actionHide($id)
     {
         $file = $this->file->get($id);
+
+        $dataset = $this->dataset->get($file->dataset);
+
+        if (!$this->getUser()->isAllowed('global') && $dataset->users != $this->getUser()->id) {
+            $this->redirect('Dataset:');
+        }
 
         try {
             if ($this->file->hide($id))

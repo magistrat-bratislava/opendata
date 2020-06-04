@@ -1,14 +1,11 @@
 {block content}
 
-
 <section class="slider" id="home">
 	<div class="container-fluid">
 		<div class="row">
-			<div id="carouselHacked" class="carousel slide carousel-fade" data-ride="carousel">
-				<div class="header-backup"></div>
-				<!-- Wrapper for slides -->
-				<div class="main-image">
-					<img src="{$basePath}/img/slide-one.jpg" alt="">
+			<div>
+				<div class="main-image active">
+					<img src="{$basePath}/img/slide-one.jpg" class="active" alt="">
 				</div>
 			</div>
 		</div>
@@ -17,16 +14,31 @@
 
 <!-- about section -->
 
-<section class="about text-center" id="about">
+<section class="about text-center" id="main">
 	<div class="container">
+		
+		<div class="esluzby" n:if="$locale == 'sk'">
+			<div class="left-esluzby">
+				<a n:href="Page:esluzby" target="_blank">
+					<img src="{$basePath}/img/esluzby.png?v=1.2" alt="esluzby">
+				</a>
+			</div>
+			<div class="right-esluzby">
+				<a n:href="Page:esluzby" target="_blank">
+					<img src="{$basePath}/img/esluzby.png?v=1.2" alt="esluzby">
+				</a>
+			</div>
+		</div>
+		
 		<div class="row">
 
 			<div n:foreach="$categories as $c" class="col-md-3 col-sm-6 col-xs-6">
 				<a n:href="Dataset:category $c->slug">
 					<div class="single-about-detail-doprava clearfix">
 						<div class="about-details-doprava">
-							<h3>{$c->name}</h3>
-							<p>{$c->dcount} {($c->dcount >= 5 || $c->dcount <= 0) ? 'datasetov' : ($c->dcount > 1 ? 'datasety' : 'dataset') }</p>
+							<h3>{$c->$name_col}</h3>
+							<i class="picto fa {$c->picto} fa-3x"></i>
+							<p>{$c->dcount} {if ($c->dcount >= 5 || $c->dcount <= 0)}{_ui.datasetov}{else}{if $c->dcount > 1}{_ui.datasety}{else}{_ui.dataset}{/if}{/if}</p>
 						</div>
 					</div>
 				</a>

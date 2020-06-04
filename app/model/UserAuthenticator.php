@@ -21,18 +21,20 @@ use Nette;
 use Nette\Database\Context;
 use Nette\Security;
 
-class UserAuthenticator implements Security\IAuthenticator
+class UserAuthenticator implements Nette\Security\IAuthenticator
 {
     use Nette\SmartObject;
 
     private $db;
+    private $pass;
 
-    public function __construct(Context $database)
+    public function __construct(Context $database, Security\Passwords $passwords)
     {
         $this->db = $database;
+        $this->pass = $passwords;
     }
 
-    public function authenticate(array $credentials)
+    public function authenticate(array $credentials) : Nette\Security\IIdentity
     {
         list($username, $password) = $credentials;
 
@@ -42,7 +44,7 @@ class UserAuthenticator implements Security\IAuthenticator
             throw new Security\AuthenticationException('Neznámy užívateľ.');
         }
 
-        if (!Security\Passwords::verify($password, $row->password)) {
+        if (!$this->pass->verify($password, $row->password)) {
             throw new Security\AuthenticationException('Neznámy užívateľ.');
         }
 

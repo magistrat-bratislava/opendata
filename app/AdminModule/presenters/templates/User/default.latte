@@ -44,7 +44,7 @@
                             <tr n:foreach="$users as $u">
                                 <td>{$u->name}</td>
                                 <td>{$u->username}</td>
-                                <td><span class="badge {($u->role == 'admin' ? 'bg-danger' : 'bg-primary')}">{$u->role|firstUpper}</span></td>
+                                <td><span class="badge {($u->role == 'admin' ? 'bg-danger' : ($u->role == 'global' ? 'bg-success' : 'bg-primary'))}">{$u->role|firstUpper}</span></td>
                                 <td>{$u->email}</td>
                                 <td>
                                     <span class="badge {($u->blocked ? 'bg-danger' : 'bg-gray')}">{($u->blocked ? 'Áno' : 'Nie')}</span>

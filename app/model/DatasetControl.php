@@ -6,57 +6,73 @@ use Nette;
 use Nette\Database\Context;
 use Nette\Utils\Random;
 use Nette\Utils\FileSystem;
+use Nette\Caching\Cache;
+use Contributte\Translation\LocalesResolvers\Router;
 
 class DatasetControl
 {
     use Nette\SmartObject;
 
+    /** @persistent */
+    public $locale;
+
     private $db;
     private $category;
     private $authors;
     private $tag;
+    private $translator;
 
-    public function __construct(Context $database, CategoryControl $categoryControl, AuthorsControl $authorsControl, TagsControl $tagsControl)
+    public function __construct(Context $database, CategoryControl $categoryControl, AuthorsControl $authorsControl, TagsControl $tagsControl, Router $router)
     {
         $this->db = $database;
         $this->category = $categoryControl;
         $this->authors = $authorsControl;
         $this->tag = $tagsControl;
+        $this->translator = $router;
     }
 
     public function getAll()
     {
-        $c = $this->db->table('dataset')->select("dataset.*, authors.name aname, users.name uname, category.name cname")->fetchAll();
-
-        $x = [];
-
-        foreach ($c as $d) {
-            $x[] = $d->toArray();
-        }
-
-        return $x;
+        return $this->db->table('dataset')->fetchAll();
     }
 
-    public function getCount($hidden = false)
+    public function getByUser($id)
     {
+        return $this->db->table('dataset')->where('users', $id)->fetchAll();
+    }
+
+    public function getCount($hidden = false, $users = 0)
+    {
+        $count = $this->db->table('dataset');
+
         if ($hidden)
-            return $this->db->table('dataset')->where('hidden = 0')->count();
-        return $this->db->table('dataset')->count();
+            $count->where('hidden = 0');
+
+        if ($users != 0)
+            $count->where('users', $users);
+
+        return $count->count();
     }
 
-    public function getFileCount($hidden = 0)
+    public function getFileCount($hidden = 0, $users = 0)
     {
-        return $this->db->table('dataset_files')->where('hidden', $hidden)->count();
+        if ($users == 0)
+            return $this->db->table('dataset_files')->where('hidden', $hidden)->count();
+        return $this->db->table('dataset_files')->where('hidden', $hidden)->where('users', $users)->count();
     }
 
-    public function getLatest()
+    public function getLatest($users = 0)
     {
-        return $this->db->table('dataset')->order('created_at DESC')->limit(15)->fetchAll();
+        if ($users == 0)
+            return $this->db->table('dataset')->order('created_at DESC')->limit(15)->fetchAll();
+        return $this->db->table('dataset')->where('users', $users)->order('created_at DESC')->limit(15)->fetchAll();
     }
 
-    public function getLatestFiles()
+    public function getLatestFiles($users = 0)
     {
-        return $this->db->table('dataset_files')->select('dataset_files.*, users.name uname')->order('created_at DESC')->limit(10)->fetchAll();
+        if ($users == 0)
+            return $this->db->table('dataset_files')->select('dataset_files.*, users.name uname')->order('created_at DESC')->limit(10)->fetchAll();
+        return $this->db->table('dataset_files')->select('dataset_files.*, users.name uname')->where('dataset.users', $users)->order('created_at DESC')->limit(10)->fetchAll();
     }
 
     public function get($id)
@@ -71,7 +87,7 @@ class DatasetControl
 
     public function getTables($slug)
     {
-        $dataset = $this->db->table('dataset')->select('dataset.*,authors.name aname,users.name uname')->where('slug', $slug)->fetch();
+        $dataset = $this->db->table('dataset')->where('slug', $slug)->fetch();
 
         if (!$dataset)
             throw new \Exception('Dataset neexistuje.');
@@ -86,79 +102,89 @@ class DatasetControl
 
     public function search_count($search)
     {
-        $search = '*'.$search.'*';
+        $search = '*'.trim($search).'*';
 
-        return count($this->db->query('
-            select d.*,u.name uname,c.name cname,
-                (SELECT GROUP_CONCAT(df.file_type SEPARATOR \',\')
-                FROM dataset_files as df
-                WHERE df.dataset = d.id) as files
-                from dataset as d
-            left join users as u
-                on u.id = d.users
-            
-            left join authors as a
-                on a.id = d.authors
-            
-            left join category as c
-                on c.id = d.category
-            
-            left join (
-                select dt.dataset,t.name from dataset_tags as dt
-                left join tags as t
-                    on dt.tags = t.id
-            ) as t
-                on t.dataset = d.id
-            
-            where ( match (d.name,d.slug,d.description,d.licence) against (? IN BOOLEAN MODE)
-            or match (u.name) against (? IN BOOLEAN MODE)
-            or match (a.name) against (? IN BOOLEAN MODE)
-            or match (c.name) against (? IN BOOLEAN MODE)
-            or match (t.name) against (? IN BOOLEAN MODE) )
-                and d.hidden = 0
-
-            group by d.id
-            order by d.id desc
-        ', $search, $search, $search, $search, $search)->fetchAll());
+        return $this->db->table('dataset')
+            ->where('MATCH (dataset.name_sk,dataset.name_en,dataset.slug,dataset.description_sk,dataset.description_en,dataset.licence) AGAINST (? IN BOOLEAN MODE)
+            OR MATCH (authors.name_sk) AGAINST (? IN BOOLEAN MODE)
+            OR MATCH (authors.name_en) AGAINST (? IN BOOLEAN MODE)
+            OR MATCH (category.name_sk) AGAINST (? IN BOOLEAN MODE)
+            OR MATCH (category.name_en) AGAINST (? IN BOOLEAN MODE)
+            OR MATCH (:dataset_tags.tags.name_sk) AGAINST (? IN BOOLEAN MODE)
+            OR MATCH (:dataset_tags.tags.name_en) AGAINST (? IN BOOLEAN MODE)', $search, $search, $search, $search, $search, $search, $search)
+            ->where('hidden = 0')
+            ->group('id')
+            ->order('id DESC')
+            ->count();
     }
 
     public function search($search, $page)
     {
-        $search = '*'.$search.'*';
+        $search = '*'.trim($search).'*';
 
-        return $this->db->query('
-            select d.*,a.name aname,c.name cname,
-                (SELECT GROUP_CONCAT(df.file_type SEPARATOR \',\')
-                FROM dataset_files as df
-                WHERE df.dataset = d.id) as files
-                from dataset as d
-            left join users as u
-                on u.id = d.users
-            
-            left join authors as a
-                on a.id = d.authors
-            
-            left join category as c
-                on c.id = d.category
-            
-            left join (
-                select dt.dataset,t.name from dataset_tags as dt
-                left join tags as t
-                    on dt.tags = t.id
-            ) as t
-                on t.dataset = d.id
-            
-            where ( match (d.name,d.slug,d.description,d.licence) against (? IN BOOLEAN MODE)
-            or match (u.name) against (? IN BOOLEAN MODE)
-            or match (a.name) against (? IN BOOLEAN MODE)
-            or match (c.name) against (? IN BOOLEAN MODE)
-            or match (t.name) against (? IN BOOLEAN MODE) )
-                and d.hidden = 0
+        return $this->db->table('dataset')
+            ->where('MATCH (dataset.name_sk,dataset.name_en,dataset.slug,dataset.description_sk,dataset.description_en,dataset.licence) AGAINST (? IN BOOLEAN MODE)
+            OR MATCH (authors.name_sk) AGAINST (? IN BOOLEAN MODE)
+            OR MATCH (authors.name_en) AGAINST (? IN BOOLEAN MODE)
+            OR MATCH (category.name_sk) AGAINST (? IN BOOLEAN MODE)
+            OR MATCH (category.name_en) AGAINST (? IN BOOLEAN MODE)
+            OR MATCH (:dataset_tags.tags.name_sk) AGAINST (? IN BOOLEAN MODE)
+            OR MATCH (:dataset_tags.tags.name_en) AGAINST (? IN BOOLEAN MODE)', $search, $search, $search, $search, $search, $search, $search)
+            ->where('hidden = 0')
+            ->group('id')
+            ->order('id DESC')
+            ->limit(10, intval($page)*10)
+            ->fetchAll();
+    }
 
-            group by d.id
-            order by d.id desc
-            limit ?,10
-        ', $search, $search, $search, $search, $search, intval($page)*10)->fetchAll();
+    public function searchConditions($val)
+    {
+        $datasets = $this->db->table('dataset');
+        $datasets->where('dataset.hidden = 0');
+
+        if (!empty($val->search)) {
+            $search = '*'.trim($val->search).'*';
+
+            $datasets->where('MATCH (dataset.name_sk,dataset.name_en,dataset.slug,dataset.description_sk,dataset.description_en,dataset.licence) AGAINST (? IN BOOLEAN MODE)
+            OR MATCH (authors.name_sk) AGAINST (? IN BOOLEAN MODE)
+            OR MATCH (authors.name_en) AGAINST (? IN BOOLEAN MODE)
+            OR MATCH (category.name_sk) AGAINST (? IN BOOLEAN MODE)
+            OR MATCH (category.name_en) AGAINST (? IN BOOLEAN MODE)
+            OR MATCH (:dataset_tags.tags.name_sk) AGAINST (? IN BOOLEAN MODE)
+            OR MATCH (:dataset_tags.tags.name_en) AGAINST (? IN BOOLEAN MODE)', $search, $search, $search, $search, $search, $search, $search);
+        }
+
+        if ($val->category != 0 && is_numeric($val->category)) {
+            $cat = $this->db->table('category')->get($val->category);
+
+            if ($cat)
+                $datasets->where('category', $val->category);
+        }
+
+        if ($val->year != 0)
+            $datasets->where('year', $val->year);
+        if ($val->district != '0')
+            $datasets->where('district', $val->district);
+        if ($val->authors != 0)
+            $datasets->where('authors', $val->authors);
+        if (!empty($val->uniq_id))
+            $datasets->where('uniq_id', $val->uniq_id);
+        if ($val->visualization == 1)
+            $datasets->where(':dataset_files.powerbi IS NOT NULL OR dataset.powerbi IS NOT NULL');
+        if ($val->visualization == 2)
+            $datasets->where('dataset.map IS NOT NULL OR :dataset_files.map IS NOT NULL');
+
+        $datasets->order('id DESC');
+
+        return $datasets;
+    }
+
+    public function searchExtend($val, $page)
+    {
+        $count = $this->searchConditions($val)->count();
+        $data = $this->searchConditions($val)->limit(10, intval($page)*10)->fetchAll();
+
+        return ['data' => $data, 'count' => $count];
     }
 
     public function exists($id)
@@ -179,10 +205,8 @@ class DatasetControl
         return false;
     }
 
-    public function create($name, $slug, $description, $authors, $licence, $category, $tags, $users)
+    public function create($name_sk, $name_en, $slug, $description_sk, $description_en, $authors, $licence, $category, $tags, $powerbi, $map, $year, $district, $onlinedata, $users)
     {
-        //TODO: vygenerovat uniq id
-
         if (!$this->category->exists($category))
             throw new \Exception('Kategória neexistuje.');
 
@@ -206,27 +230,64 @@ class DatasetControl
 
         $uniq = Random::generate(20);
 
+        if (empty($powerbi))
+            $powerbi = NULL;
+
+        if (empty($map))
+            $map = NULL;
+
+        if (empty($year))
+            $year = NULL;
+
+        if (empty($district))
+            $district = NULL;
+
+        if (!is_numeric($year) && $year != NULL)
+            throw new \Exception('Rok musí byť číslo.');
+
+        if ($onlinedata != 0) {
+            $exists = $this->db->table('dataset')
+                ->where('onlinedata', $onlinedata)
+                ->fetch();
+
+            if ($exists)
+                throw new \Exception('Dataset s týmto typom online dát už existuje.');
+        }
+
         $row = $this->db->table('dataset')->insert([
-            'name' => $name,
+            'name_sk' => $name_sk,
+            'name_en' => $name_en,
             'slug' => $slug,
-            'description' => $description,
+            'description_sk' => $description_sk,
+            'description_en' => $description_en,
             'authors' => $authors,
             'licence' => $licence,
             'category' => $category,
             'users' => $users,
             'uniq_id' => $uniq,
-            'downloaded' => 0
+            'downloaded' => 0,
+            'powerbi' => $powerbi,
+            'map' => $map,
+            'year' => $year,
+            'district' => $district,
+			'onlinedata' => $onlinedata,			
         ]);
 
         if (!$row)
             return null;
 
         $this->setTags($row->id, $tags);
+        $this->saveYears();
+        $this->saveDistricts();
+
+        $this->loadLast('dataset');
+        $this->loadLast('powerbi');
+        $this->loadLast('map');
 
         return $row;
     }
 
-    public function edit($id, $name, $slug, $description, $authors, $licence, $category, $tags)
+    public function edit($id, $name_sk, $name_en, $slug, $description_sk, $description_en, $authors, $licence, $category, $tags, $powerbi, $map, $year, $district, $onlinedata)
     {
         $dataset = $this->get($id);
 
@@ -251,21 +312,61 @@ class DatasetControl
         if (empty($slug))
             throw new \Exception('URL názov nesmie obsahovať žiadne špeciálne znaky okrem pomlčky.');
 
+        if (empty($powerbi))
+            $powerbi = NULL;
+
+        if (empty($map))
+            $map = NULL;
+
+        if (empty($year))
+            $year = NULL;
+
+        if (empty($district))
+            $district = NULL;
+
+        if (!is_numeric($year) && $year != NULL)
+            throw new \Exception('Rok musí byť číslo.');
+
+        if ($onlinedata != 0) {
+            $exists = $this->db->table('dataset')
+                ->where('onlinedata', $onlinedata)
+                ->fetch();
+
+            if ($exists && $dataset->id != $exists->id)
+                throw new \Exception('Dataset s týmto typom online dát už existuje.');
+        }
+
         $dataset->update([
-            'name' => $name,
+            'name_sk' => $name_sk,
+            'name_en' => $name_en,
             'slug' => $slug,
-            'description' => $description,
+            'description_sk' => $description_sk,
+            'description_en' => $description_en,
             'authors' => $authors,
             'licence' => $licence,
             'category' => $category,
+            'powerbi' => $powerbi,
+            'map' => $map,
+            'year' => $year,
+            'district' => $district,
+			'onlinedata' => $onlinedata,			
+            'changed_at' => new \DateTime()
         ]);
 
         $this->setTags($id, $tags);
+        $this->saveYears();
+        $this->saveDistricts();
+
+        $this->loadLast('dataset');
+        $this->loadLast('powerbi');
+        $this->loadLast('map');
     }
 
     public function delete($id)
     {
         $dataset = $this->get($id);
+
+        $this->db->table('dataset_tags')->where('dataset', $id)->delete();
 
         $files = $this->db->table('dataset_files')->select('dataset_files.*, users.name uname')->where('dataset', $dataset)->fetchAll();
 
@@ -279,6 +380,10 @@ class DatasetControl
 
         $dataset->delete();
         $this->deleteTags($id);
+
+        $this->loadLast('dataset');
+        $this->loadLast('powerbi');
+        $this->loadLast('map');
     }
 
     public function hide($id)
@@ -291,8 +396,13 @@ class DatasetControl
             $hidden = 0;
 
         $dataset->update([
-            'hidden' => $hidden
+            'hidden' => $hidden,
+            'changed_at' => new \DateTime()
         ]);
+
+        $this->loadLast('dataset');
+        $this->loadLast('powerbi');
+        $this->loadLast('map');
     }
 
     public function getTags($dataset)
@@ -302,7 +412,7 @@ class DatasetControl
 
     public function getTagsName($dataset)
     {
-        return $this->db->table('dataset_tags')->select('tags.name')->where('dataset', $dataset)->fetchAll();
+        return $this->db->table('dataset_tags')->select('tags.*')->where('dataset', $dataset)->fetchAll();
     }
 
     public function setTags($dataset, $tags)
@@ -323,5 +433,143 @@ class DatasetControl
     public function deleteTags($dataset)
     {
         $this->db->query('delete from dataset_tags where dataset = ?', $dataset);
+    }
+
+    public function getLast($type = 'dataset')
+    {
+        if (!in_array($type, ['dataset', 'powerbi', 'map']))
+            return NULL;
+
+        $storage = new Nette\Caching\Storages\FileStorage('/tmp');
+        $cache = new Cache($storage);
+
+        if (($val = $cache->load('last_'.$type)) !== NULL)
+            return $val;
+
+        return $this->loadLast($type);
+    }
+
+    public function loadLast($type)
+    {
+        if (!in_array($type, ['dataset', 'powerbi', 'map']))
+            return NULL;
+
+        $storage = new Nette\Caching\Storages\FileStorage('/tmp');
+        $cache = new Cache($storage);
+        $data = NULL;
+
+        $data = $this->db->table('dataset')
+            ->select('dataset.name_sk, dataset.name_en, dataset.slug, dataset.changed_at')
+            ->where('dataset.hidden = 0');
+
+        switch ($type) {
+            case 'dataset':
+                $data->where(':dataset_files.powerbi IS NULL AND dataset.powerbi IS NULL')
+                    ->where(':dataset_files.map IS NULL AND dataset.map IS NULL');
+                break;
+
+            case 'powerbi':
+                $data->where(':dataset_files.powerbi IS NOT NULL OR dataset.powerbi IS NOT NULL')
+                    ->where(':dataset_files.map IS NULL AND dataset.map IS NULL');
+                break;
+
+            case 'map':
+                $data->where(':dataset_files.map IS NOT NULL OR dataset.map IS NOT NULL')
+                    ->where(':dataset_files.powerbi IS NULL AND dataset.powerbi IS NULL');
+                break;
+        }
+
+        $data->order('dataset.changed_at DESC')
+            ->limit(40);
+
+        $datasets = [];
+
+        foreach ($data as $d) {
+            $datasets[] = [
+                'name_sk' => $d->name_sk,
+                'name_en' => $d->name_en,
+                'slug' => $d->slug,
+                'date' => date('d. m. Y', strtotime($d->changed_at)),
+            ];
+        }
+
+        $cache->remove('last_'.$type);
+        $cache->save('last_'.$type, $datasets);
+
+        return $datasets;
+    }
+
+    public function loadYears()
+    {
+        $storage = new Nette\Caching\Storages\FileStorage('/tmp');
+        $cache = new Cache($storage);
+
+        if (($val = $cache->load('years')) !== NULL)
+            return $val;
+
+        return $this->saveYears();
+    }
+
+    public function saveYears()
+    {
+        $cat = $this->db->table('dataset')
+            ->select('year AS years')
+            ->group('year')
+            ->having('years IS NOT NULL')
+            ->order('years DESC')
+            ->fetchAll();
+
+        if (!$cat)
+            return [];
+
+        $y = [];
+
+        foreach ($cat as $c)
+            $y[] = $c->years;
+
+        $storage = new Nette\Caching\Storages\FileStorage('/tmp');
+        $cache = new Cache($storage);
+
+        $cache->remove('years');
+        $cache->save('years', $y);
+
+        return $y;
+    }
+
+    public function loadDistricts()
+    {
+        $storage = new Nette\Caching\Storages\FileStorage('/tmp');
+        $cache = new Cache($storage);
+
+        if (($val = $cache->load('districts')) !== NULL)
+            return $val;
+
+        return $this->saveDistricts();
+    }
+
+    public function saveDistricts()
+    {
+        $cat = $this->db->table('dataset')
+            ->select('district AS districts')
+            ->having('districts IS NOT NULL')
+            ->group('district')
+            ->order('districts')
+            ->fetchAll();
+
+        if (!$cat)
+            return [];
+
+        $y = [];
+
+        foreach ($cat as $c)
+            $y[] = $c->districts;
+
+        $storage = new Nette\Caching\Storages\FileStorage('/tmp');
+        $cache = new Cache($storage);
+
+        $cache->remove('districts');
+        $cache->save('districts', $y);
+
+        return $y;
     }
 }

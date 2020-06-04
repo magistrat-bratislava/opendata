@@ -1,537 +1,433 @@
 {block content}
 
-<section class="slider" id="home">
-    <div class="container-fluid">
-        <div class="row">
-            <div id="carouselHacked" class="carousel slide carousel-fade" data-ride="carousel">
-                <div class="header-backup"></div>
-
-            </div>
-        </div>
-    </div><br>
-</section><!-- end of slider section -->
-
 <!-- about section -->
 
 
 <section class="about text-center" id="about">
     <div class="container">
         <div class="row">
-            <div class="menu-left col-xs-4">
-                <nav id="sidebar">
-                    <div class="sidebar-header">
-                        <h3>OPEN DATA</h3>
-                    </div>
+            {include ../Dataset/dataset-categories.latte}
+			
+            {if $locale == 'sk'}
+            <div class="menu-right col-xs-8 ">			
 
-                    <ul class="list-unstyled components">
-                        <li>
-                            <a href="#">Doprava</a>
-                        </li>
-
-                        <li>
-                            <a href="#ekonomikaSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Ekonomika a práca</a>
-                            <ul class="collapse list-unstyled" id="ekonomikaSubmenu">
-
-                                <li>
-                                    <a href="#">Evidovaná nezamestnanosť (UPSVR)</a>
-                                </li>
-                                <li>
-                                    <a href="#">Evidovaná nezamestnanosť absolventov (UPSVR)</a>
-                                </li>
-                                <li>
-                                    <a href="#">Evidovaní uchádzači o zamestnanie</a>
-                                </li>
-                                <li>
-                                    <a href="#">Zamestnávanie cudzincov (UPSVR)</a>
-                                </li>
-                                <li>
-                                    <a href="#">Zamestnanosť zistená pracoviskovou metódou</a>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li>
-                            <a href="#infrastrukturaSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Infraštruktúra, výstavba a bývanie</a>
-                            <ul class="collapse list-unstyled" id="infrastrukturaSubmenu">
-                                <li>
-
-                                    <a href="#infrastrukturaSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Vybrané údaje zo sčítania obyvateľov, domov a bytov 2011</a>
-                                    <ul class="collapse list-unstyled" id="infrastrukturaSubmenu2">
-
-                                        <li>
-                                            <a href="#">Byty podľa obdobia výstavby: sodb_byt_vystavba_1</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Byty podľa obývanosti: sodb_byt_obyvanost_1</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Byty podľa typu budovy: sodb_byt_typ_1</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Obývané byty podľa formy vlastníctva a počtu obytných miestností: sodb_byt_1</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Obývané byty podľa počtu obytných miestností a počtu obyvateľov v byte: sodb_byt_2</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Obývané byty podľa počtu obyvateľov v byte: sodb_byt_3</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Obývané byty podľa počtu obyvateľov v byte a systému dodávky vody: sodb_byt_4</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Obývané byty podľa typu budovy: sodb_byt_5</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Obývané byty podľa typu budovy a počtu obytných miestností: sodb_byt_6</a>
-                                        </li>
-
-                                    </ul>
-                                </li>
-
-                                <li>
-                                    <a href="#">Počet novopostavených bytov</a>
-                                </li>
-                                <li>
-                                    <a href="#">Počet rozostavaných bytov</a>
-                                </li>
-                                <li>
-                                    <a href="#">Počet pôšt v mestských častiach</a>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li>
-                            <a href="#kulturaSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Kultúra, voľný čas, šport a cestovný ruch</a>
-                            <ul class="collapse list-unstyled" id="kulturaSubmenu">
-                                <li>
-
-                                    <a href="#kulturaSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Divadlá</a>
-                                    <ul class="collapse list-unstyled" id="kulturaSubmenu2">
-
-                                        <li>
-                                            <a href="#">Počet divadiel: kultura_divadla_1</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Počet stálych scén a divadelných subjektov: kultura_divadla_2</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li>
-
-                                    <a href="#kulturaSubmenu3" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Kiná</a>
-                                    <ul class="collapse list-unstyled" id="kulturaSubmenu3">
-
-                                        <li>
-                                            <a href="#">Kiná stále: kultura_kina_1</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Sedadlá v kinách stálych: kultura_kina_2</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Premietacie sály: kultura_kina_3</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="#kulturaSubmenu4" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Knižnice</a>
-                                    <ul class="collapse list-unstyled" id="kulturaSubmenu4">
-
-                                        <li>
-                                            <a href="#">Verejné knižnice - počet: kultura_kniznica_1</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Verejné knižnice - počet knižničných jednotiek spolu: kultura_kniznica_2</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Vedecké knižnice - počet: kultura_kniznica_3</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Vedecké knižnice - počet knižničných jednotiek spolu: kultura_kniznica_4</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Špeciálne knižnice - počet: kultura_kniznica_5</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Špeciálne knižnice - počet knižničných jednotiek: kultura_kniznica_6</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Akademické knižnice - počet: kultura_kniznica_7</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Akademické knižnice - počet knižničných jednotiek: kultura_kniznica_8</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Školské knižnice - počet: kultura_kniznica_9</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Školské knižnice - počet knižničných jednotiek: kultura_kniznica_10</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="#kulturaSubmenu5" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Múzeá a galérie</a>
-                                    <ul class="collapse list-unstyled" id="kulturaSubmenu5">
-                                        <li>
-                                            <a href="#">Múzeá: kultura_muzeum_1</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Galérie: kultura_galeria_1</a>
-                                        </li>
-
-                                    </ul>
-                                </li>
-                                <a href="#kulturaSubmenu6" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">KOZ a voľný čas</a>
-                                <ul class="collapse list-unstyled" id="kulturaSubmenu6">
-                                    <li>
-                                        <a href="#">Kultúrno osvetové zariadenia - počet: kultura_koz_1</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Zariadenia na voľný čas a záujmovú činnosť pre deti a mládež: kultura_volny_cas_1</a>
-                                    </li>
-
-                                </ul>
-                                </li>
-
-                            </ul>
-                        </li>
-
-
-
-                        <li>
-                            <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Obyvateľstvo</a>
-                            <ul class="collapse list-unstyled" id="homeSubmenu">
-                                <li>
-                                    <a href="#">Základné informácie o stave a pohybe obyvateľstva</a>
-                                </li>
-                                <li>
-                                    <a href="#">Počet obyvateľov podľa krajiny narodenia</a>
-                                </li>
-                                <li>
-                                    <a href="#">Počet obyvateľov podľa národnosti</a>
-                                </li>
-                                <li>
-                                    <a href="#">Počet obyvateľov podľa štátneho občianstva</a>
-                                </li>
-                                <li>
-                                    <a href="#">Počet obyvateľov podľa rodinného stavu</a>
-                                </li>
-                                <li>
-                                    <a href="#">Počet obyvateľov podľa vekových skupín</a>
-                                </li>
-                                <li>
-                                    <a href="#">Údaje o sobášnosti</a>
-                                </li>
-                                <li>
-                                    <a href="#">Údaje o pôrodnosti</a>
-                                </li>
-                                <li>
-                                    <a href="#">Údaje o potratovosti</a>
-                                </li>
-                                <li>
-                                    <a href="#">Údaje o úmrtnosti</a>
-                                </li>
-                                <li>
-                                    <a href="#">Údaje o rozvodovosti</a>
-                                </li>
-                                <li>
-                                    <a href="#">Údaje o migrácii</a>
-                                </li>
-                                <li>
-                                    <a href="#">Hustota obyvateľstva</a>
-                                </li>
-                                <li>
-                                    <a href="#">Vybrané údaje zo sčítania obyvateľov, domov a bytov 2011</a>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li>
-                            <a href="#politikaSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Politika a voľby</a>
-                            <ul class="collapse list-unstyled" id="politikaSubmenu">
-
-                                <li>
-                                    <a href="#">Výsledky komunálnych volieb</a>
-                                </li>
-                                <li>
-                                    <a href="#">Výsledky prezidentských volieb</a>
-                                </li>
-                                <li>
-                                    <a href="#">Výsledky volieb do vyšších územných celkov</a>
-                                </li>
-                                <li>
-                                    <a href="#">Výsledky parlamentných volieb</a>
-                                </li>
-                                <li>
-                                    <a href="#">Výsledky volieb do európskeho parlamentu</a>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li>
-                            <a href="#priestorSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Priestorové údaje</a>
-                            <ul class="collapse list-unstyled" id="priestorSubmenu">
-
-                                <li>
-                                    <a href="#">Register adries</a>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li>
-                            <a href="#rozpocetSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Rozpočet a dane</a>
-                            <ul class="collapse list-unstyled" id="rozpocetSubmenu">
-
-                                <li>
-                                    <a href="#">Rozpočet 2020</a>
-                                </li>
-                                <li>
-                                    <a href="#">Výber daní 2020</a>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li>
-                            <a href="#socialnaSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Sociálna oblasť</a>
-                            <ul class="collapse list-unstyled" id="socialnaSubmenu">
-                                <li>
-
-                                    <a href="#socialnaSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Sociálna ochrana</a>
-                                    <ul class="collapse list-unstyled" id="socialnaSubmenu2">
-
-                                        <li>
-                                            <a href="#">Počet zariadení: socialne_zariadenia_1</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Počet miest k 31.12 spolu: socialne_zariadenia_2</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Počet miest v zariadeniach pre seniorov: socialne_zariadenia_3</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Počet miest v domovoch soc. služ. pre postihnutých dospelých: socialne_zariadenia_4</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Počet miest v domovoch soc. služ. pre postihnuté deti: socialne_zariadenia_5</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Počet miest v detských domovoch: socialne_zariadenia_6</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Výdavky na dôchodky (v tis. Eur): vydavky_dochodok_1</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li>
-
-                                <li>
-                                    <a href="#">Sociálne dávky (UPSVR)</a>
-                                </li>
-
-                            </ul>
-                        </li>
-
-                        <li>
-                            <a href="#vedaSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Veda a vzdelávanie</a>
-                            <ul class="collapse list-unstyled" id="vedaSubmenu">
-                                <li>
-
-                                    <a href="#vedaSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Materské školy</a>
-                                    <ul class="collapse list-unstyled" id="vedaSubmenu2">
-
-                                        <li>
-                                            <a href="#">Materské školy; Počty detí v materských školách k 15. 9. 2018: skolstvo_ms_1</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Špeciálne materské školy; Počty detí v špeciálnych materských školách k 15.  9. 2018: skolstvo_ms_2</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Materské školy; Počty detí v špeciálnych triedach pri bežných materských školách k 15.  9. 2018: skolstvo_ms_3</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li>
-
-                                    <a href="#vedaSubmenu3" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Základné školy</a>
-                                    <ul class="collapse list-unstyled" id="vedaSubmenu3">
-
-                                        <li>
-                                            <a href="#">Základné školy; Počty žiakov v základných školách k 15. 9. 2018: skolstvo_zs_1</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Špeciálne základné školy: skolstvo_zs_2</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="#vedaSubmenu4" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Stredné školy</a>
-                                    <ul class="collapse list-unstyled" id="vedaSubmenu4">
-
-                                        <li>
-                                            <a href="#">Gymnázium: skolstvo_gym_1</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Konzervatória: skolstvo_kon_1</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Stredné odborné školy: skolstvo_sos_1</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Špeciálne stredné školy: skolstvo_sss_2</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="#vedaSubmenu5" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Vysoké školy</a>
-                                    <ul class="collapse list-unstyled" id="vedaSubmenu5">
-
-                                        <li>
-                                            <a href="#">Vysoké školy: skolstvo_vs_1</a>
-                                        </li>
-
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li>
-                            <a href="#">Zákony a spravodlivosť</a>
-                        </li>
-
-
-
-
-
-                        <li>
-                            <a href="#zdravieSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Zdravie, životné prostredie a klíma</a>
-                            <ul class="collapse list-unstyled" id="zdravieSubmenu">
-                                <li>
-
-                                    <a href="#zdravieSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Údaje o rizikových pracoviskách</a>
-                                    <ul class="collapse list-unstyled" id="zdravieSubmenu2">
-
-                                        <li>
-                                            <a href="#">Zamestnanci na rizikových pracoviskách: zdravie_rizik_1</a>
-                                        </li>
-
-                                    </ul>
-                                </li>
-
-                                <li>
-                                    <a href="#zdravieSubmenu3" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Zdravotníctvo</a>
-                                    <ul class="collapse list-unstyled" id="zdravieSubmenu3">
-                                        <li>
-                                            <a href="#">Priemerný počet nemocensky poistených (zárobkovo činné osoby): zdravie_nemoc_1</a>
-                                        </li>
-                                    </ul>
-                                </li>
-
-                                <li>
-                                    <a href="#">Zdravotnícke zariadenia</a>
-                                </li>
-                                <li>
-                                    <a href="#">Lekárne a výdajne liekov</a>
-                                </li>
-                                <li>
-                                    <a href="#">Praktickí lekári a špecialisti</a>
-                                </li>
-                                <li>
-                                    <a href="#">Geologické podmienky</a>
-                                </li>
-                                <li>
-                                    <a href="#">Klimatické podmienky</a>
-                                </li>
-                                <li>
-                                    <a href="#">Výmera územia</a>
-                                </li>
-                                <li>
-                                    <a href="#">Využitie pôdy</a>
-                                </li>
-                                <li>
-                                    <a href="#">Vodné toky</a>
-                                </li>
-                                <li>
-                                    <a href="#">Spotreba pitnej vody</a>
-                                </li>
-
-                            </ul>
-                        </li>
-
-                    </ul>
-                </nav>
-            </div>
-
-            <div class="menu-right col-xs-8 ">
-
-                <h2>ZÁKLADNÉ PRINCÍPY A PRIORITY DÁTOVEJ POLITIKY HLAVNÉHO MESTA SR BRATISLAVY
-                </h2>
+                <h2>DÁTOVÁ POLITIKA</h2>
                 <p>Kvalitné a odborne spracovávané dáta umožňujú mestám robiť informovanejšie a efektívnejšie rozhodnutia, vyhodnocovať svoje aktivity, rýchlejšie a  adresnejšie reagovať na potreby svojich obyvateľov, čo vo výsledku môže znamenať úsporu verejných financií pri zvyšovaní kvality života v meste. Dáta predstavujú pre obyvateľov mesta zdroj informácií o výkone mesta, vďaka čomu môžu vyvodzovať potrebnú zodpovednosť voči ich voleným zástupcom. Pre podnikateľský a mimovládny sektor môžu dáta predstavovať prostriedok skvalitňovania poskytovaných služieb.</p>
-                <p>Hlavné mesto, reagujúc na súčasné európske trendy a štandardy v oblasti dátovej politiky, reflektujúc strategické a legislatívne dokumenty na národnej aj nadnárodnej úrovni , s cieľom zabezpečiť maximalizáciu prístupu mesta k dátam z rôznych zdrojov pre zlepšenie kvality života svojich obyvateľov, preto prijíma a zaväzuje sa implementovať do svojich politík a procesov nasledovné:</p>
-                <h3>PRINCÍPY DÁTOVEJ POLITIKY</h3>
-                <p>Mesto má prehľad o tom, aké dáta pri plnení svojich povinností a činností generuje a zabezpečuje, aby zmluvné vzťahy medzi mestom, mestskými organizáciami a tretími stranami umožňovali proaktívne získavanie, bezpečné ukladanie a spracovávanie, vyhodnocovanie a ďalšie využitie dát generovaných z verejných zdrojov alebo získaných či zakúpených od tretích strán.</p>
-                <p>V právnej rovine mesto zabezpečuje potrebné právne režimy využívania dát, ochranu pred nevhodnými zmluvnými či obstarávacími podmienkami, ako aj licencovanie dát pre tretie strany. Až na odôvodnené prípady mesto preferuje publikovanie dát pod otvorenými licenciami vo formátoch Otvorených údajov <span class="right-text-link"><a href="http://www.zakonypreludi.sk/zz/2014-55#p52" target="_blank">(Výnos č. 55/2014 Z. z. § 52 - Otvorené údaje)</a></span> a riadi sa právnym rámcom <span class="right-text-link"><a href="http://ec.europa.eu/newsroom/dae/document.cfm?doc_id=15315" target="_blank">PSI Directive.</a></span></p>
-                <p>Mesto vyhodnocuje, aké dáta sú generované na jeho území orgánmi štátu a tretími stranami, komu patria a za akým účelom sú generované. Mesto je partnerom orgánov štátu, podnikateľského a akademického sektora, mestských častí s cieľom efektívnej výmeny informácií, dát a príležitostí na ich využitie v prospech občanov. </p>
-                <p>Mesto dbá na to, aby občania a podnikatelia mohli s verejnou správou komunikovať elektronicky a boli na to dobre pripravení dostatočnými digitálnymi zručnosťami (princíp "digitálne ako štandard").</p>
-                <p>Mesto nepožaduje od občanov tie isté informácie viac ako jedenkrát (princíp "jedenkrát a dosť").</p>
-                <p>Mesto dbá na zohľadňovanie informačnej bezpečnosti a ochrany súkromia pri IKT riešeniach, zvyšuje využívanie elektronických občianskych preukazov, robí ich užívateľsky prístupnejšími a vhodnejšími pre mobilné platformy (princíp "dôveryhodnosť a bezpečnosť").</p>
-                <p>Mesto umožňuje občanom a podnikateľom lepšie spravovať svoje osobné údaje v držbe mesta (princíp "otvorenosť a transparentnosť").</p>
-                <p>Mesto zavádza politiky a opatrenia umožňujúce implementáciu týchto princípov na všetkých úrovniach, zabezpečuje technickú aj obsahovú interoperabilitu dát, jednotnosť formátov a licencií, a pod. (princíp "interoperabilita").</p>
-                <p>Mesto zabezpečuje implementáciu dátovej politiky vo svojich organizačných súčastiach, mestských príspevkových a rozpočtových organizáciách a mestských podnikov so 100%-nou účasťou mesta. V ostatných organizáciách mesto presadzuje implementáciu dátovej politiky primerane svojmu vplyvu v nich. Mesto vytvára dátovú jednotku, ktorá zodpovedná, riadi a implementuje  za dátovú politiku.</p>
-                <p>Mesto pristupuje k poskytovaniu digitálnych služieb na základe potrieb ich používateľov - obyvateľov a obyvateliek mesta (princíp "občan v strede záujmu").</p>
-                <p>Mesto konzultuje svoje aktivity v oblasti dátovej politiky s nezávislými expertami a expertkami, s cieľom získať potrebné dáta a zabezpečiť maximálnu možnú kvalitu, bezpečnosť, aktuálnosť a využiteľnosť poskytovaných dát.</p>
-                <h3>PRIORITY</h3>
+                
+                <h3>Dôležité odkazy:</h3>
+                <ul>
+                    <li>Základné princípy a priority dátovej politiky hlavného mesta SR Bratislavy<br><span class="right-text-link"><a href="{$basePath}/pdf/zppdphmsrba.pdf" target="_blank">stiahnuť vo formate pdf</a></span></li>
+                    <li>OpenData Bratislava<br><span class="right-text-link"><a href="https://github.com/magistrat-bratislava/opendata" target="_blank">https://github.com/magistrat-bratislava/opendata</a></span></li>
+                </ul>				
+				<h3>Smernica Magistrátu Hlavného mesta Slovenskej republiky Bratislavy o dátovej politike</h3>
+				<h3>Čl. I</h3>
+                    <h4>Úvodné ustanovenia</h4>
                 <ol>
-                    <li>Vybudovať technické, personálne, procesné a legislatívne zázemie pre získavanie, spracovávanie, zverejňovanie, uchovávanie a vyhodnocovanie novo generovaných dát mestom a mestskými inštitúciami.</li>
-                    <p>Táto priorita zahŕňa:</p>
+                    <li>Táto smernica upravuje pravidlá zberu, tvorby, monitoringu, zdieľania, manipulácie s dátovými súbormi (vrátane geopriestorových dátových súborov) a spôsob zverejňovania dát na portáli otvorených dát Hlavného mesta SR Bratislavy.</li>
+					<li>Koordinátorom v oblasti dátovej politiky je Oddelenie dátovej politiky a analýz (ďalej aj ODPA) Sekcie informatiky a dátovej politiky Magistrátu hlavného mesta SR Bratislavy a splnomocnenec pre inovácie, v oblasti geopriestorových dát v spolupráci s oddelením Geografického informačného systému (ďalej aj OGS) Sekcia informatiky a dátovej politiky.</li>
+                    <li>Hlavné mesto SR Bratislava vyhodnocuje dáta zbierané a tvorené na jeho území orgánmi verejnej moci a tretími stranami. Hlavné mesto SR Bratislava vyhľadáva a vytvára partnerstvá s tretími stranami, predovšetkým s orgánmi štátnej správy, podnikateľským a akademickým sektorom, mestskými časťami a Bratislavským samosprávnym krajom v oblasti tvorby, zdieľania a využívania dát s cieľom efektívnej výmeny informácií a dát, zjednocovania dátových štandardov a vytvárania príležitostí na ich využitie v prospech obyvateľov Hlavného mesta SR Bratislava.</li>
+                    <li>Hlavné mesto SR Bratislava zavádza politiky a opatrenia umožňujúce implementáciu dátovej politiky na všetkých úrovniach, zabezpečuje technickú aj obsahovú interoperabilitu dát, jednotnosť formátov a licencií, a pod. (princíp „interoperabilita“).</li>
+					<li>Hlavné mesto SR Bratislava sa zaväzuje k tomu, že bude dodržiavať princípy uvedené v Deklarácií miest za digitálne práva - Cities for Digital Rights.</li>
+					<li>Hlavné mesto SR Bratislava pri realizácii dátovej politiky rešpektuje súkromie obyvateľov a dodržiava pravidlá Európskej únie o ochrane osobných údajov, ako aj národnú legislatívu.</li>
+				</ol>	
+				<h3>Čl. II</h3>				
+                    <h4>Základné pojmy</h4>
+                <ol>					
+					<li>Dátový súbor je súbor údajov alebo informácií, ktorý je používaný počítačovou aplikáciou alebo systémom. Údaje alebo informácie môžu byť v rámci dátového súboru v štruktúrovanej alebo neštruktúrovanej podobe a sú uložené v strojovo čitateľnom formáte.</li>
+					<li>Granularita (tiež úroveň podrobnosti) predstavuje úroveň hĺbky reprezentácie dátového súboru. Vysoká granularita predstavuje vysokú úroveň detailu (individuálne údaje), nízka granularita znamená, že dáta v dátovom súbore boli upravené na nízku úroveň detailu (agregované údaje).</li>
+					<li>Položka (tiež premenná alebo stĺpec) predstavuje vertikálnu štruktúru dátového súboru. Je nositeľkou údajov alebo informácií často kategorizovaných podľa platného číselníka.</li>
+					<li>Otvorené údaje/dáta - štandardom pre označenie údaja ako otvoreného údaja je poskytovanie údaja v datasete v kvalite poskytovaného datasetu najmenej úrovne 3 a poskytovanie údaja otvoreným spôsobom použitia, ktorý je splnený, ak sú právne aspekty prístupu k údaju a jeho používaniu explicitne vysporiadané, ak je umožnené vytvorenie právnych vzťahov pre používanie údaja aj prostredníctvom anonymného vzdialeného automatizovaného prístupu, ak je prístup k údaju umožnený všetkým osobám za rovnakých podmienok, pričom tieto podmienky sú explicitne uvedené, ak je údaj možné použiť na nekomerčný aj komerčný účel, ak je možné ho kombinovať s inými údajmi, dopĺňať, opravovať, modifikovať alebo použiť z datasetu bez povinnosti použitia ostatných údajov datasetu, a ak sú činnosti podľa štvrtého bodu bezodplatné. Ďalším štandardom pre označenie údaja ako otvoreného údaja je najmä použitie licencie Creative Commons CC0 alebo CC-BY na zabezpečenie splnenia podmienok a poskytovanie metaúdajov datasetu otvoreným spôsobom. Ak dataset obsahuje najmenej jeden otvorený údaj, označuje sa ako dataset s otvorenými údajmi (§ 52 ods. 1 a 2 Výnos č. 55/2014 Z. z.).</li>
+					<li>Portál otvorených dát (tiež open data portál) je webový portál v správe Sekcie informatiky a dátovej politiky určený na zverejňovanie a šírenie otvorených dát širokej verejnosti.</li>
+					<li>Gestorský útvar – v zmysle tejto smernice je gestorský útvar každý organizačný útvar Magistrátu hlavného mesta SR Bratislavy, ktorý má v gescii a/alebo zabezpečuje tvorbu a/alebo spravuje akékoľvek dátové súbory.</li>
+					<li>Gestor/gestorka je zamestnanec/zamestnankyňa Magistrátu hlavného mesta SR Bratislavy, ktorý má za svoj organizačný útvar (gestorský útvar) na starosti správu dátových súborov, ich aktualizáciu, tvorbu informačného minima, tvorbu a správu metaúdajov a komunikáciu s Oddelením dátovej politiky a analýz.</li>					
+					<li>HelpDesk predstavuje služby technickej podpory poskytované Sekciou informatiky a dátovej politiky. Aplikácia helpdesk.bratislava.sk je predinštalovaná na každom pracovnom počítači, ktorý majú zamestnanci k dispozícii.</li>					
+					<li>Kľúčové slová (tiež tagy) predstavujú značky alebo štítky, ktoré budú priradené jednotlivých dátovým súborom na osobitnom portáli na to určenom za účelom zjednodušenia vyhľadávania dátových súborov. Kľúčové slová budú priraďované dátovým súborom tak, aby vystihovali ich obsah alebo kategóriu do ktorej primárne či sekundárne patria.</li>					
+					<li>Metaúdaje sú štruktúrované dáta, ktoré poskytujú informáciu o dátovom súbore. Bližšie popisujú dátový súbor, jeho vlastnosti, charakteristiky, dátové typy a rozsah, dátum poslednej aktualizácie či kontakt na zodpovednú osobu (gestora) (viď napr. Výnos č. 55/2014 Z. z.). </li>					
+					<li>Individuálne údaje predstavujú dáta, ktoré popisujú entity či subjekty jednotlivo (individuálne) a adresne. Na ich základe je možná identifikácia entity či subjektu.</li>										
+					<li>Informačné minimum pre účely tejto smernice predstavuje súbor základných informácií o dátovom súbore. Rozdiel medzi metaúdajmi a informačným minimom spočíva v rozsahu údajov. Informačné minimum je podmnožinou metaúdajov dátového súboru.</li>										
+					<li>Formát dátového súboru predstavuje vopred stanovené rozloženie údajov v dokumente alebo súbore. Formátom sa tiež rozumie metóda akou sú uložené dáta organizované. Jednotlivé formáty súborov sa od seba líšia vnútornou štruktúrou, logikou usporiadania údajov a veľkosťou. </li>
+					<li>Agregované údaje sú kumulované primárne dáta do skupín podľa vybraných ukazovateľov. Agregácia znamená zoskupovanie alebo zlučovanie viacerých hodnôt do jednej. Z agregovaných údajov nie je možná identifikácia konkrétneho subjektu či jednotlivca.</li>
+					<li>Ochrana osobných údajov je súhrn pravidiel nakladania s osobnými údajmi, ktorý patrí do oblasti základných ľudských práv. V podmienkach Slovenskej republiky je ochrana osobných údajov upravená Nariadením Európskeho parlamentu a Rady (EÚ) 2016/679 z 27. apríla 2016 o ochrane fyzických osôb pri spracúvaní osobných údajov a o voľnom pohybe takých to údajov, ktorým sa zrušuje smernica 95/46/ES (GDPR) a zákonom o ochrane osobných údajov a o zmene a doplnení niektorých zákonov č. 18/2018 Z.z. v znení neskorších predpisov.</li>
+					<li>Zdieľané úložisko pre účely tejto smernice predstavuje vzdialené úložisko údajov prístupné v akomkoľvek čase zamestnancom s právami delegovanými správcom takéhoto úložiska. Zdieľané úložisko slúži na zdieľanie, správu a monitoring dostupných dátových súborov, informačného minima a metaúdajov v podmienkach Magistrátu hlavného mesta SR Bratislavy.</li>
+					<li>Katalóg geopriestorových údajov je mapový portál a dátové úložisko ktoré umožňuje sprístupňovať geopriestorové informácie a zdieľať ich prostredníctvom WFS a WMS služieb podľa štandardu definovaným konzorciom OGC.</li>
+					<li>Mestskou organizáciou sa rozumie rozpočtová organizácia alebo príspevková organizácia zriadená Hlavným mestom SR Bratislavou, nezisková organizácia hlavného mesta SR Bratislavy a nadácia hlavného mesta SR Bratislavy.</li>
+					<li>Mestský podnik je obchodná spoločnosť, v ktorej Hlavné mesto SR Bratislava: </li>
                     <ul>
-                        <li>Vybudovanie technickej infraštruktúry;</li>
-                        <li>Vybudovanie dátovej jednotky ako riadiaceho orgánu dátovej politiky;</li>
-                        <li>Vybudovanie právnej infraštruktúry s ohľadom na legislatívne normy v oblasti prístupu k informáciám, ochrany osobných údajov, bezpečnosti, autorských práv, vrátane zmluvného usporiadania vlastníckych vzťahov k dátam generovaným tretími stranami z verejných financií;</li>
-                        <li>Posilňovanie a vzdelávanie ľudských zdrojov - zamestnancov Magistrátu;</li>
-                        <li>Implementáciu procesov, ktoré zabezpečia zbieranie, aktualizáciu a uchovávanie dát.</li>
-                        <li>Vybudovanie technickej infraštruktúry;</li>
+                        <li>má majetkovú účasť presahujúcu 50%,</li>
+                        <li>má podiel na hlasovacích právach presahujúci 50%,</li>
+                        <li>má rozhodujúci vplyv,</li>
+                        <li>vymenúva alebo volí viac ako polovicu členov jej riadiaceho orgánu.</li>
                     </ul><br>
-                    <li>Budovať partnerstvá s tretími stranami, predovšetkým verejnými a štátnymi inštitúciami (mestské časti, samosprávny kraj, mestá, verejná správa), no taktiež s ochotnými partnermi z akademického alebo súkromného sektora, s cieľom zjednocovať dátové štandardy na mikro aj makroregionálnej úrovni a umožniť  partnerom zdieľať dáta na mestskej platforme.</li>
-                    <ul>
-                        <p>Táto priorita zahŕňa:</p>
-                        <li>Identifikácia potenciálnych partnerov v štátnej, verejnej aj súkromnej sfére, vrátane akademického prostredia;</li>
-                        <li>Zdieľanie skúseností a dobrej praxe s partnermi;</li>
-                        <li>V rámci kapacít odborná, právna a technická spolupráca a výpomoc partnerom - verejným a štátnym inštitúciám;</li>
-                        <li>Spolupráca so súkromným sektorom za účelom kontinuálneho skvalitňovania poskytovaných dát pre ich efektívne využitie pri tvorbe nových IKT riešení.</li>
-                    </ul><br>
-                    <li>Retrospektívne zabezpečovať súlad existujúcich dát vo vlastníctve mesta so zavedenými dátovými štandardami a umožňovať ich spracovávanie, zverejňovanie a vyhodnocovanie.</li>
-                    <ul>
-                        <p>Táto priorita zahŕňa:</p>
-                        <li>Analýza a prehodnotenie existujúcich datasetov a na základe potrieb prioritizovať ich ďalšie využívanie mestom a tretími stranami;</li>
-                        <li>Čistenie, zjednocovanie a dopĺňanie vybraných datasetov.</li>
-                    </ul><br>
-                    <li>Vo všetkých prioritách identifikovať tzv. "quick wins" teda ľahko a rýchlo realizovateľné kroky s okamžitým využitím a s cieľom získania podpory všetkých zúčastnených strán pre ďalšie a komplexnejšie aktivity.  </li><br>
-                    <li>Realizovať podporné aktivity v oblasti vzdelávania a osvety pracovníkov a obyvateľov mesta, mestských organizácií a mestských častí.</li>
-                    <ul>
-                        <p>Táto priorita zahŕňa:</p>
-                        <li>Vzdelávanie pracovníkov a obyvateľov mesta v oblasti dátovej politiky;</li>
-                        <li>Realizácia podporných aktivít pre budovanie osvety v oblasti dátovej politiky;</li>
-                        <li>Presadzovanie a náležitá podpora pri implementácii dátovej politiky na úrovni mestských organizácií a mestských podnikov;</li>
-                        <li>Partnerstvo s mestskými časťami na presadzovaní dátovej politiky na úrovni mestských častí.</li>
+                    <li>Licencia dátového súboru predstavuje právo na použitie chráneného diela (dátového súboru) dohodnutým spôsobom. Podrobnejšia úprava podmienok použitia je zväčša obsiahnutá v licenčnej zmluve alebo v rámci licenčného dojednania obsiahnutého v inom type zmluvy.</li>
+				</ol>	
+				<h3>Čl. III</h3>
+                    <h4>Rozsah pôsobnosti Oddelenia dátovej politiky a analýz</h4>
+                <ol>
+                    <li>Oddelenie zodpovedá za:</li>
+					<ul>
+                        <li>tvorbu, rozvoj a implementáciu dátovej politiky Hlavného mesta SR Bratislavy v spolupráci s kľúčovými oddeleniami, vrátane určenia dátových štandardov na základe európskych a národných dátových štandardov,</li>
+                        <li>monitoring a audit dátových súborov Magistrátu hlavného mesta SR Bratislavy,</li>
+                        <li>koordináciu organizačných útvarov a gestorov v oblasti dátovej politiky,</li>
+                        <li>zber a získavanie nových dátových zdrojov pre účely ODPA,</li>
+                        <li>schválenie plánu obstarávania dátových súborov, v prípade geopriestorových dátových súborov v spolupráci s OGS,</li>
+                        <li>správu jednotného zdieľaného úložiska Magistrátu hlavného mesta SR Bratislavy v súčinnosti s Oddelením mestského informačného systému (ďalej aj OMIS) Sekcie informatiky a dátovej politiky,</li>
+                        <li>správu prístupov k zdieľanému úložisku Magistrátu hlavného mesta SR Bratislavy,</li>
+                        <li>súčinnosť pri zverejňovaní otvorených dát na portáli na to určenom,</li>
+                        <li>tvorbu analýz, prognóz a projekcií ako podporných informačných nástrojov pre účely plánovania a rozhodovania Hlavného mesta SR Bratislavy,</li>
+                        <li>koordináciu v oblasti zberu, spracovania a systematizácie dátových súborov v rámci Magistrátu hlavného mesta SR Bratislavy, mestských organizácií a mestských podnikov s cieľom jednotného prístupu k zberu a vyhodnocovaniu dát</li>
+                        <li>každoročne vypracováva a predkladá Splnomocnencovi pre inovácie  analýzu o stave zverejňovaných dát gestorskými útvarmi</li>						
                     </ul>
-                    <br>
-                </ol>
+				</ol>	
+				<h3>Čl. IV</h3>
+                    <h4>Rozsah pôsobnosti Oddelenia geoinformačného systému</h4>
+                <ol>
+                    <li>Oddelenie v spolupráci s ODPA zodpovedá za:</li>
+					<ul>
+                        <li>Tvorbu, rozvoj a implementáciu stratégie rozvoja geoinformačného systému Hlavného mesta SR Bratislavy,</li>
+                        <li>monitoring a audit geoinformačných dátových súborov Magistrátu hlavného mesta SR Bratislavy,</li>
+                        <li>koordináciu organizačných útvarov a gestorov v oblasti rozvoja geoinformačného systému Hlavného mesta SR Bratislavy,</li>
+                        <li>zber a získavanie nových geopriestorových dátových súborov.</li>
+                        <li>súčinnosť pri zverejňovaní otvorených dát na portáli na to určenom,</li>
+                    </ul>                        
+					<li>Oddelenie v spolupráci s OMIS zodpovedá za:</li>
+					<ul>					
+						<li>správu katalógu geopriestorových údajov Magistrátu hlavného mesta SR Bratislavy.</li>
+					</ul>
+				</ol>	
+				<h3>Čl. V</h3>
+                    <h4>Povinnosti gestorov a gestorských organizačných útvarov</h4>
+                <ol>
+                    <li>Gestorské útvary vedú evidenciu dátových súborov, ktoré majú v gescii a/alebo zabezpečujú ich tvorbu a/alebo ich spravujú.</li>
+                    <li>Gestorské útvary vedú informačné minimum o každom dátovom súbore v jednotnom formáte, ktoré pozostáva z:</li>					
+					<ul>
+                        <li>Názvu</li>
+                        <li>Formátu</li>
+                        <li>Majiteľa</li>
+                        <li>Licencie</li>
+                        <li>Veľkosti</li>
+                        <li>Dátumu poslednej aktualizácie</li>
+                        <li>Pravidelnosti aktualizácie</li>
+                        <li>Gestora za gestorský útvar</li>
+                        <li>Názov gestorského útvaru </li>
+                        <li>Kľúčové slová</li>
+                        <li>Dôvodov použitia</li>
+                    </ul>                        
+					<li>Gestorské útvary pre každý dátový zdroj vedú metaúdajový dotazník. Vzor metaúdajového dotazníka je prílohou č.1 tejto smernice.</li>
+					<li>Gestorské útvary a gestori vždy spolupracujú s ODPA v otázkach získavania, spracovávania, systematizácie, ukladania a správy dátových súborov,</li>
+					<li>Gestorské útvary tvoria plán vzniku alebo zostavovania (obstarávania) dátových súborov (aj geopriestorových dátových súborov) minimálne jeden rok vopred. Plán obstarávania dátových súborov vstupuje do platnosti po odsúhlasení ODPA a Splnomocnencom pre inovácie.</li>
+					<li>V prípade zámeru obstarávania dátových súborov alebo geopriestorových dátových súborov, ktoré nie sú súčasťou plánu obstarávania dátových súborov na daný rok gestorský útvar vždy požiada o súhlasné stanovisko:</li>
+					<ul>
+                        <li>v otázke dátových súborov ODPA a Splnomocnenca pre inovácie,</li>
+                        <li>v otázke geopriestorových dátových súborov ODPA, Splnomocnenca pre 	inovácie a OGS.</li>
+                     </ul>                        					
+					<span>Ak bolo k predmetu zákazky vyslovené súhlasné stanovisko môže byť proces verejného obstarávania postúpený Oddeleniu verejného obstarávania (ďalej aj OVO). Bez výslovného súhlasu ODPA a Splnomocnenca pre inovácie s obstaraním dátových súborov OVO nemôže vyhlásiť verejné obstarávanie.</span>					
+					<li>Gestori jednotlivých organizačných útvarov pravidelne a včas aktualizujú informačné minimum a metaúdajový dotazník o dátových súboroch, ktoré majú v gescii a/alebo zabezpečujú ich tvorbu a/alebo ich spravujú, vždy najneskôr do jedného mesiaca odo dňa poslednej aktualizácie dátového súboru alebo odo dňa vzniku dátového súboru,</li>					
+					<li>Gestori jednotlivých organizačných útvarov pravidelne a včas zdieľajú dátové súbory vrátane geopriestorových dátových súborov s ODPA na vopred stanovenom zdieľanom úložisku,</li>					
+					<li>Gestori jednotlivých organizačných útvarov pravidelne a včas zdieľajú geopriestorové dátové súbory v katalógu geopriestorových údajov,</li>										
+					<li>Gestori jednotlivých organizačných útvarov spolu so zdieľanými dátovými súbormi zdieľajú s ODPA informačné minimum a metaúdajový dotazník o danom dátovom súbore,</li>										
+					<li>Gestori a gestorské organizačné útvary zabezpečujú v súčinnosti s ODPA všetky činnosti spojené s procesom spracovania a zverejnenia dát na portáli otvorených dát Hlavného mesta SR Bratislavy,</li>										
+					<li>Gestori komunikujú s ODPA a Splnomocnencom pre inovácie o ich cieľoch práce s dátami, ich analytickými potrebami a zámermi obstarávania dát.</li>															
+				</ol>					
+				<h3>Čl. VI</h3>
+                    <h4>Zdieľané úložisko a štandardy dátových súborov</h4>
+                <ol>
+                    <li>Za správu jednotného zdieľaného úložiska dátových súborov a prístupov k zdieľanému úložisku je zodpovedné ODPA v súčinnosti s OMIS,</li>
+                    <li>Prístup k zdieľanému úložisku je možné zamestnancovi udeliť na základe žiadosti nadriadeného pracovníka. Podanie žiadosti o udelenie práv na čítanie alebo zapisovanie na zdieľané úložisko sa realizuje prostredníctvom HelpDesk-u,</li>
+                    <li>Za včasnosť, správnosť a úplnosť zdieľaných dátových súborov na zdieľanom úložisku zodpovedajú gestorské organizačné útvary a/alebo gestori,</li>
+                    <li>Na zdieľanom úložisku sú zdieľané dátové súbory v strojovo čitateľných, spracovateľných a štandardne používaných formátoch, najmä otvorených formátoch ako napr. CSV, TXT, XLSX, JSON, XML alebo v geoformátoch GeoJSON a SHP (viď napr. Výnos č. 55/2014 Z. z.).</li>
+                    <li>Ak dátové súbory, ktoré majú byť predmetom zdieľania na zdieľanom úložisku nie sú uložené v štandardne používaných formátoch gestor/gestorka alebo gestorský organizačný útvar vopred konzultuje ich zdieľanie s ODPA. ODPA môže vo výnimočných prípadoch umožniť zdieľanie dátových súborov aj v iných ako štandardne používaných formátoch a geoformátoch.</li>
+                    <li>Ak dátové súbory, ktoré majú byť predmetom zdieľania na zdieľanom úložisku nie sú uložené v štandardne používaných formátoch a geoformátoch a od dátumu ich vzniku uplynulo 5 rokov, sú takéto dátové súbory zdieľané na zdieľanom úložisko bez zmeny ich formátu.</li>
+                    <li>Ak veľkosť samostatného dátového súboru presahuje 500 MB, tak sa takýto dátový súbor zdieľa v komprimovanom formáte ZIP, TAR, TAR, GZ (GZIP) bez hesla.</li>
+				</ol>
+				<h3>Čl. VII</h3>
+                    <h4>Základné zásady zverejňovania dát</h4>
+                <ol>
+                    <li>Dátové súbory sú na portáli otvorených dát zverejňované v otvorených formátoch, v súlade s Výnosom o štandardoch ISVS č. 55/2014 Z.z. v znení neskorších predpisov</li>
+                    <li>Nezverejňujú sa dáta, ktoré podliehajú ochrane osobných údajov, obsahujú utajené informácie alebo obchodné tajomstvá, dátové súbory požívajúce ochranu autorských práv, dátové súbory ktorých zverejnenie je v rozpore s platnými právnymi predpismi, dátové súbory, ktorých zverejnenie je v rozpore s licenciou dátového súboru a dátové súbory, o ktorých sa Magistrát hlavného mesta SR Bratislavy zaviazal zachovať mlčanlivosť.</li>
+                    <li>Za zverejňovanie dátových súborov, ktoré neobsahujú informácie podľa odstavca 2 tohto článku zodpovedajú gestorské útvary Magistrátu hlavného mesta SR Bratislavy. ODPA v procese zverejňovania dátových súborov vystupuje ako poradný a kontrolný útvar, ktorý na žiadosť gestorských útvarov a na žiadosť verejnosti zverejňuje dátové súbory na portáli otvorených dát Hlavného mesta SR Bratislavy.</li>
+                    <li>Dátové súbory, ktoré pochádzajú z verejne dostupných zdrojov môžu byť zverejnené na portáli otvorených dát aj bez schválenia vedúcim príslušného organizačného útvaru, ku ktorému vecne tieto dátové súbory patria. O ich zverejnení ODPA informuje vecne príslušný útvar.</li>
+				</ol>
+				<h3>Čl. VIII</h3>
+                    <h4>Štandardy pre zverejňované dátové súbory na portáli otvorených dát</h4>
+                <ol>
+                    <li>Gestorské útvary zodpovedajú za úplnosť a kvalitu zverejňovaných dátových súborov v takej miere, aby obsah bol dostatočne reprezentatívny.</li>
+                    <li>Gestorské útvary spolu so zverejňovaným dátovým súborom poskytnú ODPA metaúdaje, ktoré bližšie popisujú alebo identifikujú položky v dátovom súbore spolu s dátovým typom a rozsahom, ak ho formát v ktorom je dátový súbor uložený vyžaduje.</li>
+                    <li>Pre účely zverejňovania dátových súborov sú ODPA postupované dátové súbory vo vopred stanovených formátoch, ktoré sú strojovo čitateľné, spracovateľné a štandardne používané.</li>
+                    <li>Za správnosť zverejňovania dátových súborov zodpovedá gestorský útvar, ktorý má dátový súbor v gescii a/alebo zabezpečuje jeho tvorbu a/alebo dátový súbor spravuje. Ak je pred zverejnením potrebná anonymizácia dátových súborov gestorský útvar môže osloviť ODPA o súčinnosť.</li>
+				</ol>
+				<h3>Čl. IX</h3>
+                    <h4>Osobitné ustanovenia k zverejňovaniu dát z interných aplikácií a informačných systémov</h4>
+                <ol>
+                    <li>Dátové súbory, ktoré sú internej povahy, nie sú voľne šíriteľné a nespĺňajú vlastnosti otvorených údajov nie sú predmetom zverejňovania na portáli otvorených dát Hlavného mesta SR Bratislavy. </li>
+                    <li>Dátové súbory mestských organizácií a podnikov Hlavného mesta SR Bratislavy môžu byť zverejňované na portáli otvorených dát v agregovanej podobe na štatistické a analytické účely alebo po predchádzajúcom prerokovaní s príslušnou mestskou organizáciou alebo podnikom v podobe individuálnych údajov, ak to obsah a charakter dátového súboru povoľuje.</li>                    					
+				</ol>
+				<h3>Čl. X</h3>
+                    <h4>Postup pri zverejňovaní otvorených dát</h4>
+                <ol>
+                    <li>Gestorský organizačný útvar, aj ODPA prostredníctvom aplikácie HelpDesk nahlásia požiadavku na zverejnenie otvorených dát na portáli. V požiadavke sa uvedie kategória dát, v rámci ktorej má byť dátový súbor zverejnený, veľkosť dátového súboru, granularita, obdobie za ktoré je dátový súbor zverejňovaný, zdroj, licencia a typ formátu, v ktorom je dátový súbor uložený.</li>
+                    <li>ODPA podľa komplexnosti požiadavky môže:</li>
+					<ul>
+                        <li>zverejniť dátový súbor na portáli otvorených dát,</li>
+                        <li>požiadať gestorský útvar o doplnenie informácií a úpravu datasetu do podoby vhodnej na zverejnenie na portáli v súčinnosti s gestormi,</li>
+                        <li>zamietnuť zverejnenie dátového súboru, ak by takéto zverejnenie porušovalo ustanovenia tejto smernice.</li>
+                    </ul> 								
+                    <li>O zverejnení dátového súboru ODPA vyrozumie gestorský organizačný útvar.</li>
+				</ol>	
+				</ol>
+				<h3>Čl. XI</h3>
+                    <h4>Osobitné ustanovenia pre mestské organizácie a mestské podniky</h4>
+                <ol>
+                    <li>S cieľom harmonizácie procesov, zberu, tvorby, nakladania s dátovými súbormi a ich zdieľania na zdieľanom úložisku sa mestským organizáciám a mestským podnikom ukladá:</li>
+					<ul>
+                        <li>dodržiavanie a vykonávanie ustanovení podľa článku 5 tejto smernice,</li>
+                        <li>dodržiavanie a vykonávanie ustanovení podľa článku 6 tejto smernice,</li>
+                        <li>dodržiavanie a vykonávanie ustanovení podľa článku 12 tejto smernice.</li>
+                    </ul> 	
+				</ol>		
+				<h3>Čl. XII</h3>
+                    <h4>Osobitné ustanovenia k zverejňovaniu dát z verejných zákaziek</h4>
+                <ol>
+                    <li>V prípade, ak v rámci Magistrátu hlavného mesta SR Bratislavy je realizovaná verejná súťaž, ktorej priamym či nepriamym výsledkom sú dátové súbory a/alebo sú dátové súbory súčasťou predmetu zákazky a/alebo dátové súbory prostredníctvom ktorých došlo k vypracovaniu predmetu zákazky, je nevyhnutné, aby súčasťou dodaného predmetu zákazky boli zdrojové aj výsledné dáta.</li>
+                    <li>V prípade, ak v rámci Magistrátu hlavného mesta SR Bratislavy je realizovaná verejná súťaž, ktorej priamym či nepriamym výsledkom je informačný systém obsahujúci dátové súbory, je nevyhnutné, aby súčasťou dodaného predmetu zákazky bola aj možnosť publikovať vybrané dáta ako otvorené dáta.</li>
+                    <li>Do opisu predmetu zákazky verejného obstarávania sa odporúča vloženie textu, ktorý priamo zaväzuje dodávateľa k dodaniu dátových súborov v rámci zákazky, napríklad v znení:</li><br>
+                    <span>„V rámci dodania zákazky požadujeme dodanie zdrojových aj výsledných dátových súborov vrátane prevodu práv uvedených v § 135 ods. 1 Autorského zákona a práv k ich šíreniu. Dáta budú dodané v štandardných otvorených formátoch napr. CSV, TXT, XLSX, JSON alebo XML alebo v geoformátoch GeoJSON, SHP, prípadne iných strojovo čitateľných a štandardne používaných formátoch.“</span>
+				</ol>				
+				<h3>Čl. XIII</h3>
+                    <h4>Záverečné ustanovenia</h4>
+                <ol>
+                    <li>Táto smernica nadobúda účinnosť dňa 11. novembra 2019</li>                   
+				</ol>	
+				
+				
 
-                <p>Zákon o slobodnom prístupe k informáciám</p>
-                <p>Osobitné zákony k citlivým, utajovaným a osobným údajom</p>
-                <p>Autorský zákon</p>
-                <p>Zákon o informačných systémoch verejnej správy</p>
-                <p>Výnos Ministerstva financií SR č. 55/2014 o štandardoch pre informačné systémy verejnej správy</p>
-                <p>Zákon o údajoch (plánový v zmysle Uznesenia vlády SR č. 104/2017)</p>
-                <p>Národná koncepcia informatizácie verejnej správy Slovenskej republiky </p>
-                <p>Strategická priorita Otvorené údaje</p>
-                <p>Strategická priorita Manažment údajov</p>
-                <p>Stratégia a akčný plán sprístupnenia a používania otvorených údajov verejnej správy (Uznesenie vlády SR č. 346/2017)</p>
-                <p>Akčný plán Iniciatívy pre otvorené vládnutie v Slovenskej republike na roky 2017 -2019 (Uznesenie vlády SR č. 104/2017)</p>
-                <p>Koncepcia riadenia informatizácie verejnej správy</p>
-                <p>Aktualizovaná metodika projektového riadenia projektov informatizácie</p>
-                <p>Tallinnská deklarácia o eGovernmente</p>
-            </div>
+            {elseif $locale == 'en'}
+
+                <div class="menu-right col-xs-8 ">
+                    <h2>Data Policy</h2>
+                    <p>The quality and professionally processed data enable cities to create more informed and effective decisions, to evaluate their activities, to respond faster and more directly to the needs of their citizens, which can positively influence public finances and simultaneously improve the living conditions of the citizens. For the purposes of public knowledge, the data represent an information source about the activities of city allowing citizens to deduce responsibilities towards the elected representatives. For the business and non-governmental sector, data represent an instrument for improving quality of provided services.</p>
+
+                    <h3>Important links:</h3>
+                    <ul>
+                        <li>Basic principles and priorities of the Data Policy of the Capital City of SR Bratislava<br><span class="right-text-link"><a href="{$basePath}/pdf/zppdphmsrba_en.pdf" target="_blank">Download in PDF</a></span></li>
+                        <li>OpenData Bratislava<br><span class="right-text-link"><a href="https://github.com/magistrat-bratislava/opendata" target="_blank">https://github.com/magistrat-bratislava/opendata</a></span></li>
+                    </ul>
+
+                    <h3>The Municipal Office of the Capital City of the Slovak Republic Bratislava Directive on Data Policy</h3>
+                    <h3>Article I</h3>
+                    <h4>Introductory Provisions</h4>
+                    <ol>
+                        <li>This Directive regulates the rules for the collection, generation, monitoring, sharing and manipulation of data sets (including geospatial data sets) and the process of publishing data on the open data portal of the Capital City of the Slovak Republic Bratislava.</li>
+                        <li>The coordinator of data policy is the Department of Data Policy and Analysis (DDPA) under the Informatics and Data Policy Section of the Municipal Office of the Capital City of the Slovak Republic Bratislava and the Chief Innovation Officer. The coordination of geospatial data is in cooperation with the Department of Geographic Information System (DGIS) under the Informatics and Data Policy Section.</li>
+                        <li>The Capital City of the Slovak Republic Bratislava evaluates the data collected and generated in its territory by public authorities and third parties. The Capital City of the Slovak Republic Bratislava seeks and establishes partnerships with third parties, in particular with public administration authorities, the business and academic sectors, city districts and the Higher Territorial Administrative Unit of Bratislava, in the area of generation, sharing and use of data. The main aims are effective exchange of information and data, unification of data standards and creation of opportunities for the use of data for the benefit of the inhabitants of the Capital City of the Slovak Republic Bratislava.</li>
+                        <li>The Capital City of the Slovak Republic Bratislava introduces policies and measures enabling the implementation of data policy at all levels, ensuring technical and content interoperability of data, uniformity of formats and licenses, etc. (principle of “interoperability”).</li>
+                        <li>The Capital City of the Slovak Republic Bratislava commits to adhere to the principles set out in the Declaration of Cities for Digital Rights.</li>
+                        <li>In the course of data policy implementation, the Capital City of the Slovak Republic Bratislava respects the privacy of the citizens and adheres to the rules of the European Union on the protection of personal data, as well as national legislation.</li>
+                    </ol>
+
+                    <h3>Article II</h3>
+                    <h4>Basic Terminology</h4>
+                    <ol>
+                        <li>A Data set is a set of data or information that is used by a computer application or system. The data or information in a data set may be in a structured or unstructured form and are stored in a machine-readable format.</li>
+                        <li>Granularity (also level of detail) represents the level of depth of the data set representation. High granularity represents a high level of detail (individual data), low granularity represents a low level of detail (aggregate data).</li>
+                        <li>An Item (also a variable or column) represents the vertical structure of a data set. It carries data or information often categorized by a valid codebook.</li>
+                        <li>Open data - the standard for labelling data as open data is the provision of the data in a dataset with a quality of at least level 3 and in an open way for use, which is met only if the legal aspects of the data access and use are explicitly settled, if it is possible to establish legal relationships for the use of data by means of anonymous remote automatic access, if access to the data is granted to all persons under the same conditions and these conditions are explicitly stated, if the data can be used for both commercial and non-commercial purposes, if the data can be combined with other data, supplemented, corrected, modified, or used without the obligation to use other data from the dataset, and if the activities under point 4) are free of charge. Further standard for labelling data as open data is the Creative Commons CC0 or CC-BY licence to ensure the fulfilment of conditions and the provision of the dataset metadata in an open way. If the dataset contains at least one open data, it shall be referred to as an open data dataset (Article 52 (1) and (2) of Act No. 55/2014 Collection of Laws of the Slovak Republic).</li>
+                        <li>The Open data portal is a web portal managed by the Informatics and Data Policy Section and designed for publishing and disseminating open data to the general public.</li>
+                        <li>A Responsible body is any organisational unit of the Municipal Office of the Capital City of the Slovak Republic Bratislava, which is responsible for the generation and/or management of any data sets.</li>
+                        <li>A Coordinator is an employee of the Municipal Office of the Capital City of the Slovak Republic Bratislava who is within his organisational unit (responsible body) responsible for the administration of data sets, their updating, the creation of an information minimum, the creation and administration of metadata and the communication with the DDPA.</li>
+                        <li>HelpDesk represents the technical support services provided by the Informatics and Data Policy Section. The helpdesk.bratislava.sk application is pre-installed on every work computer available to the employees.</li>
+                        <li>Keywords (also tags) are tags or labels that will be assigned to individual data sets on a dedicated portal to simplify the search for data sets. Keywords will be assigned to data sets to reflect their content or category to which they primarily or secondarily belong.</li>
+                        <li>Metadata are structured data that provide information about data sets. They describe in more detail the data set, its characteristics, data types and scope, date of the last update or contact details of the coordinator (see e.g. Act No. 55/2014 Collection of Laws of the Slovak Republic).</li>
+                        <li>Individual data represent data that describe entities or individuals individually and in a targeted manner. The entity or subject can be identified based on them.</li>
+                        <li>Information minimum is a set of basic information about the data set. The difference between metadata and information minimum lies in their scope. Information minimum is a subset of the data set metadata.</li>
+                        <li>The Format of a data set represents a predetermined layout of data in a document or file. It is also the method by which stored data are organised. The different formats differ in their internal structure, data ordering logic and size.</li>
+                        <li>Aggregated data are the primary data aggregated into groups according to selected indicators.  Aggregation means grouping or merging multiple values into one. Aggregated data do not allow the identification of a particular entity or individual.</li>
+                        <li>Protection of personal data is a summary of the rules on the treatment of personal data which belongs to the area of fundamental human rights. In the Slovak Republic, protection of personal data is governed by the Regulation 2016/679 of the European Parliament and of the Council of 27 April 2016 on the protection of natural persons to the processing of personal data and on the free movement of such data, and repealing Directive 95/46/ES (General Data Protection Regulation). </li>
+                        <li>Shared storage represents a remote data storage accessible at any time to employees authorised by the administrator of the storage. Shared storage is used to share, manage and monitor available data sets, information minimum and metadata within the Municipal Office of the Capital City of the Slovak Republic Bratislava.</li>
+                        <li>The Geospatial data catalogue is a map portal and data repository that enables geospatial information to be accessed and shared via WFS and WMS services according to the standard defined by the OGC. </li>
+                        <li>A Municipal organisation is understood as a budgetary or allowance organisation established by the Capital City of Slovakia, a non-profit organisation of the Capital City of Slovakia Bratislava and a foundation of the Capital City of Slovakia Bratislava. </li>
+                        <li>
+                            A Municipal enterprise is a company in which the Capital City of SR Bratislava:
+                            <ul>
+                                <li>has a capital participation of more than 50%,</li>
+                                <li>has a share of more than 50% of the voting rights,</li>
+                                <li>has a decisive influence, </li>
+                                <li>appoints or elects more than a half of the members of the management body.</li>
+                            </ul>
+                        </li>
+                        <li>A data set License represents the right to use the protected work (a data set) in an agreed manner. A more detailed regulation of the terms of use is usually contained in the license agreement or under the license agreement contained in another type of agreement.</li>
+                    </ol>
+
+                    <h3>Article III</h3>
+                    <h4>Responsibilities of the Department of Data Policy and Analysis (DDPA)</h4>
+
+                    <ol>
+                        <li>
+                            The Department is responsible for:
+                            <ul>
+                                <li>Creation, development and implementation of data policy of the Capital City of the Slovak Republic Bratislava in cooperation with key departments, including determination of data standards based on European and national data standards,</li>
+                                <li>monitoring and auditing of data sets of the Municipal Office of the Capital City of the Slovak Republic Bratislava,</li>
+                                <li>coordination of the organisational units and responsible bodies in the field of data policy,  </li>
+                                <li>collecting and acquiring new data sources for the purposes of the DDPA,</li>
+                                <li>the approval of data sets procurement plan, in the field of geospatial data sets in cooperation with the DGIS,</li>
+                                <li>administration of the unified shared storage of the Municipal Office of the Capital City of the Slovak Republic Bratislava in cooperation with the Department of the Municipal Information System of the Informatics and Data Policy Section, </li>
+                                <li>administration of access to the shared storage of the Municipal Office of the Capital City of the Slovak Republic Bratislava,</li>
+                                <li>publication of open data on a dedicated portal,</li>
+                                <li>creation of analyses, forecasts and projections as supporting information tools for the purposes of planning and decision-making of the Capital City of the Slovak Republic Bratislava, </li>
+                                <li>coordination in the area of collection, processing and systematization of data sets within the Municipal Office of the Capital City of the Slovak Republic Bratislava, municipal organisations and municipal enterprises, in order to unify data collection and evaluation. </li>
+                                <li>submitting an annual evaluation of the status of the data published by the responsible bodies to the Chief Innovation Officer.</li>
+                            </ul>
+                        </li>
+                    </ol>
+
+                    <h3>Article IV</h3>
+                    <h4>Responsibilities of the Department of Geographic Information System</h4>
+
+                    <ol>
+                        <li>
+                            The Department, in cooperation with the DDPA, is responsible for:
+                            <ul>
+                                <li>Creation, development and implementation of the development strategy of the geoinformation system of the Capital City of the Slovak Republic Bratislava, </li>
+                                <li>monitoring and audit of the geoinformation data sets of the Municipal Office of the Capital City of the Slovak Republic Bratislava,</li>
+                                <li>coordination of the organisational units and responsible bodies in the area of development of the geoinformation system of the Capital City of the Slovak Republic Bratislava, </li>
+                                <li>collection of new geospatial data sets,  </li>
+                                <li>publication of open data on a dedicated portal.</li>
+                            </ul>
+                        </li>
+                        <li>
+                            The Department in cooperation with the Department of Municipal Information System (DMIS) is responsible for:
+                            <ul>
+                                <li>administration of the geospatial data catalogue of the Municipal Office of the Capital City of the Slovak Republic Bratislava.</li>
+                            </ul>
+                        </li>
+                    </ol>
+
+                    <h3>Article V</h3>
+                    <h4>Responsibilities of Coordinators and Responsible Organisational Bodies</h4>
+
+                    <ol>
+                        <li>Responsible bodies maintain records of data sets they are in charge of and/or ensure their creation and/or management, </li>
+                        <li>
+                            Responsible bodies maintain information minimum on each data set in uniform format consisting of:
+                            <ul>
+                                <li>Name</li>
+                                <li>Format</li>
+                                <li>Owner</li>
+                                <li>Licence</li>
+                                <li>Size</li>
+                                <li>Date of the last update</li>
+                                <li>Regularity of update</li>
+                                <li>Coordinator of the responsible body</li>
+                                <li>Name of the responsible body</li>
+                                <li>Keywords</li>
+                                <li>Reasons for use</li>
+                            </ul>
+                        </li>
+                        <li>Responsible bodies maintain a metadata questionnaire for each data set. A model of the metadata questionnaire is annex 1 of this Directive.</li>
+                        <li>Responsible bodies and coordinators always cooperate with the DDPA on the acquisition, processing, systematization, storage and management of data sets.  </li>
+                        <li>Responsible bodies create a plan of creation or procurement of data sets (including geospatial data sets) at least one year in advance. The data set procurement plan becomes effective upon approval by the DDPA and the Chief Innovation Officer. </li>
+                        <li>
+                            In the case of an intent to procure data sets or geospatial data sets which are not part of the procurement plan for the given year, a responsible body always asks for an approval:
+                            <ul>
+                                <li>of data sets from the DDPA and the Chief Innovation Officer,</li>
+                                <li>of geospatial data sets from the DDPA, the Chief Innovation Officer and the DGIS.</li>
+                            </ul>
+                            If an approval has been given, the Department of the Public Procurement (DPP) can begin the process of public procurement. Without an explicit consent of the ODPA and the Chief Innovation with the procurement of the data sets, DPP is not permitted to start a public procurement.
+                        </li>
+                        <li>The coordinators of the individual organisational units update the information minimum and metadata questionnaire of the data sets they are in charge of regularly and timely and/or ensure their creation and/or manage them no later than one month from the date of the creation or last update of the data set,</li>
+                        <li>The coordinators of the individual organisational bodies share data sets, including geospatial data sets, with DDPA in a predetermined shared storage regularly and timely, </li>
+                        <li>The coordinators of the individual organisational bodies share geospatial data sets in the geospatial data catalogue,</li>
+                        <li>The coordinators of the individual organisational bodies, together with the data sets, share the information minimum and the metadata questionnaire about each data set with DDPA, </li>
+                        <li>In cooperation with DDPA, the coordinators and responsible organizational bodies ensure all activities related to the process of data processing and publishing on the open data portal of the Capital City of the Slovak Republic Bratislava,</li>
+                        <li>The coordinators communicate with DDPA and Chief Innovation Officer about their data management goals, analytical needs and data procurement intentions.</li>
+                    </ol>
+
+                    <h3>Article VI</h3>
+                    <h4>Shared Storage and Data Set Standards</h4>
+                    <ol>
+                        <li>DDPA in cooperation with DMIS, is responsible for managing the shared storage of data sets and the access to the shared storage,</li>
+                        <li>Shared storage access can be granted to an employee based on the request of her supervisor. Submitting a request to grant an employee the rights to read or publish data on the shared storage can be made through HelpDesk,</li>
+                        <li>The coordinators and responsible organisational bodies are responsible for the timeliness, correctness, and completeness of the data sets shared in the shared storage,</li>
+                        <li>In the shared storage, data sets are shared in machine-readable, processable and standardly used formats, especially open formats such as CSV, TXT, XLSX, JSON, XML, GeoJSON and SHP (Act No. 55/2014 Collection of laws of the Slovak Republic). </li>
+                        <li>If the data sets to be shared in the shared storage are not saved in standard formats, a coordinator or responsible organisational body consults the sharing with DDPA in advance. DDPA may in special cases allow data sets to be shared in formats other than standard formats.</li>
+                        <li>If the data sets to be shared in the shared storage are not saved in standard formats and five years have elapsed since they were created, such data sets are shared in the shared storage without any change in the format. </li>
+                        <li>If the size of a separate data set exceeds 500 MB, the data set is shared in a compressed format ZIP, TAR, TAR, GZ (GZIP) without a password.</li>
+                    </ol>
+
+                    <h3>Article VII</h3>
+                    <h4>Basic Principles of Data Publishing</h4>
+                    <ol>
+                        <li>Data sets are published on the open data portal in open formats, in accordance with the Act on standards ISVS č. 55/2014 Collection of Laws of the Slovak Republic.</li>
+                        <li>Data under the protection of personal data, data containing confidential information or trade secrets, data sets protected by copyright, data sets whose publication is contrary to applicable legislation, data sets whose publication is contrary to the license of the data set and data sets about which the Municipal Office of the Capital City of the Slovak Republic Bratislava has pledged to maintain confidentiality, cannot be published.  </li>
+                        <li>Publishing data sets which do not contain information stated in paragraph 2 of this Article is the responsibility of the responsible bodies of the Municipal Office of the Capital City of the Slovak Republic Bratislava. DDPA acts as an advisor and a controller ODPA acts as an advisory and control unit which, at the request of the responsible bodies and at the request of the public, publishes data sets on the open data portal of the Capital City of the Slovak Republic Bratislava.</li>
+                        <li>Data sets originating from publicly available sources can be published on the open data portal without an approval of the head of the organisational body to which such data sets thematically belong. DDPA informs the relevant organisational body of their publication. </li>
+                    </ol>
+
+                    <h3>Article VIII</h3>
+                    <h4>Standards for Published Data Sets on the Open Data Portal</h4>
+                    <ol>
+                        <li>The responsible bodies are responsible for the completeness and quality of published data sets, so that the content is sufficiently representative. </li>
+                        <li>The responsible bodies, together with the published data sets, provide DDPA with metadata that describe or identify items in data sets, as well as the data type and scope, if the format in which the data set is stored requires it.</li>
+                        <li>For the purposes of publishing data sets, data sets are forwarded to DDPA in predetermined formats that are machine-readable, processable and standardly used.</li>
+                        <li>The correctness of the published data sets is the responsibility of the body that is in charge of the creation and/or management of the data sets. If the anonymization of data sets is required before publication, the responsible body may contact DDPA for cooperation.</li>
+                    </ol>
+
+                    <h3>Article IX</h3>
+                    <h4>Specific Provisions for the Publication of Data from Internal Applications and Information Systems</h4>
+                    <ol>
+                        <li>Data sets, which are of internal nature, are not freely shareable and do not fulfil the characteristics of open data, are not subject to publication on the open data portal of the Capital City of the Slovak Republic Bratislava.</li>
+                        <li>Data sets of municipal organisations and enterprises can be published on the open data portal in an aggregated form and used for statistical or analytical purposes or after prior discussion with the relevant municipal organization or enterprise in the form of individual data, if the content and character of the data file permits.</li>
+                    </ol>
+
+                    <h3>Article X</h3>
+                    <h4>Procedure for Publishing Open Data</h4>
+                    <ol>
+                        <li>The responsible body and DDPA request the publication of open data on the portal via HelpDesk. The request shall specify the category within which the data set is to be published, the size of the data set, the granularity, the period for which the data set is published, the source, the licence and the type of format in which the data set is stored.</li>
+                        <li>
+                            Depending on the complexity of the request, DDPA can:
+                            <ul>
+                                <li>publish the data set on the open data portal,</li>
+                                <li>ask the responsible body to add information or modify the data set until it is in a form suitable for publication on the portal,</li>
+                                <li>reject the publication of the data set, if such a publication would breach provisions of this Directive.</li>
+                            </ul>
+                        </li>
+                        <li>DDPA notifies the responsible organisational unit of the release of the data set.</li>
+                    </ol>
+
+                    <h3>Article XI</h3>
+                    <h4>Specific Provisions for Municipal Organisations and Enterprises</h4>
+                    <ol>
+                        <li>
+                            In order to harmonize processes, collection, creation, management and sharing of data sets in a shared storage, municipal organisations and enterprises are required to:
+                            <ul>
+                                <li>follow and implement provisions referred to in Article 5 of this Directive,</li>
+                                <li>follow and implement provisions referred to in Article 6 of this Directive,</li>
+                                <li>follow and implement provisions referred to in Article 12 of this Directive. </li>
+                            </ul>
+                        </li>
+                    </ol>
+
+                    <h3>Article XII</h3>
+                    <h4>Specific Provisions for the Publication of Public Contracts Data </h4>
+                    <ol>
+                        <li>If a public tender is held within the Municipal Office of Capital City of SR Bratislava, the direct or indirect result of which are data sets and / or data sets are part of the subject of the contract and / or data sets are used to elaborate the subject of the contract, the delivered subject of the contract shall include both source and the resulting data.</li>
+                        <li>If a public tender is held within the Municipal Office of Capital City of SR Bratislava, the direct or indirect result of which is an information system containing data sets, the delivered subject of the contract shall include the possibility to publish selected data as open data.</li>
+                        <li>It is recommended to insert a text which directly obliges the supplier to provide data sets as a part the contract in the description of the subject of a public procurement contract, e.g. as follows:</li>
+                        <br>
+                        <span>„As a part of the delivery of the order, we require the provision of both the source and the resulting data sets, including the transfer of the rights referred to in § 135 par. 1 of the Copyright Act and Distribution of Rights. Data will be provided in standard open formats e.g. CSV, TXT, XLSX, JSON or XML or in geoformats GeoJSON, SHP, or other machine-readable and standard formats. “</span>
+                    </ol>
+
+                    <h3>Article XIII</h3>
+                    <h4>Final Provisions</h4>
+                    <ol>
+                        <li>This Directive enters into force on the day of its publication. </li>
+                    </ol>
+
+
+
+                </div>
+
+            {/if}
+
         </div>
 
 </section><!-- end of about section -->

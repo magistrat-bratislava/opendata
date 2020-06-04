@@ -13,16 +13,23 @@ class AuthorizatorFactory
 
         $acl->addRole('guest');
         $acl->addRole('user', 'guest');
-        $acl->addRole('admin', 'user');
+        $acl->addRole('global', 'user');
+        $acl->addRole('admin', 'global');
 
         $acl->addResource('interface');
+        $acl->addResource('global');
         $acl->addResource('admin');
 
         $acl->deny('guest', 'interface');
         $acl->allow('user', 'interface');
 
+        $acl->deny('guest','global');
+        $acl->deny('user','global');
+        $acl->allow('global', 'global');
+
         $acl->deny('guest','admin');
         $acl->deny('user','admin');
+        $acl->deny('global','admin');
         $acl->allow('admin', 'admin');
 
         return $acl;

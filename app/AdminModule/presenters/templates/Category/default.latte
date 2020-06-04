@@ -31,14 +31,16 @@
                         <table id="pgp" class="table table-bordered table-striped">
                             <thead>
                             <tr>
-                                <th>Názov</th>
+                                <th>Názov SK</th>
+                                <th>Názov EN</th>
                                 <th>URL názov</th>
                                 <th>Akcie</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr n:foreach="$category as $u">
-                                <td>{$u['name']}</td>
+                                <td>{$u['name_sk']}</td>
+                                <td>{$u['name_en']}</td>
                                 <td>{$u['slug']}</td>
                                 <td>
                                     <a n:href="Category:edit $u['id']" class="text-primary action"><i class="fas fa-edit"></i> Upraviť</a>
@@ -48,7 +50,8 @@
                             </tbody>
                             <tfoot>
                             <tr>
-                                <th>Názov</th>
+                                <th>Názov SK</th>
+                                <th>Názov EN</th>
                                 <th>URL názov</th>
                                 <th>Akcie</th>
                             </tr>

@@ -5,12 +5,13 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0 text-dark">Dataset: {$dataset->name} | Súbory</h1>
+                <h1 class="m-0 text-dark">Dataset: {$dataset->name_sk} | Súbory</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a n:href="Dashboard:">Home</a></li>
                     <li class="breadcrumb-item"><a n:href="Dataset:">Datasety</a></li>
+                    <li class="breadcrumb-item"><a n:href="Dataset:edit $dataset->id">{$dataset->name_sk}</a></li>
                     <li class="breadcrumb-item active">Súbory</li>
                 </ol>
             </div><!-- /.col -->
@@ -24,7 +25,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title float-left">Dataset: {$dataset->name} | Súbory</h3>
+                        <h3 class="card-title float-left">Dataset: {$dataset->name_sk} | Súbory</h3>
                         <a class="btn btn-primary float-right" n:href="File:add $dataset->id"><i class="fas fa-plus-circle"></i> Pridať súbor</a>
                     </div>
                     <!-- /.card-header -->
@@ -42,7 +43,7 @@
                             </thead>
                             <tbody>
                             <tr n:foreach="$files as $f">
-                                <td>{$f['name']}</td>
+                                <td>{$f['name_sk']}</td>
                                 <td>{$f['file_type']}</td>
                                 <td>
                                     <span class="badge {($f['hidden'] ? 'bg-danger' : 'bg-primary')}">{($f['hidden'] ? 'Áno' : 'Nie')}</span>

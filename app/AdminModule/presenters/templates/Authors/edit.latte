@@ -36,8 +36,12 @@
                                 <li n:foreach="$form->errors as $error">{$error}</li>
                             </ul>
                             <div class="form-group">
-                                <label for="name">Meno</label>
-                                <input type="text" class="form-control" n:name="name" id="name" placeholder="Zadajte meno">
+                                <label for="name_sk">Meno SK</label>
+                                <input type="text" class="form-control" n:name="name_sk" id="name_sk" placeholder="Zadajte meno">
+                            </div>
+                            <div class="form-group">
+                                <label for="name_en">Meno EN</label>
+                                <input type="text" class="form-control" n:name="name_en" id="name_en" placeholder="Zadajte meno">
                             </div>
                         </div>
                         <!-- /.card-body -->

@@ -1,19 +1,5 @@
 {block content}
 
-<section class="slider" id="home">
-    <div class="container-fluid">
-        <div class="row">
-            <div id="carouselHacked" class="carousel slide carousel-fade" data-ride="carousel">
-                <div class="header-backup"></div>
-
-            </div>
-        </div>
-    </div><br>
-</section><!-- end of slider section -->
-
-<!-- about section -->
-
-
 <section class="about text-center" id="about">
     <div class="container">
         <div class="row">
@@ -25,81 +11,13 @@
 
                     <ul class="list-unstyled components">
                         <li n:foreach="$categories as $c"{if isset($activeCategory) && $activeCategory == $c->id} class="active-menu-item"{/if}>
-                            <a n:href="Dataset:category $c->slug">{$c->name}</a>
+                            <a n:href="Dataset:category $c->slug">{$c->$name_col}</a>
                         </li>
                     </ul>
                 </nav>
             </div>
 
-            <div class="menu-right col-xs-8 ">
-                <h2 style="font-size: 30px;">{$d->name}</h2>
-                <div class="view-content">
-                    <div>
-                        <article  xmlns="https://www.w3.org/1999/html">
-                            <div class="col-md-12 col-lg-12 col-xs-12" style="border-top: 1px solid rgb(238, 238, 238);padding-bottom:10px;">
-
-                                <ul class="dataset-list"></ul>
-
-                                <div style="padding-left: 0px;">
-                                    <h3>Popis:</h3>
-                                    <p>{$d->description}</p>
-                                </div>
-
-                                {if !empty($files)}
-                                <div id="data-and-resources">
-                                    <h3>Dáta a zdroje:</h3>
-                                    <div property="dcat:distribution">
-                                        <div class="item-list">
-                                            <ul class="resource-list">
-                                                <li n:foreach="$files as $f">
-                                                    <div property="dcat:Distribution">
-                                                        <a n:href="Dataset:download $f->id" target="_blank" class="heading">{$f->name}
-                                                            <span class="json-label">{$f->file_type}</span>
-                                                        </a>
-                                                        <p class="description"></p>
-                                                        <span class="links">
-															<a n:if="in_array($f->file_type, ['csv','txt'])" n:href="Dataset:insight $f->id" target="_blank" class="json-label"><i class="fa fa-bar-chart"></i> Náhľad</a>
-															<a n:href="Dataset:download $f->id" target="_blank" class="json-label"><i class="fa fa-download"></i> Stiahnuť</a>
-														</span>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                {/if}
-
-                                {if !empty($tags)}
-                                <div>
-                                    <h3>Značky:</h3>
-                                    <a n:foreach="$tags as $t" href="" class="json-label" data-format="json">{$t->name}</a>
-                                </div>
-                                {/if}
-
-                                <div id="" class="field-group-table group_additional  group-additional field-group-table">
-
-                                    <div class="form-item form-type-item form-group">
-                                        <h3>Informácie o datasete:</h3>
-                                    </div>
-
-                                    <div class="table-responsive">
-                                        <table class="field-group-format group_additional table table-striped table-bordered sticky-enabled">
-                                            <thead><tr><th>Pole</th><th>Hodnota</th> </tr></thead>
-                                            <tbody>
-                                            <tr no_striping="1" class=""><th class="field-label">Autor</th><td class="field-content"><div class="field field-name-og-group-ref field-type-entityreference field-label-hidden"><div class="field-items"><div class="field-item even" property="dc:publisher">{$d->aname}</div></div></div></td> </tr>
-                                            <tr n:if="$d->created_at != $d->changed_at" no_striping="1" class=""><th class="field-label">Dátum zmeny</th><td class="field-content"><div property="dcterms:modified" class="field-name-field-modified-date">{$d['changed_at']|date:'F j, Y'}</div></td> </tr>
-                                            <tr no_striping="1" class=""><th class="field-label">Dátum vydania</th><td class="field-content"><div property="dcterms:issued" class="field-name-field-release-date">{$d['created_at']|date:'F j, Y'}</div></td> </tr>
-                                            <tr no_striping="1" class=""><th class="field-label">Licencia</th><td class="field-content"><div class="field field-name-field-license field-type-text field-label-hidden"><div class="field-items"><div class="field-item even" property="dc:license">{$d->licence}</div></div></div></td> </tr>
-                                            <tr no_striping="1" class=""><th class="field-label">Zverejnil</th><td class="field-content"><div property="dcterms:identifier" class="field-name-field-identifier">{$d->uname}</div></td> </tr>
-                                            <tr no_striping="1" class=""><th class="field-label">Unikátny identifikátor</th><td class="field-content"><div class="field field-name-field-public-access-level field-type-list-text field-label-hidden"><div class="field-items"><div class="field-item even" property="dc:accessRights">{$d->uniq_id}</div></div></div></td> </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                        </article>
-                    </div>
-                </div>
-            </div>
+            {include 'dataset-show.latte'}
         </div>
 
 </section><!-- end of about section -->

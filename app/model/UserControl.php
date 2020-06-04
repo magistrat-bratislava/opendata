@@ -11,14 +11,14 @@ class UserControl
     use Nette\SmartObject;
 
     private $db;
-
     private $roles;
+    private $pass;
 
-    public function __construct(Context $database)
+    public function __construct(Context $database, Passwords $passwords)
     {
         $this->db = $database;
-
-        $this->roles = ['user', 'admin'];
+        $this->pass = $passwords;
+        $this->roles = ['user', 'global', 'admin'];
     }
 
     public function getAll()
@@ -41,7 +41,7 @@ class UserControl
         return $this->db->table('users')->insert([
             'name' => $name,
             'username' => $username,
-            'password' => Passwords::hash($password),
+            'password' => $this->pass->hash($password),
             'email' => $email,
             'role' => 'user'
         ]);
@@ -55,7 +55,7 @@ class UserControl
             throw new \Exception('Rola \''.$role.'\' neexistuje.');
 
         if ($password !== null) {
-            if (!Passwords::verify($password, $user->password))
+            if (!$this->pass->verify($password, $user->password))
                 throw new \Exception('Heslo je nesprávne.');
 
             if ($new_password !== null) {
@@ -63,7 +63,7 @@ class UserControl
                 $user->update([
                     'name' => $name,
                     'username' => $username,
-                    'password' => Passwords::hash($new_password),
+                    'password' => $this->pass->hash($new_password),
                     'email' => $email,
                     'role' => $role,
                 ]);
@@ -98,7 +98,7 @@ class UserControl
     {
         $user = $this->get($id);
 
-        if (Passwords::hash($password) !== $user->password)
+        if ($this->pass->hash($password) !== $user->password)
             return false;
 
         return true;

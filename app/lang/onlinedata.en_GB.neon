@@ -1,0 +1,26 @@
+title: Online Data
+devices_title: Detected device type
+os_title: Detected OS type
+browser_title: Detected browser type
+lang_title: Detected browser language
+user_location_title: Users by location
+new_users_title: New users
+return_users_title: Returning users
+uniq_users_title: Unique users
+dwell_title: Connection Duration
+gb_title: Total amount of data transferred
+max_title: Amount of online users
+
+max_x: Maximum
+average_x: Average
+
+less_than: less than 5 minutes
+from_to: from %from% to %to% minutes
+more_than: more than 60 minutes
+
+count_subtitle: Count per day/month
+gb_subtitle: GB per day
+last_subtitle: Last 60 days
+
+onlinedata_title: Open Public WiFi
+onlinedata_desc: Bratislava provides residents and visitors of the city with a free WIFI network through 18 hostpots in the city center. Free city WIFI has been already used by hundreds of thousands of inhabitants and visitors of the capital. More data available below.

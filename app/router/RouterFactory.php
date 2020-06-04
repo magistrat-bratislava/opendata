@@ -23,7 +23,7 @@ final class RouterFactory
         $router[] = $admin;
 
         $guest = new RouteList('Public');
-        $guest[] = new Route('<presenter>/<action>[/<id>][/<page>]', 'Homepage:default');
+        $guest[] = new Route('[<locale=sk sk|en>/]<presenter>/<action>[/<id>][/<page>]', 'Homepage:default');
         $router[] = $guest;
 
 		return $router;

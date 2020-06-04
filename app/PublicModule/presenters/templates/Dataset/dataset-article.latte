@@ -1,0 +1,46 @@
+
+<article  xmlns="https://www.w3.org/1999/html" n:foreach="$datasets as $d">
+
+    {if $powerbi_link}
+        <a n:href="Powerbi:show $d->slug" title="{$d->$name_col}">
+    {elseif $map_link}
+        <a n:href="Map:show $d->slug" title="{$d->$name_col}">
+    {elseif $onlinedata_link}
+        <a n:href="Onlinedata:show $d->slug" title="{$d->$name_col}">
+    {else}
+        <a n:href="Dataset:show $d->slug" title="{$d->$name_col}">
+    {/if}
+
+        <div class="col-md-12 col-lg-12 col-xs-12" style="border-top: 1px solid rgb(218, 218, 218);padding-bottom:10px;">
+            <h3 class="node-title">
+                <span class="fa fa-cubes" style="padding-right: 5px;"></span>
+                {$d->$name_col}
+            </h3>
+            <div style="padding-left: 32px;"><span class="fa fa-user-o" style="padding-right: 5px;"> </span>{$d->ref('authors')->$name_col}</div>
+            <div n:if="isset($showCategory) && $showCategory" style="padding-left: 32px;"><span class="fa fa-bars" style="padding-right: 5px;"> </span>{$d->ref('category')->$name_col}</div>
+            <ul class="dataset-list"></ul>
+            <div style="padding-left: 32px;">
+                <p>{$d->$description_col}</p>
+            </div>
+
+            <div style="padding-left: 32px;">
+                {var $pbi = false;}
+                {var $map = false;}
+                    <span class="count-resource">{$d->downloaded}x </span>
+                    {var $used = [];}
+                    {foreach $d->related('dataset_files') as $f}
+                        {if !empty($f->powerbi)}{var $pbi = true;}{/if}
+                        {if !empty($f->map)}{var $map = true;}{/if}
+
+                        {if !in_array($f->file_type, $used)}
+                            {var $used[] = $f->file_type}
+                            <span class="json-label">{$f->file_type}</span>
+                        {/if}
+                    {/foreach}
+                {if $d->onlinedata > 0}<img src="{$basePath}/img/onlineba-icon.png" alt="onlineba" style="max-height: 18px;margin-top: -1px;">{/if}
+                {if $pbi || !empty($d->powerbi)}<img src="{$basePath}/img/powerbi-icon.png" alt="power bi" style="max-height: 18px;margin-top: -1px;">{/if}
+                {if $map || !empty($d->map)}<img src="{$basePath}/img/mapyba-icon.png" alt="power bi" style="max-height: 18px;margin-top: -1px;">{/if}
+            </div>
+        </div>
+    </a>
+</article>

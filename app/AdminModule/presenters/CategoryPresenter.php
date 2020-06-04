@@ -5,7 +5,7 @@ namespace App\AdminModule\Presenters;
 use App\Model\AuthorsControl;
 use App\Model\CategoryControl;
 use Nette;
-use App\Components\Forms\BootstrapForm;
+use App\Components\Forms\ProtectedForm;
 use Nette\Application\UI\Form;
 
 final class CategoryPresenter extends BasePresenter
@@ -19,12 +19,12 @@ final class CategoryPresenter extends BasePresenter
     {
         parent::startup();
 
-        if (!$this->getUser()->isAllowed('interface')) {
+        if (!$this->getUser()->isAllowed('global')) {
             throw new Nette\Application\ForbiddenRequestException;
         }
     }
 
-    public function __construct(Nette\Database\Context $db, CategoryControl $categoryControl, BootstrapForm $BootstrapForm)
+    public function __construct(Nette\Database\Context $db, CategoryControl $categoryControl, ProtectedForm $BootstrapForm)
     {
         $this->db = $db;
         $this->category = $categoryControl;
@@ -38,9 +38,10 @@ final class CategoryPresenter extends BasePresenter
 
     protected function createComponentAddForm()
     {
-        $form = $this->BootstrapForm->create();
+        $form = $this->form->create();
 
-        $form->addText('name')->setRequired(true);
+        $form->addText('name_sk')->setRequired(true);
+        $form->addText('name_en')->setRequired(true);
         $form->addText('slug')->setRequired(true);
         $form->onSuccess[] = [$this, 'AddFormSucceeded'];
 
@@ -50,7 +51,7 @@ final class CategoryPresenter extends BasePresenter
     public function AddFormSucceeded(Form $form, \stdClass $values)
     {
         try {
-            $this->category->create($values->name, $values->slug);
+            $this->category->create($values->name_sk, $values->name_en, $values->slug);
             $this->flashMessage('Kategória bola úspešne vytvorená.', 'success');
         }
         catch (\Exception $e) {
@@ -78,9 +79,10 @@ final class CategoryPresenter extends BasePresenter
 
     protected function createComponentEditForm()
     {
-        $form = $this->BootstrapForm->create();
+        $form = $this->form->create();
 
-        $form->addText('name')->setRequired(true);
+        $form->addText('name_sk')->setRequired(true);
+        $form->addText('name_en')->setRequired(true);
         $form->addText('slug')->setRequired(true);
         $form->onSuccess[] = [$this, 'EditFormSucceeded'];
 
@@ -90,7 +92,7 @@ final class CategoryPresenter extends BasePresenter
     public function EditFormSucceeded(Form $form, \stdClass $values)
     {
         try {
-            $this->category->edit($this->record->id, $values->name, $values->slug);
+            $this->category->edit($this->record->id, $values->name_sk, $values->name_en, $values->slug);
             $this->flashMessage('Kategória bola úspešne upravená.', 'success');
         }
         catch (\Exception $e) {

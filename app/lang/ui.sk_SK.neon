@@ -1,0 +1,38 @@
+address: Adresa
+contact: Kontakt
+category: Kategória
+year: Rok
+district: Mestská časť
+author: Autor
+visualisation: Vizualizácia
+map_ba: Mapy BA
+
+prev: Predchádzajúca
+next: Nasledujúca
+no_results: Žiadne výsledky
+next_results: Zobraziť ďalšie výsledky
+
+data_policy: Dátová politika
+terms_of_use: Podmienky použitia
+privacy_policy: Ochrana osobných údajov
+
+newest_datasets: Najnovšie datasety
+newest_powerbi: Najnovšie PowerBI
+newest_maps: Najnovšie MapyBa
+
+order_date: Zoradiť podľa dátumu
+order_name: Zoradiť podľa názvu
+order_popularity: Zoradiť podľa obľúbenosti
+
+dataset: dataset
+datasety: datasety
+datasetov: datasetov
+
+uz: Už
+files: súborov
+
+location: 'Lokalita|Lokality'
+
+csrf: 'Vypršal časový limit, odešlite formulár znovu'
+
+show_more: Zobraziť viac

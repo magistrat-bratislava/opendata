@@ -1,7 +1,9 @@
 app/config/config.local.neon
+app/config/db.neon
 vendor/*
 .idea/*
 log/*
 temp/*
 uploads/*
 composer.phar
+scripts/temp/download/*

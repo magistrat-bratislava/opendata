@@ -1,0 +1,105 @@
+
+<div class="menu-right col-xs-8">
+    <h2 style="font-size: 30px;">{$d->$name_col}</h2>
+    <div class="view-content">
+        <div>
+            <article  xmlns="https://www.w3.org/1999/html">
+                <div class="col-md-12 col-lg-12 col-xs-12" style="border-top: 1px solid rgb(238, 238, 238);padding-bottom:10px;">
+
+                    <ul class="dataset-list"></ul>
+
+                    <div style="padding-left: 0px;">
+                        <h3>{_dataset.description}:</h3>
+                        <p>{$d->$description_col}</p>
+                    </div>
+
+                    <a n:if="!empty($d->powerbi)" n:href="Powerbi:dataset $d->id" target="_blank" class="json-label"><i class="fa fa-bar-chart"></i> {_ui.visualisation}</a>
+                    <a n:if="!empty($d->map)" href="{$d->map}" target="_blank" class="json-label"><i class="fa fa-map"></i> {_dataset.map}</a>
+
+                    {if $d->onlinedata != 0}
+                        <div id="data-and-resources">
+                            <h3>Online Data:</h3>
+                            <div property="dcat:distribution">
+                                <div class="item-list">
+                                    <ul class="resource-list">
+                                        <li n:foreach="$onlinedata['data'] as $f">
+                                            <div property="dcat:Distribution">
+                                                <a n:href="Onlinedata:download $f['slug'], $d->onlinedata" target="_blank" class="heading">{$f['name']}
+                                                    <span class="json-label">csv</span>
+                                                </a>
+                                                <p class="description"></p>
+                                                <span class="links">
+                                                    {if $d->onlinedata == 1}
+                                                        <a n:href="Onlinedata:form $d->slug, $f['slug']" target="_blank" class="json-label"><i class="fa fa-bar-chart"></i> {_ui.visualisation}</a>
+                                                    {elseif $d->onlinedata == 2}
+                                                        <a n:href="Onlinedata:locations $d->slug, $f['slug']" target="_blank" class="json-label"><i class="fa fa-bar-chart"></i> {_ui.visualisation}</a>
+                                                    {elseif $d->onlinedata == 3}
+                                                        <a n:href="Onlinedata:summary $d->slug, $f['slug']" target="_blank" class="json-label"><i class="fa fa-bar-chart"></i> {_ui.visualisation}</a>
+                                                    {/if}
+                                                    <a n:href="Onlinedata:download $f['slug'], $d->onlinedata" target="_blank" class="json-label"><i class="fa fa-download"></i> {_dataset.download}</a>
+                                                </span>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    {/if}
+
+                    {if !empty($files)}
+                        <div id="data-and-resources">
+                            <h3>{_dataset.data_sources}:</h3>
+                            <div property="dcat:distribution">
+                                <div class="item-list">
+                                    <ul class="resource-list">
+                                        <li n:foreach="$files as $f">
+                                            <div property="dcat:Distribution">
+                                                <a n:href="Dataset:download $d->slug, $f->ord" target="_blank" class="heading">{$f->$name_col}
+                                                    <span class="json-label">{$f->file_type}</span>
+                                                </a>
+                                                <p class="description"></p>
+                                                <span class="links">
+                                                    <a n:if="in_array($f->file_type, ['csv','txt'])" n:href="Dataset:insight $f->id" target="_blank" class="json-label"><i class="fa fa-search"></i> {_dataset.preview}</a>
+                                                    <a n:href="Dataset:download $d->slug, $f->ord" target="_blank" class="json-label"><i class="fa fa-download"></i> {_dataset.download}</a>
+                                                    <a n:if="!empty($f->powerbi)" n:href="Powerbi:file $f->id" target="_blank" class="json-label"><i class="fa fa-bar-chart"></i> {_ui.visualisation}</a>
+                                                    <a n:if="!empty($f->map)" href="{$f->map}" target="_blank" class="json-label"><i class="fa fa-map"></i> {_dataset.map}</a>
+                                                </span>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    {/if}
+
+                    {if !empty($tags)}
+                        <div>
+                            <h3>{_dataset.tag, 2}:</h3>
+                            <a n:foreach="$tags as $t" href="" class="json-label" data-format="json">{$t->$name_col}</a>
+                        </div>
+                    {/if}
+
+                    <div id="" class="field-group-table group_additional  group-additional field-group-table">
+
+                        <div class="form-item form-type-item form-group">
+                            <h3>{_dataset.info}:</h3>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="field-group-format group_additional table table-striped table-bordered sticky-enabled">
+                                <tbody>
+                                <tr no_striping="1" class=""><th class="field-label">{_ui.author}</th><td class="field-content"><div class="field field-name-og-group-ref field-type-entityreference field-label-hidden"><div class="field-items"><div class="field-item even" property="dc:publisher">{$d->ref('authors', 'authors')->$name_col}</div></div></div></td> </tr>
+                                <tr n:if="$d->created_at != $d->changed_at" no_striping="1" class=""><th class="field-label">{_dataset.change}</th><td class="field-content"><div property="dcterms:modified" class="field-name-field-modified-date">{$d['changed_at']|date:'F j, Y'}</div></td> </tr>
+                                <tr no_striping="1" class=""><th class="field-label">{_dataset.release}</th><td class="field-content"><div property="dcterms:issued" class="field-name-field-release-date">{$d['created_at']|date:'F j, Y'}</div></td> </tr>
+                                <tr no_striping="1" class=""><th class="field-label">{_dataset.licence}</th><td class="field-content"><div class="field field-name-field-license field-type-text field-label-hidden"><div class="field-items"><div class="field-item even" property="dc:license">{$d->licence}</div></div></div></td> </tr>
+                                <tr n:if="!empty($d->year)" no_striping="1" class=""><th class="field-label">{_ui.year}</th><td class="field-content"><div class="field field-name-field-license field-type-text field-label-hidden"><div class="field-items"><div class="field-item even" property="dc:license">{$d->year}</div></div></div></td> </tr>
+                                <tr n:if="!empty($d->district)" no_striping="1" class=""><th class="field-label">{_ui.district}</th><td class="field-content"><div class="field field-name-field-license field-type-text field-label-hidden"><div class="field-items"><div class="field-item even" property="dc:license">{$d->district}</div></div></div></td> </tr>
+                                <tr no_striping="1" class=""><th class="field-label">{_search.uniq_id}</th><td class="field-content"><div class="field field-name-field-public-access-level field-type-list-text field-label-hidden"><div class="field-items"><div class="field-item even" property="dc:accessRights">{$d->uniq_id}</div></div></div></td> </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+            </article>
+        </div>
+    </div>
+</div>

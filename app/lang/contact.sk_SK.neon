@@ -1,0 +1,19 @@
+us: KONTAKTUJTE NÁS
+info: KONTAKTNÉ INFORMÁCIE
+po_pia: Pondelok - Piatok
+from_to: 9:30 do 17:00 hod.
+send_us_msg: NAPÍŠTE NÁM SPRÁVU
+name: Meno
+tel: Telefónne číslo
+message: Správa
+send: Odoslať
+min_name: Minimálny počet znakov v mene je %count%.
+max_name: Maximálny počet znakov v mene je %count%.
+min_mail: Minimálny počet znakov pre e-mail je %count%.
+max_mail: Maximálny počet znakov pre e-mail je %count%.
+incorrect_tel: Nesprávny formát čísla.
+min_tel: Minimálny počet znakov tel. čísla je %count%.
+max_tel: Maximálny počet znakov tel. čísla je %count%.
+min_msg: Minimálny počet znakov správy je %count%.
+max_msg: Maximálny počet znakov správy je %count%.
+success_send: Úspešne ste odoslali kontaktný formulár.

@@ -1,0 +1,28 @@
+{block content}
+
+<section class="about text-center" id="about">
+    <div class="container">
+        <div class="row">
+            <div class="menu-left col-xs-4">
+                <nav id="sidebar">
+                    <div class="sidebar-header">
+                        <h3>OPEN DATA<br>{_ui.map_ba}</h3>
+                    </div>
+
+                    <ul class="list-unstyled components">
+                        <li n:foreach="$categories as $c"{if isset($activeCategory) && $activeCategory == $c->id} class="active-menu-item"{/if}>
+                            <a n:href="Map:category $c->slug">{$c->$name_col}</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+            {include '../Dataset/dataset-list.latte', heading => $activeCategoryName, powerbi_link => false, map_link => true}
+        </div>
+
+<script>
+var actual_page = {$actual_page};
+var max_pages = {$max_pages};
+var category = {$activeCategory};
+var next_url = {link Map:nextcategory};
+</script>

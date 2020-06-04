@@ -3,6 +3,7 @@
 namespace App\Model;
 
 use Nette;
+use Nette\Caching\Cache;
 
 /*
 
@@ -23,18 +24,18 @@ class CategoryControl
         $this->db = $db;
     }
 
-    public function getAll($hidden = false)
+    public function getAll($hidden = false, $locale = 'sk')
     {
         if ($hidden)
             return $this->db->query('
                 select c.*, (select count(d.id) from dataset as d where d.category = c.id and d.hidden = 0) as dcount
                     from category as c
-                order by c.name asc
+                order by c.name_'.$locale.' asc
             ');
         return $this->db->query('
             select c.*, (select count(d.id) from dataset as d where d.category = c.id) as dcount
                 from category as c
-            order by c.name asc
+            order by c.name_'.$locale.' asc
         ');
     }
 
@@ -52,7 +53,7 @@ class CategoryControl
         foreach ($dataset as $d) {
             $dataset_count[] = [
                 'id' => $d->id,
-                'name' => $d->name,
+                'name' => $d->name_sk,
                 'slug' => $d->slug,
                 'count' => $this->db->table('dataset')->where('category', $d->id)->count()
             ];
@@ -97,7 +98,7 @@ class CategoryControl
         return true;
     }
 
-    public function create($name, $slug)
+    public function create($name_sk, $name_en, $slug)
     {
         if ($this->existSlug($slug))
             throw new \Exception('URL názov už existuje.');
@@ -110,12 +111,13 @@ class CategoryControl
             throw new \Exception('URL názov nesmie obsahovať žiadne špeciálne znaky okrem pomlčky.');
 
         return $this->db->table('category')->insert([
-            'name' => $name,
+            'name_sk' => $name_sk,
+            'name_en' => $name_en,
             'slug' => $slug
         ]);
     }
 
-    public function edit($id, $name, $slug)
+    public function edit($id, $name_sk, $name_en, $slug)
     {
         if ($this->db->table('category')->where('slug', $slug)->where('id != ?', $id)->fetch())
             throw new \Exception('URL názov už existuje.');
@@ -129,7 +131,8 @@ class CategoryControl
 
         $category = $this->get($id);
         $category->update([
-            'name' => $name,
+            'name_sk' => $name_sk,
+            'name_en' => $name_en,
             'slug' => $slug
         ]);
     }
@@ -142,5 +145,31 @@ class CategoryControl
             throw new \Exception('Nemôžeš vymazať kategóriu, kategória je použitá v datasetoch.');
 
         $category->delete();
+    }
+
+    public function loadCategories()
+    {
+        $storage = new Nette\Caching\Storages\FileStorage('/tmp');
+        $cache = new Cache($storage);
+
+        if (($val = $cache->load('categories')) !== NULL)
+            return $val;
+
+        $cat = $this->db->table('category')->order('id')->fetchAll();
+
+        if (!$cat)
+            return NULL;
+
+        $categories = [];
+
+        foreach ($cat as $c) {
+            $categories['name_sk'][$c->id] = $c->name_sk;
+            $categories['name_en'][$c->id] = $c->name_en;
+        }
+
+        $cache->remove('categories');
+        $cache->save('categories', $categories);
+
+        return $cat;
     }
 }

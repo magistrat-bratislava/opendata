@@ -4,7 +4,7 @@ namespace App\AdminModule\Presenters;
 
 use App\Model\UserControl;
 use Nette;
-use App\Components\Forms\BootstrapForm;
+use App\Components\Forms\ProtectedForm;
 use Nette\Application\UI\Form;
 use Nette\Security\Passwords;
 
@@ -23,7 +23,7 @@ final class UserPresenter extends BasePresenter
         }
     }
 
-    public function __construct(UserControl $user, BootstrapForm $BootstrapForm)
+    public function __construct(UserControl $user, ProtectedForm $BootstrapForm)
     {
         $this->user = $user;
         $this->BootstrapForm = $BootstrapForm;
@@ -57,7 +57,7 @@ final class UserPresenter extends BasePresenter
 
     protected function createComponentAddForm()
     {
-        $form = $this->BootstrapForm->create();
+        $form = $this->form->create();
 
         $form->addText('name')->setRequired(true);
         $form->addText('username')->setRequired(true);
@@ -101,12 +101,12 @@ final class UserPresenter extends BasePresenter
 
     protected function createComponentEditForm()
     {
-        $form = $this->BootstrapForm->create();
+        $form = $this->form->create();
 
         $form->addText('name')->setRequired(true);
         $form->addText('username')->setRequired(true);
         $form->addEmail('email')->setRequired(true);
-        $form->addSelect('role', 'role', ['user' => 'User', 'admin' => 'Admin'])->setRequired(true);
+        $form->addSelect('role', 'role', ['user' => 'User', 'global' => 'Global', 'admin' => 'Admin'])->setRequired(true);
 
         $form->onSuccess[] = [$this, 'EditFormSucceeded'];
 

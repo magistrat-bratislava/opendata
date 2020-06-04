@@ -8,6 +8,10 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
 {
     /** @inject @var Nette\Database\Context */
     public $db;
+    /** @var Nette\Localization\ITranslator @inject */
+    public $translator;
+    /** @inject @var \App\Components\Forms\ProtectedForm */
+    public $form;
     public $userData;
 
     public function beforeRender()
@@ -25,7 +29,7 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
                 'name' => 'Kategórie',
                 'link' => 'Category:default',
                 'icon' => 'fa fa-bars',
-                'role' => 'interface',
+                'role' => 'global',
             ],
             [
                 'name' => 'Datasety',
@@ -44,6 +48,12 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
                 'link' => 'Tags:default',
                 'icon' => 'fa fa-tag',
                 'role' => 'interface',
+            ],
+            [
+                'name' => 'Banner',
+                'link' => 'Banner:default',
+                'icon' => 'fa fa-chart-line',
+                'role' => 'global',
             ],
             [
                 'name' => 'Užívatelia',

@@ -4,7 +4,7 @@ namespace App\AdminModule\Presenters;
 
 use App\Model\AuthorsControl;
 use Nette;
-use App\Components\Forms\BootstrapForm;
+use App\Components\Forms\ProtectedForm;
 use Nette\Application\UI\Form;
 
 final class AuthorsPresenter extends BasePresenter
@@ -23,7 +23,7 @@ final class AuthorsPresenter extends BasePresenter
         }
     }
 
-    public function __construct(Nette\Database\Context $db, AuthorsControl $authorsControl, BootstrapForm $BootstrapForm)
+    public function __construct(Nette\Database\Context $db, AuthorsControl $authorsControl, ProtectedForm $BootstrapForm)
     {
         $this->db = $db;
         $this->authors = $authorsControl;
@@ -37,9 +37,10 @@ final class AuthorsPresenter extends BasePresenter
 
     protected function createComponentAddForm()
     {
-        $form = $this->BootstrapForm->create();
+        $form = $this->form->create();
 
-        $form->addText('name')->setRequired(true);
+        $form->addText('name_sk')->setRequired(true);
+        $form->addText('name_en')->setRequired(true);
         $form->onSuccess[] = [$this, 'AddFormSucceeded'];
 
         return $form;
@@ -48,7 +49,7 @@ final class AuthorsPresenter extends BasePresenter
     public function AddFormSucceeded(Form $form, \stdClass $values)
     {
         try {
-            $this->authors->create($values->name);
+            $this->authors->create($values->name_sk, $values->name_en);
             $this->flashMessage('Autor bol úspešne vytvorený.', 'success');
         }
         catch (\Exception $e) {
@@ -62,6 +63,9 @@ final class AuthorsPresenter extends BasePresenter
     public function actionEdit($id)
     {
         try {
+            if (!$this->getUser()->isAllowed('global'))
+                throw new \Exception('Na túto akciu nemáte dostatočné oprávnenie.');
+
             $this->record = $this->authors->get($id);
         }
         catch (\Exception $e) {
@@ -76,9 +80,10 @@ final class AuthorsPresenter extends BasePresenter
 
     protected function createComponentEditForm()
     {
-        $form = $this->BootstrapForm->create();
+        $form = $this->form->create();
 
-        $form->addText('name')->setRequired(true);
+        $form->addText('name_sk')->setRequired(true);
+        $form->addText('name_en')->setRequired(true);
         $form->onSuccess[] = [$this, 'EditFormSucceeded'];
 
         return $form;
@@ -87,7 +92,10 @@ final class AuthorsPresenter extends BasePresenter
     public function EditFormSucceeded(Form $form, \stdClass $values)
     {
         try {
-            $this->authors->edit($this->record->id, $values->name);
+            if (!$this->getUser()->isAllowed('global'))
+                throw new \Exception('Na túto akciu nemáte dostatočné oprávnenie.');
+
+            $this->authors->edit($this->record->id, $values->name_sk, $values->name_en);
             $this->flashMessage('Autor bol úspešne upravený.', 'success');
         }
         catch (\Exception $e) {
@@ -98,6 +106,9 @@ final class AuthorsPresenter extends BasePresenter
     public function actionDelete($id)
     {
         try {
+            if (!$this->getUser()->isAllowed('global'))
+                throw new \Exception('Na túto akciu nemáte dostatočné oprávnenie.');
+
             $this->authors->delete($id);
             $this->flashMessage('Autor bol vymazaný.', 'success');
         }

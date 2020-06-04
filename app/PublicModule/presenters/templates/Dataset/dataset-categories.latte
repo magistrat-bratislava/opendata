@@ -1,0 +1,14 @@
+
+<div class="menu-left col-xs-4">
+    <nav id="sidebar">
+        <div class="sidebar-header">
+            <h3>OPEN DATA</h3>
+        </div>
+
+        <ul class="list-unstyled components">
+            <li n:foreach="$categories as $c"{if isset($activeCategory) && $activeCategory == $c->id} class="active-menu-item"{/if}>
+                <a n:href="Dataset:category $c->slug">{$c->$name_col}</a>
+            </li>
+        </ul>
+    </nav>
+</div>

@@ -3,18 +3,19 @@
 namespace App\AdminModule\Presenters;
 
 use Nette;
-use App\Components\Forms\BootstrapForm;
+use App\Components\Forms\ProtectedForm;
 use Nette\Application\UI\Form;
 use Nette\Security\Passwords;
 
 final class HomepagePresenter extends \Nette\Application\UI\Presenter
 {
-    public $BootstrapForm;
+    /** @inject @var \App\Components\Forms\ProtectedForm */
+    public $form;
+    
     public $db;
 
-    public function __construct(BootstrapForm $BootstrapForm, Nette\Database\Context $db)
+    public function __construct(Nette\Database\Context $db)
     {
-        $this->BootstrapForm = $BootstrapForm;
         $this->db = $db;
     }
 
@@ -33,7 +34,7 @@ final class HomepagePresenter extends \Nette\Application\UI\Presenter
 
     protected function createComponentLoginForm()
     {
-        $form = $this->BootstrapForm->create();
+        $form = $this->form->create();
 
         $form->addText('username')->setRequired(true)->setOption('right-addon', 'Username');
         $form->addPassword('password')->setRequired(true)->setOption('right-addon', 'Password');
@@ -71,7 +72,7 @@ final class HomepagePresenter extends \Nette\Application\UI\Presenter
 
     /*protected function createComponentRegisterForm()
     {
-        $form = $this->BootstrapForm->create();
+        $form = $this->form->create();
 
         $form->addText('username')->setRequired(true);
         $form->addText('email')->setRequired(true);

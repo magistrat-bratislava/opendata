@@ -5,7 +5,7 @@ namespace App\AdminModule\Presenters;
 use App\Model\AuthorsControl;
 use App\Model\TagsControl;
 use Nette;
-use App\Components\Forms\BootstrapForm;
+use App\Components\Forms\ProtectedForm;
 use Nette\Application\UI\Form;
 
 final class TagsPresenter extends BasePresenter
@@ -24,7 +24,7 @@ final class TagsPresenter extends BasePresenter
         }
     }
 
-    public function __construct(Nette\Database\Context $db, TagsControl $tagsControl, BootstrapForm $BootstrapForm)
+    public function __construct(Nette\Database\Context $db, TagsControl $tagsControl, ProtectedForm $BootstrapForm)
     {
         $this->db = $db;
         $this->tags = $tagsControl;
@@ -38,9 +38,10 @@ final class TagsPresenter extends BasePresenter
 
     protected function createComponentAddForm()
     {
-        $form = $this->BootstrapForm->create();
+        $form = $this->form->create();
 
-        $form->addText('name')->setRequired(true);
+        $form->addText('name_sk')->setRequired(true);
+        $form->addText('name_en')->setRequired(true);
         $form->onSuccess[] = [$this, 'AddFormSucceeded'];
 
         return $form;
@@ -49,7 +50,7 @@ final class TagsPresenter extends BasePresenter
     public function AddFormSucceeded(Form $form, \stdClass $values)
     {
         try {
-            $this->tags->create($values->name);
+            $this->tags->create($values->name_sk, $values->name_en);
             $this->flashMessage('Značka bola úspešne vytvorená.', 'success');
         }
         catch (\Exception $e) {
@@ -63,6 +64,9 @@ final class TagsPresenter extends BasePresenter
     public function actionEdit($id)
     {
         try {
+            if (!$this->getUser()->isAllowed('global'))
+                throw new \Exception('Na túto akciu nemáte dostatočné oprávnenie.');
+
             $this->record = $this->tags->get($id);
         }
         catch (\Exception $e) {
@@ -77,9 +81,10 @@ final class TagsPresenter extends BasePresenter
 
     protected function createComponentEditForm()
     {
-        $form = $this->BootstrapForm->create();
+        $form = $this->form->create();
 
-        $form->addText('name')->setRequired(true);
+        $form->addText('name_sk')->setRequired(true);
+        $form->addText('name_en')->setRequired(true);
         $form->onSuccess[] = [$this, 'EditFormSucceeded'];
 
         return $form;
@@ -88,7 +93,10 @@ final class TagsPresenter extends BasePresenter
     public function EditFormSucceeded(Form $form, \stdClass $values)
     {
         try {
-            $this->tags->edit($this->record->id, $values->name);
+            if (!$this->getUser()->isAllowed('global'))
+                throw new \Exception('Na túto akciu nemáte dostatočné oprávnenie.');
+
+            $this->tags->edit($this->record->id, $values->name_sk, $values->name_en);
             $this->flashMessage('Značka bola úspešne upravená.', 'success');
         }
         catch (\Exception $e) {
@@ -99,6 +107,9 @@ final class TagsPresenter extends BasePresenter
     public function actionDelete($id)
     {
         try {
+            if (!$this->getUser()->isAllowed('global'))
+                throw new \Exception('Na túto akciu nemáte dostatočné oprávnenie.');
+
             $this->tags->delete($id);
             $this->flashMessage('Značka bola vymazaná.', 'success');
         }

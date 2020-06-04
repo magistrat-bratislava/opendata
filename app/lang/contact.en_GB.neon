@@ -1,0 +1,19 @@
+us: CONTACT US
+info: CONTACT INFORMATION
+po_pia: Monday – Friday
+from_to: 9:30 am – 5:00 pm
+send_us_msg: SEND US A MESSAGE
+name: Name
+tel: Telephone Number
+message: Message
+send: Send
+min_name: Minimum number of characters in name is %count%.
+max_name: Maximum number of characters in name is %count%.
+min_mail: Minimum number of characters in e-mail is %count%.
+max_mail: Maximum number of characters in e-mail is %count%.
+incorrect_tel: Wrong format of tel. number.
+min_tel: Minimum number of characters in tel. number is %count%.
+max_tel: Maximum number of characters in tel. number is %count%.
+min_msg: Minimum number of characters in message is %count%.
+max_msg: Maximum number of characters in message is %count%.
+success_send: You have successfully submitted a contact.

@@ -1,0 +1,26 @@
+title: Online Dáta
+devices_title: Detekovaný typ zariadenia
+os_title: Detekovaný typ OS
+browser_title: Detekovaný typ prehliadača
+lang_title: Detekovaný jazyk prehliadača
+user_location_title: Užívatelia podľa lokalít
+new_users_title: Noví užívatelia
+return_users_title: Vracajúci sa užívatelia
+uniq_users_title: Unikátni užívatelia
+dwell_title: Rozloženie dĺžky pripojenia
+gb_title: Celkový počet prenesených dát
+max_title: Počet online užívateľov
+
+max_x: Najviac
+average_x: Priemerne
+
+less_than: do 5 minút
+from_to: od %from% do %to% minút
+more_than: viac ako 60 minút
+
+count_subtitle: Počet za deň/mesiac
+gb_subtitle: V GB za deň
+last_subtitle: Za posledných 60 dní
+
+onlinedata_title: OTVORENÁ VEREJNÁ MESTSKÁ WIFI
+onlinedata_desc: Bratislava poskytuje obyvateľom a návštevníkom mesta bezplatnú WIFI sieť prostredníctvom 18 hostpotov v centre mesta. Bezplatnú mestskú WIFI využilo už stovky tisíc obyvateľov a návštevníkov hlavného mesta. Viac údajov k dispozícii nižšie.

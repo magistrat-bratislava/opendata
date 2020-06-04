@@ -1,0 +1,67 @@
+
+
+<form n:name="orderForm">
+<div class="menu-right col-xs-8 ">
+    <h2 style="font-size: 30px;">{$heading}</h2>
+        <select n:name="order" class="order" id="order">
+            <option value="1">Zoradiť podľa dátumu</option>
+            <option value="2">Zoradiť podľa názvu</option>
+            <option value="3">Zoradiť podľa obľúbenosti</option>
+        </select>
+    <div class="view-content">
+
+        {if count($datasets) == 0} 
+            <div>
+                <article  xmlns="https://www.w3.org/1999/html">
+                    <div class="col-md-12 col-lg-12 col-xs-12" style="border-top: 1px solid rgb(218, 218, 218);padding-bottom:10px;">
+                        <ul class="dataset-list"></ul>
+                        {_ui.no_results}.
+                    </div>
+                </article>
+            </div>
+        {else} 
+            <div id="datasets">
+                {include 'dataset-article.latte'}
+            </div>
+            <div class="pagination">
+                {if $actual_page < $max_pages}
+                    <div class="pagin">
+                        <a class="page" id="show-next">{_ui.next_results}</a>
+                    </div>
+                {/if}
+
+                <div class="pagin">
+                    {if !$powerbi_link}
+
+                        {if !$map_link}
+
+                            <button type="submit" {if $actual_page > 1} formaction="{link Dataset:category $category_slug , $actual_page-1}" {/if} class="page {if $actual_page <= 1}disabled{/if}">{_ui.prev}</button>
+                            {for $i=1; $i<=$max_pages; $i++}
+                                <button type="submit" formaction="{link Dataset:category $category_slug, $i}" class="page {if $i == $actual_page}active{/if}">{$i}</button>
+                            {/for}
+                            <button type="submit" {if $actual_page < $max_pages && $actual_page != $max_pages} formaction="{link Dataset:category $category_slug , $actual_page+1}" {/if} class="page {if $actual_page == $max_pages}disabled{/if}">{_ui.next}</button>
+
+                        {else}
+
+                            <button type="submit" {if $actual_page > 1} formaction="{link Map:category $category_slug , $actual_page-1}" {/if} class="page {if $actual_page <= 1}disabled{/if}">{_ui.prev}</button>
+                            {for $i=1; $i<=$max_pages; $i++}
+                                <button type="submit" formaction="{link Map:category $category_slug, $i}" class="page {if $i == $actual_page}active{/if}">{$i}</button>
+                            {/for}
+                            <button type="submit" {if $actual_page < $max_pages && $actual_page != $max_pages} formaction="{link Map:category $category_slug , $actual_page+1}" {/if} class="page {if $actual_page == $max_pages}disabled{/if}">{_ui.next}</button>
+
+                        {/if}
+
+                    {else}
+
+                        <button type="submit" {if $actual_page > 1} formaction="{link Powerbi:category $category_slug , $actual_page-1}" {/if} class="page {if $actual_page <= 1}disabled{/if}">{_ui.prev}</button>
+                        {for $i=1; $i<=$max_pages; $i++}
+                            <button type="submit" formaction="{link Powerbi:category $category_slug, $i}" class="page {if $i == $actual_page}active{/if}">{$i}</button>
+                        {/for}
+                        <button type="submit" {if $actual_page < $max_pages && $actual_page != $max_pages} formaction="{link Powerbi:category $category_slug , $actual_page+1}" {/if} class="page {if $actual_page == $max_pages}disabled{/if}">{_ui.next}</button>
+                    {/if}
+                </div>
+            </div>
+        {/if}
+    </div>
+</div>
+</form>
