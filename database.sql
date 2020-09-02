@@ -19,12 +19,14 @@ CREATE TABLE if not exists `users` (
 ALTER TABLE `users` ADD UNIQUE(`username`);
 ALTER TABLE `users` ADD FULLTEXT(`name`);
 
+INSERT INTO `users` (`id`, `name`, `username`, `email`, `password`, `role`, `created_at`, `blocked`) VALUES (NULL, 'admin', 'admin', 'admin@admin.sk', '$2y$10$sw1rTAUFLHVyfFrELFPq1e3k1wcjXSFOIoNwC.mDXwZyIZSpN0gyu', 'admin', CURRENT_TIMESTAMP, '0');
+
 create table if not exists category (
   `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
   name_sk varchar(250) NOT NULL,
   name_en varchar(250) NOT NULL,
   slug varchar(250) NOT NULL,
-  `picto` varchar(50) NOT NULL
+  `picto` varchar(50) NULL
 ) ENGINE=InnoDB CHARSET=utf8;
 
 ALTER TABLE `category` ADD FULLTEXT(`name_sk`);
@@ -57,7 +59,6 @@ create table if not exists dataset (
 
 ALTER TABLE `dataset` ADD FOREIGN KEY (category) REFERENCES category(id);
 ALTER TABLE `dataset` ADD FOREIGN KEY (users) REFERENCES users(id);
-ALTER TABLE `dataset` ADD FOREIGN KEY (authors) REFERENCES authors(id);
 
 ALTER TABLE `dataset` ADD FULLTEXT(`name_sk`);
 ALTER TABLE `dataset` ADD FULLTEXT(`name_en`);
@@ -98,7 +99,6 @@ create table if not exists dataset_tags (
   tags int NOT NULL
 ) ENGINE=InnoDB CHARSET=utf8;
 
-ALTER TABLE `dataset_tags` ADD FOREIGN KEY (tags) REFERENCES tags(id);
 ALTER TABLE `dataset_tags` ADD FOREIGN KEY (dataset) REFERENCES dataset(id);
 
 
@@ -110,6 +110,7 @@ create table if not exists tags (
 
 ALTER TABLE `tags` ADD FULLTEXT(`name_sk`);
 ALTER TABLE `tags` ADD FULLTEXT(`name_en`);
+ALTER TABLE `dataset_tags` ADD FOREIGN KEY (tags) REFERENCES tags(id);
 
 create table if not exists authors (
   `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -119,6 +120,7 @@ create table if not exists authors (
 
 ALTER TABLE `authors` ADD FULLTEXT(`name_sk`);
 ALTER TABLE `authors` ADD FULLTEXT(`name_en`);
+ALTER TABLE `dataset` ADD FOREIGN KEY (authors) REFERENCES authors(id);
 
 create table if not exists banner_stats (
   `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -161,7 +163,7 @@ create table if not exists onlinedata_form (
 
 ALTER TABLE `onlinedata_summary` ADD INDEX `data_date` (`data_date`);
 ALTER TABLE `onlinedata_locations` ADD INDEX `data_date` (`data_date`);
-ALTER TABLE `onlinedata_locations` ADD INDEX `data_date` (`location`);
+ALTER TABLE `onlinedata_locations` ADD INDEX `location` (`location`);
 ALTER TABLE `onlinedata_form` ADD INDEX `data_date` (`data_date`);
-ALTER TABLE `onlinedata_form` ADD INDEX `data_date` (`type`);
+ALTER TABLE `onlinedata_form` ADD INDEX `type` (`type`);
 
